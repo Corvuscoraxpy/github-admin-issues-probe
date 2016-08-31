@@ -27,7 +27,7 @@ const {Grid, Row, Col} = require('react-flexbox-grid');
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
-    api.fetchListYourRepositories('Corvuscoraxpy', 'Coraxcorv8').then(res =>{
+    api.fetchIssueForRepository('Corvuscoraxpy', 'My-blog').then(res => {
       console.log(res.status);
       return res.json();
     }).then(res => console.log(res));
@@ -44,7 +44,9 @@ export default class HomePage extends React.Component { // eslint-disable-line r
         <Row style={{margin: 0}}>
           <Col lg={4} style={{padding: 0, height: '90vh'}}>
             <Paper style={{width: '100%', height: '90vh', overflow: 'auto'}} zDepth={1}>
-              <RepoLoader />
+              <div style={{marginLeft: '20px'}}>
+                <RepoLoader />
+              </div>
             </Paper>
           </Col>
         </Row>

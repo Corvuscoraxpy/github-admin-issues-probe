@@ -42,6 +42,16 @@ const api = {
       });
     },
 
+    fetchIssueForRepository(owner, repo) {
+      return fetch(`https://api.github.com/repos/${owner}/${repo}/issues`,{
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+    },
+
     fetchPostIssue() {
       var newIssue = {title: "Found a bug", body: "Nam nam nam"};
       return fetch(`https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`, {

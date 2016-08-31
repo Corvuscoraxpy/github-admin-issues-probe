@@ -30,7 +30,7 @@ class RepoLoader extends Component {
   }
   render() {
     return (
-      <ListOfRepos repoList={this.props.repoList} />
+      <ListOfRepos repoList={this.props.repoList} selectRepoAction={this.props.selectRepoAction} />
     );
   }
 }
