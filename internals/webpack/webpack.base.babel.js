@@ -6,6 +6,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = (options) => ({
+  node: {
+    fs: "empty",
+    net: "empty"
+  },
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
     path: path.resolve(process.cwd(), 'build'),
@@ -23,6 +27,10 @@ module.exports = (options) => ({
       exclude: /node_modules/,
       loader: options.cssLoaders,
     }, {
+      test: /\.css$/,
+      loader: 'style!css?modules',
+      include: /flexboxgrid/,
+    }, {
       // Do not transform vendor's CSS with CSS-modules
       // The point is that they remain in global scope.
       // Since we require these CSS files in our JS or CSS files,
@@ -31,6 +39,7 @@ module.exports = (options) => ({
       test: /\.css$/,
       include: /node_modules/,
       loaders: ['style-loader', 'css-loader'],
+      exclude: /flexboxgrid/,
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,
       loader: 'file-loader',

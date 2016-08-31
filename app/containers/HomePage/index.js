@@ -12,29 +12,43 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-
+import styles from './styles.css';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import AuthorizationBar from 'containers/AuthorizationBar';
+
+import RepoLoader from 'containers/RepoLoader';
+
+let api = require("../../api/restUtilities.js");
+
+const {Grid, Row, Col} = require('react-flexbox-grid');
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
+    api.fetchListYourRepositories('Corvuscoraxpy', 'Coraxcorv8').then(res =>{
+      console.log(res.status);
+      return res.json();
+    }).then(res => console.log(res));
+    //api.fetchRegistration();
+    //api.fetchPostIssue();
+    //window.open('https://github.com/login/oauth/authorize?client_id=9601f1da5dcbbfb9e9bb');
     return (
-        <div style={{padding: '20px'}}>
-          <h1>
-            <FormattedMessage {...messages.header} />
-          </h1>
-          <Paper style={{width: '100%'}} zDepth={1}>
-            <div style={{padding: '20px'}}>
-              <h3>Test</h3>
-              <RaisedButton
-                  label="Click Me"
-                  fullWidth={true}
-                  primary={true}
-                  onClick={e => alert('Hey! You clicked!')} />
-            </div>
-          </Paper>
-        </div>
+      <Grid style={{width: '100%'}}>
+        <Row style={{margin: 0}}>
+          <Col sm={12} style={{padding: 0, height: '10vh'}}>
+            <AuthorizationBar/>
+          </Col>
+        </Row>
+        <Row style={{margin: 0}}>
+          <Col lg={4} style={{padding: 0, height: '90vh'}}>
+            <Paper style={{width: '100%', height: '90vh', overflow: 'auto'}} zDepth={1}>
+              <RepoLoader />
+            </Paper>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
