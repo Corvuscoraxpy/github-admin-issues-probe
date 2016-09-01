@@ -4,19 +4,20 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getSelectedRepo } from 'containers/RepoLoader/selectors';
+import { getCurrentIssue } from 'containers/IssuesListLoader/selectors';
 import { getUserName, getPassword } from 'containers/AuthorizationBar/selectors';
-import { getIssueList } from './selectors';
+import { getListOfComments } from './selectors';
 
-import ListOfIssues from 'components/ListOfIssues';
+import Issue from 'components/Issue';
+
 let api = require("../../api/restUtilities.js");
 
-class IssuesListLoader extends Component {
+class IssueInteraction extends Component {
 
   componentWillReceiveProps(nextProps) {
-    const { username, password, selectedRepo } = this.props;
-    if (nextProps.selectedRepo !== selectedRepo) {
-      api.fetchIssueForRepository(username, password, nextProps.selectedRepo)
+    const { username, password, currentIssue } = this.props;
+    if (nextProps.currentIssue !== currentIssue) {
+      api.fetchListCommentsOnAnIssue(username, password, nextProps.currentIssue.comments_url)
         .then(res =>{
           if(res.status !== 200) {
             throw Error('Bad validation');
@@ -24,20 +25,17 @@ class IssuesListLoader extends Component {
           return res.json();
         })
         .then(res => {
-          const { loadIssuesForRepoAction } = this.props;
-          loadIssuesForRepoAction(res);
+          const { getListCommentsOnAnIssueAction } = this.props;
+          getListCommentsOnAnIssueAction(res);
         })
         .catch(error => console.log(error));
     }
   }
 
   render() {
-    const { issuesList, changeCurrentIssueAction } = this.props;
+    const { currentIssue, listOfComments } = this.props;
     return (
-      <ListOfIssues
-        issuesList={issuesList}
-        changeCurrentIssueAction={changeCurrentIssueAction}
-      />
+      <Issue currentIssue={currentIssue} listOfComments={listOfComments} />
     );
   }
 }
@@ -45,14 +43,14 @@ class IssuesListLoader extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
+  currentIssue: getCurrentIssue(),
   username: getUserName(),
   password: getPassword(),
-  selectedRepo: getSelectedRepo(),
-  issuesList: getIssueList(),
+  listOfComments: getListOfComments(),
 });
 
-IssuesListLoader.defaultProps = {
+IssueInteraction.defaultProps = {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(IssuesListLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(IssueInteraction);

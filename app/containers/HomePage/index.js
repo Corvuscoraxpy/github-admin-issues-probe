@@ -17,7 +17,10 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import AuthorizationBar from 'containers/AuthorizationBar';
+
 import IssuesListLoader from 'containers/IssuesListLoader';
+
+import IssueInteraction from 'containers/IssueInteraction';
 
 import RepoLoader from 'containers/RepoLoader';
 
@@ -49,6 +52,9 @@ export default class HomePage extends React.Component { // eslint-disable-line r
               </div>
               <IssuesListLoader />
             </Paper>
+          </Col>
+          <Col lg={8} style={{ height: '90vh', overflow: 'auto'}}>
+            <IssueInteraction />
           </Col>
         </Row>
       </Grid>

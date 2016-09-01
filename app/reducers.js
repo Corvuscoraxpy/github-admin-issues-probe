@@ -9,7 +9,8 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import authorizationReducer from 'containers/AuthorizationBar/reducer';
 import repoLoaderReducer from 'containers/RepoLoader/reducer';
-import issueLoaderReducer from 'containers/IssueLoader/reducer';
+import issueLoaderReducer from 'containers/IssuesListLoader/reducer';
+import issueInteractionReducer from 'containers/IssueInteraction/reducer';
 
 /*
  * routeReducer
@@ -49,6 +50,7 @@ export default function createReducer(asyncReducers) {
     authorization: authorizationReducer,
     repoLoader: repoLoaderReducer,
     issueLoader: issueLoaderReducer,
+    IssueInteraction: issueInteractionReducer,
     ...asyncReducers,
   });
 }

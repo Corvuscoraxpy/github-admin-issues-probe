@@ -30,6 +30,11 @@ module.exports = (options) => ({
       test: /\.css$/,
       loader: 'style!css?modules',
       include: /flexboxgrid/,
+    },
+    {
+     test: /\.md$/,
+     loader: 'html!highlight!markdown',
+     include: path.markdown
     }, {
       // Do not transform vendor's CSS with CSS-modules
       // The point is that they remain in global scope.

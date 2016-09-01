@@ -1,8 +1,4 @@
 const api = {
-  getBio() {
-    var url = `https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`;
-    return fetch(url).then((res) => res.json())
-  },
   // fetchSendIssue() {
   //   var auth = btoa("Corvuscoraxpy:Coraxcorv8");
   //    return fetch(`https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`, {
@@ -51,6 +47,16 @@ const api = {
           'Authorization': 'Basic ' + btoa(`${username}:${password}`)
         },
       });
+    },
+
+    fetchListCommentsOnAnIssue(username, password, comments_url) {
+      return fetch(`${comments_url}`, {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+        },
+      })
     },
 
     fetchPostIssue() {

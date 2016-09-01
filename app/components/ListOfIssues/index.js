@@ -9,7 +9,9 @@ export default class ListOfIssues extends Component {
 
   handleTouchTap = (issue) => {
     //e.preventDefault();
+    const { changeCurrentIssueAction } = this.props;
     console.log("tap");
+    changeCurrentIssueAction(issue);
     console.log(issue);
     //console.log(e);
   }
