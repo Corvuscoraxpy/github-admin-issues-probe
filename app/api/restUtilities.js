@@ -42,12 +42,13 @@ const api = {
       });
     },
 
-    fetchIssueForRepository(owner, repo) {
-      return fetch(`https://api.github.com/repos/${owner}/${repo}/issues`,{
+    fetchIssueForRepository(username, password, repo) {
+      return fetch(`https://api.github.com/repos/${username}/${repo}/issues`,{
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
         },
       });
     },

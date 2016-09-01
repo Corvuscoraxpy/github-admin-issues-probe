@@ -17,17 +17,17 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import AuthorizationBar from 'containers/AuthorizationBar';
+import IssuesListLoader from 'containers/IssuesListLoader';
 
 import RepoLoader from 'containers/RepoLoader';
 
 let api = require("../../api/restUtilities.js");
-
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
-    api.fetchIssueForRepository('Corvuscoraxpy', 'My-blog').then(res => {
+    api.fetchIssueForRepository('Corvuscoraxpy', 'Coraxcorv8', 'My-blog').then(res => {
       console.log(res.status);
       return res.json();
     }).then(res => console.log(res));
@@ -47,6 +47,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
               <div style={{marginLeft: '20px'}}>
                 <RepoLoader />
               </div>
+              <IssuesListLoader />
             </Paper>
           </Col>
         </Row>
