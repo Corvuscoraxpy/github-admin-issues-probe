@@ -3,7 +3,10 @@ import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
 import Avatar from 'material-ui/Avatar';
+import {Tabs, Tab} from 'material-ui/Tabs';
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
+
+import LabelListItem from 'components/LabelListItem';
 
 export default class ListOfIssues extends Component {
 
@@ -35,12 +38,25 @@ export default class ListOfIssues extends Component {
         />
       );
     });
+    const labelsNode = this.props.labelsList.map((label, index) => {
+      return (
+        <LabelListItem label={label} index={index} />
+      );
+    });
     return (
-      <List>
-
-        <Subheader>Issues</Subheader>
-        {issuesNode}
-      </List>
-    )
+      <Tabs>
+        <Tab label="List Of Issues" >
+          <List>
+            <Subheader>Issues</Subheader>
+            {issuesNode}
+          </List>
+        </Tab>
+        <Tab label="List Of Labels" >
+          <ul style={{ padding: 0}}>
+            {labelsNode}
+          </ul>
+        </Tab>
+      </Tabs>
+    );
   }
 }

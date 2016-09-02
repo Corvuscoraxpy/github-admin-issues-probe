@@ -49,6 +49,7 @@ const api = {
       });
     },
 
+    //Fetch comments on an issue
     fetchListCommentsOnAnIssue(username, password, comments_url) {
       return fetch(`${comments_url}`, {
         headers: {
@@ -57,6 +58,18 @@ const api = {
           'Authorization': 'Basic ' + btoa(`${username}:${password}`)
         },
       })
+    },
+
+    //Fetch labels for repository
+    fetchListLabelsForRepository(username, password, repo) {
+      return fetch(`https://api.github.com/repos/${username}/${repo}/labels`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+        },
+      });
     },
 
     fetchPostIssue() {

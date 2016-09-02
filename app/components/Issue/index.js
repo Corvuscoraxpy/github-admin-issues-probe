@@ -38,16 +38,16 @@ export default class Issue extends Component {
 
     const commentsNode = listOfComments.map((comment, index) => {
       return (
-        <Card>
+        <Card style={{marginBottom: '8px'}}>
           <CardHeader
             title={comment.user.login}
             subtitle={`created at: ${comment.created_at}`}
             avatar={ comment.user.avatar_url}
           />
-          <CardActions>
+          {/* <CardActions>
             <FlatButton label="EDIT" />
-            {/* <FlatButton label="Action2" /> */}
-          </CardActions>
+            <FlatButton label="Action2" />
+          </CardActions> */}
         <CardText>
           <span dangerouslySetInnerHTML={this.rawMarkup(comment.body)}/>
         </CardText>
@@ -56,23 +56,22 @@ export default class Issue extends Component {
     });
     return (
       <div>
-      <Card>
-        <CardHeader
-          title={currentIssue.title}
-          subtitle={`status: ${currentIssue.state} · comments: ${currentIssue.comments} ` }
-          avatar={Object.keys(currentIssue).length !== 0 ? currentIssue.user.avatar_url : "" }
-        />
-        <CardActions>
-          <FlatButton label="EDIT" />
-          {/* <FlatButton label="Action2" /> */}
-        </CardActions>
-      <CardText>
-        <span dangerouslySetInnerHTML={this.rawMarkup(currentIssue.body)}/>
-      </CardText>
-    </Card>
-    {commentsNode}
-    </div>
-
+        <Card style={{marginBottom: '8px'}}>
+          <CardHeader
+            title={currentIssue.title}
+            subtitle={`status: ${currentIssue.state} · comments: ${currentIssue.comments} ` }
+            avatar={Object.keys(currentIssue).length !== 0 ? currentIssue.user.avatar_url : "" }
+          />
+          {/* <CardActions>
+            <FlatButton label="EDIT" />
+            <FlatButton label="Action2" />
+            </CardActions> */}
+          <CardText>
+            <span dangerouslySetInnerHTML={this.rawMarkup(currentIssue.body)}/>
+          </CardText>
+        </Card>
+        {commentsNode}
+      </div>
     );
   }
 }

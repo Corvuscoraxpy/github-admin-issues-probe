@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getSelectedRepo } from 'containers/RepoLoader/selectors';
 import { getUserName, getPassword } from 'containers/AuthorizationBar/selectors';
-import { getIssueList } from './selectors';
+import { getIssueList, getLabelsList } from './selectors';
 
 import ListOfIssues from 'components/ListOfIssues';
 let api = require("../../api/restUtilities.js");
@@ -28,14 +28,32 @@ class IssuesListLoader extends Component {
           loadIssuesForRepoAction(res);
         })
         .catch(error => console.log(error));
+
+      api.fetchListLabelsForRepository(username, password, nextProps.selectedRepo)
+        .then(res => {
+          if(res.status !== 200) {
+            throw Error('Bad validation');
+          }
+          return res.json();
+        })
+        .then(res => {
+          const { loadLabelsForRepoAction } = this.props;
+          loadLabelsForRepoAction(res);
+        })
+        .catch(error => console.log(error));
     }
   }
 
   render() {
-    const { issuesList, changeCurrentIssueAction } = this.props;
+    const {
+      issuesList,
+      changeCurrentIssueAction,
+      labelsList,
+     } = this.props;
     return (
       <ListOfIssues
         issuesList={issuesList}
+        labelsList={labelsList}
         changeCurrentIssueAction={changeCurrentIssueAction}
       />
     );
@@ -49,10 +67,12 @@ const mapStateToProps = createStructuredSelector({
   password: getPassword(),
   selectedRepo: getSelectedRepo(),
   issuesList: getIssueList(),
+  labelsList: getLabelsList(),
 });
 
 IssuesListLoader.defaultProps = {
-
+  issuesList: [],
+  labelsList: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IssuesListLoader);

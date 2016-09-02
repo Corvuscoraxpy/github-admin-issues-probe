@@ -1,0 +1,89 @@
+import React, { Component, PropTypes } from 'react';
+import Paper from 'material-ui/Paper';
+import IconButton from 'material-ui/IconButton';
+import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
+
+import EditLabelForm from 'components/EditLabelForm';
+const {Grid, Row, Col} = require('react-flexbox-grid');
+
+function getContrastYIQ(hexcolor){
+	let r = parseInt(hexcolor.substr(0,2),16);
+	let g = parseInt(hexcolor.substr(2,2),16);
+	let b = parseInt(hexcolor.substr(4,2),16);
+	let yiq = ((r*299)+(g*587)+(b*114))/1000;
+	return (yiq >= 128) ? 'black' : 'white';
+}
+
+export default class LabelListItem extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showEditForm: false,
+    }
+  }
+
+  handleTouchEdit = () => {
+    this.setState({
+      showEditForm: true,
+    });
+  }
+
+  onCancleEdit = () => {
+    this.setState({
+      showEditForm: false,
+    });
+  }
+
+  render() {
+    const styles = {
+      chip: {
+        fontSize: '16px',
+        fontWeight: 'bold',
+        lineHeight: 2,
+        height: '100%',
+        textAlign: 'center',
+        borderRadius: '3px',
+        backgroundColor: `#${this.props.label.color}`,
+        color: getContrastYIQ(this.props.label.color)
+      },
+    };
+
+    const { label, index } = this.props;
+    return (
+      <li
+        key={index}
+        style={{listStyle: 'none', marginBottom: '20px'}}>
+        {this.state.showEditForm === false ?
+          <Row style={{padding: 0, margin: 0}}>
+            <Col sm={6}>
+              <Paper
+                style={styles.chip}
+                backgroundColor={`#${label.color}`}>
+                {label.name}
+              </Paper>
+            </Col>
+            <Col sm={6}>
+              <FlatButton
+                icon={<EditorModeEdit />}
+                onTouchTap={this.handleTouchEdit}
+              />
+              <FlatButton
+                icon={<ActionDelete />}
+              />
+            </Col>
+          </Row>
+          : <EditLabelForm name={label.name} color={label.color} onCancleEdit={this.onCancleEdit} /> }
+      </li>
+    );
+  }
+}
+
+LabelListItem.propTypes = {
+  label: PropTypes.object,
+  index: PropTypes.number,
+
+};
