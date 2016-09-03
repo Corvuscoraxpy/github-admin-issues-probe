@@ -5,45 +5,45 @@ import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getUserName, getUserData, getUserSignStatus } from './selectors';
 import NavBar from 'components/NavBar';
-let api = require("../../api/restUtilities.js");
+
 
 class AuthorizationBar extends Component {
 
-  onSignIn = (username, password) => {
-    api.fetchAuthorization(username, password)
-    .then( res => {
-        const { signInAction } = this.props;
-        signInAction(username, password, res);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
+    handleSignIn = (username, password) => {
+        const { onSignInAction } = this.props;
+        onSignInAction(username, password);
+    }
 
-  render() {
-    return (
-      <NavBar
-        onSignIn={this.onSignIn}
-        userData={this.props.userData}
-        signed={this.props.signed}
-        onSignOutAction={this.props.signOutAction}
-      />
-    );
-  }
+    handleSignOut = () => {
+        const { signOutAction } = this.props;
+        signOutAction();
+    }
+
+    render() {
+        const { userData, signStatus } = this.props;
+        return (
+            <NavBar
+                userData={userData}
+                signStatus={signStatus}
+                onSignIn={this.handleSignIn}
+                onSignOut={this.handleSignOut}
+            />
+        );
+    }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
-  username: getUserName(),
-  userData: getUserData(),
-  signed: getUserSignStatus(),
+    username: getUserName(),
+    userData: getUserData(),
+    signStatus: getUserSignStatus(),
 });
 
 AuthorizationBar.defaultProps = {
     userData: {},
     username: '',
-    signed: false
+    signStatus: false
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthorizationBar);
