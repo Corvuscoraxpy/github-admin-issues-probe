@@ -37,9 +37,11 @@ class IssuesListLoader extends Component {
       issuesList,
       changeCurrentIssueAction,
       labelsList,
+      username,
      } = this.props;
     return (
       <IssueLabelTab
+        username={username}
         issuesList={issuesList}
         labelsList={labelsList}
         changeCurrentIssueAction={changeCurrentIssueAction}
@@ -77,6 +79,7 @@ class IssuesListLoader extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
+  username: getUserName(),
   repoOwner: getRepoOwner(),
   authorization: getAuthorization(),
   selectedRepo: getSelectedRepo(),

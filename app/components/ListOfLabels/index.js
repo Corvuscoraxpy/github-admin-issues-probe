@@ -5,10 +5,11 @@ export default class ListOfLabels extends Component {
 
 
   render() {
-    const { labelsList, deleteLabel, updateLabel } = this.props;
+    const { labelsList, deleteLabel, updateLabel, username } = this.props;
     const labelsNode = labelsList.map((label, index) => {
       return (
         <LabelListItem
+          username={username}
           label={label}
           index={index}
           deleteLabel={deleteLabel}

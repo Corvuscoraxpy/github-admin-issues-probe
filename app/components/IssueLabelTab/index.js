@@ -12,6 +12,7 @@ export default class IssueLabelTab extends Component {
       labelsList,
       deleteLabel,
       updateLabel,
+      username,
       changeCurrentIssueAction
     } = this.props;
     return (
@@ -24,9 +25,10 @@ export default class IssueLabelTab extends Component {
         </Tab>
         <Tab label="List of Labels">
           <ListOfLabels
-            labelsList={this.props.labelsList}
-            deleteLabel={this.props.deleteLabel}
-            updateLabel={this.props.updateLabel}
+            username={username}
+            labelsList={labelsList}
+            deleteLabel={deleteLabel}
+            updateLabel={updateLabel}
           />
         </Tab>
       </Tabs>
@@ -35,6 +37,7 @@ export default class IssueLabelTab extends Component {
 }
 
 IssueLabelTab.propTypes = {
+  repoOwner: PropTypes.string,
   issuesList: PropTypes.array,
   labelLis: PropTypes.array,
   changeCurrentIssueAction: PropTypes.func,
