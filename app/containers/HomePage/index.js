@@ -30,13 +30,6 @@ const {Grid, Row, Col} = require('react-flexbox-grid');
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   render() {
-    api.fetchIssueForRepository('Corvuscoraxpy', 'Coraxcorv8', 'My-blog').then(res => {
-      console.log(res.status);
-      return res.json();
-    }).then(res => console.log(res));
-    //api.fetchRegistration();
-    //api.fetchPostIssue();
-    //window.open('https://github.com/login/oauth/authorize?client_id=9601f1da5dcbbfb9e9bb');
     return (
       <Grid style={{width: '100%'}}>
         <Row style={{margin: 0}}>
