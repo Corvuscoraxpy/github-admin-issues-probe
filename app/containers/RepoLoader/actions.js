@@ -7,4 +7,9 @@ export const loadRepoListAction = (repoList) => ({
 export const selectRepoAction = (selectedRepo) => ({
   type: 'SELECT_REPO',
   selectedRepo
-})
+});
+
+export const selectRepoOwnerAction = (repoOwner) => ({
+  type: 'SELECT_REPO_OWNER',
+  repoOwner
+});

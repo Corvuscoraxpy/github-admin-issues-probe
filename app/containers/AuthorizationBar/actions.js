@@ -2,15 +2,15 @@
 export const signInAction = (username, password, userData) => ({
   type: 'SIGN_IN',
   username,
-  password,
   userData,
+  authorization: "Basic " + btoa(`${username}:${password}`),
   signed: true,
 });
 
 export const signOutAction = () => ({
   type: 'SIGN_OUT',
   username: '',
-  password: '',
+  authorization: '',
   userData: {},
   signed: false,
 });

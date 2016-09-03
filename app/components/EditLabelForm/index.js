@@ -10,26 +10,10 @@ export default class EditLabelForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      color: this.props.color,
-      name: this.props.name,
+      color: this.props.label.color,
+      name: this.props.label.name,
+      url: this.props.label.url,
     };
-  }
-
-  handleNameChange = (e) => {
-    this.setState({
-      name: e.target.value,
-    });
-  }
-
-  handleColorChange = (e) => {
-    this.setState({
-      color: e.target.value,
-    });
-  }
-
-  handleCancleTouchTap = () => {
-    const { onCancleEdit } = this.props;
-    onCancleEdit();
   }
 
   render() {
@@ -79,16 +63,40 @@ export default class EditLabelForm extends Component {
           <FlatButton
             style={{marginTop: '2em'}}
             label="Save"
+            onTouchTap={this.handleSaveTouchTap}
           />
 
         </Col>
       </Row>
     );
   }
+
+  handleNameChange = (e) => {
+    this.setState({
+      name: e.target.value,
+    });
+  }
+
+  handleColorChange = (e) => {
+    this.setState({
+      color: e.target.value,
+    });
+  }
+
+  handleCancleTouchTap = () => {
+    const { onCancleEdit } = this.props;
+    onCancleEdit();
+  }
+
+  handleSaveTouchTap = () => {
+    const { url, name, color } = this.state;
+    this.props.updateLabel(url, name, color);
+    this.props.onCancleEdit();
+  }
+
 }
 
 EditLabelForm.propTypes = {
-  color: PropTypes.string,
-  name: PropTypes.string,
-  onCancleEdit: PropType.func,
+  label: PropTypes.object,
+  onCancleEdit: PropTypes.func,
 };

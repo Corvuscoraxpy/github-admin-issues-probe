@@ -1,6 +1,6 @@
 const initialState = {
   username: '',
-  password: '',
+  authorization: '',
   userData: {},
   signed: false,
 }

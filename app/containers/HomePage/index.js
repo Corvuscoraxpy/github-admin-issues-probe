@@ -47,13 +47,11 @@ export default class HomePage extends React.Component { // eslint-disable-line r
         <Row style={{margin: 0}}>
           <Col lg={4} style={{padding: 0, height: '90vh'}}>
             <Paper style={{width: '100%', height: '90vh', overflow: 'auto'}} zDepth={1}>
-              <div style={{marginLeft: '20px'}}>
                 <RepoLoader />
-              </div>
               <IssuesListLoader />
             </Paper>
           </Col>
-          <Col lg={8} style={{ height: '90vh', overflow: 'auto'}}>
+          <Col lg={8} style={{height: '90vh', overflow: 'auto'}}>
             <IssueInteraction />
           </Col>
         </Row>

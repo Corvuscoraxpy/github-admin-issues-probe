@@ -11,12 +11,7 @@ class AuthorizationBar extends Component {
 
   onSignIn = (username, password) => {
     api.fetchAuthorization(username, password)
-      .then(res => {
-        if(res.status !== 200) {
-          throw Error("Bad validation");
-        }
-        return res.json();
-      }).then( res => {
+    .then( res => {
         const { signInAction } = this.props;
         signInAction(username, password, res);
       })

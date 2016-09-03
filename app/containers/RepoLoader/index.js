@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getRepoList, getSelectedRepo } from './selectors';
-import { getUserName, getPassword } from 'containers/AuthorizationBar/selectors';
+import { getRepoList, getSelectedRepo, getRepoOwner } from './selectors';
+import { getUserName, getAuthorization } from 'containers/AuthorizationBar/selectors';
 import ListOfRepos from 'components/ListOfRepos';
 let api = require("../../api/restUtilities.js");
 
@@ -13,28 +13,25 @@ let api = require("../../api/restUtilities.js");
 class RepoLoader extends Component {
 
   componentWillReceiveProps(nextProps) {
-    const { username, password } = nextProps;
-    console.log(username);
-    if (username !== this.props.username) {
-      api.fetchListYourRepositories(username, password)
-        .then(res =>{
-          if(res.status !== 200) {
-            throw Error('Bad validation');
-          }
-          return res.json();
-        })
+    const { repoOwner } = nextProps;
+    if (repoOwner !== this.props.repoOwner) {
+      api.fetchListUserRepositories(repoOwner, this.props.authorization)
         .then(res => {
           const { loadRepoListAction } = this.props;
           loadRepoListAction(res);
-      }).catch(error => console.log(error));
+        })
+        .catch(error => console.log(error));
     }
   }
+  
   render() {
-    const { repoList, selectRepoAction } = this.props;
+    const { repoList, username, selectRepoAction, selectRepoOwnerAction } = this.props;
     return (
       <ListOfRepos
+        username={username}
         repoList={repoList}
         selectRepoAction={selectRepoAction}
+        selectRepoOwnerAction={selectRepoOwnerAction}
       />
     );
   }
@@ -44,7 +41,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 
 const mapStateToProps = createStructuredSelector({
   username: getUserName(),
-  password: getPassword(),
+  authorization: getAuthorization(),
+  repoOwner: getRepoOwner(),
   repoList: getRepoList(),
   selectedRepo:getSelectedRepo(),
 });

@@ -1,90 +1,135 @@
 const api = {
-  // fetchSendIssue() {
-  //   var auth = btoa("Corvuscoraxpy:Coraxcorv8");
-  //    return fetch(`https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`, {
-  //        method: 'POST',
-  //        headers: {
-  //          'Accept': 'application/json',
-  //          'Content-Type': 'application/json',
-  //          'Authorization': "token 69f1db18507a5a9b260fb05a63dd85c1973f440a",
-  //        },
-  //        title: 'New bug',
-  //        body: 'Some content',
-  //        assignee: 'Corvuscoraxpy',
-  //        labels: 'bug'
-  //    });
-  //
-  //  },
+  // Authorization
+  fetchAuthorization(username, password) {
+    return fetch(`https://api.github.com/user`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": 'application/json',
+        "Authorization": "Basic " + btoa(`${username}:${password}`)
+      },
+    })
+    .then(res => {
+      if(res.status !== 200) {
+        throw Error("Bad validation");
+      }
+      return res.json();
+    });
+  },
 
-   fetchAuthorization(username, password) {
-      return fetch(`https://api.github.com/user`, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/json',
-            "Content-Type": 'application/json',
-            "Authorization": "Basic " + btoa(`${username}:${password}`)
-          },
-      });
-    },
+  //Fetch list user repository
+  fetchListUserRepositories(repoOwner, authorization) {
+    return fetch(`https://api.github.com/users/${repoOwner}/repos`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": 'application/json',
+        "Authorization": authorization,
+      },
+    })
+    .then(res =>{
+      if(res.status !== 200) {
+        throw Error('Bad validation');
+      }
+      return res.json();
+    });
+  },
 
-    fetchListYourRepositories(username, password) {
-      return fetch(`https://api.github.com/user/repos`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": 'application/json',
-          "Authorization": "Basic " + btoa(`${username}:${password}`)
-        },
-      });
-    },
+  //Fetch issues for a repository
+  fetchIssueForRepository(authorization, repoOwner, repo) {
+    const url = new URL(`https://api.github.com/repos/${repoOwner}/${repo}/issues`),
+    params = {state:'all', per_page: 100}
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    return fetch(url,{
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': authorization,
+      },
+    })
+    .then(res =>{
+      if(res.status !== 200) {
+        throw Error('Bad validation');
+      }
+      return res.json();
+    })
+  },
 
-    fetchIssueForRepository(username, password, repo) {
-      return fetch(`https://api.github.com/repos/${username}/${repo}/issues`,{
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-        },
-      });
-    },
+  //Fetch comments on an issue
+  fetchListCommentsOnAnIssue(authorization, comments_url) {
+    return fetch(`${comments_url}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': authorization,
+      },
+    })
+    .then(res =>{
+      if(res.status !== 200) {
+        throw Error('Bad validation');
+      }
+      return res.json();
+    });
+  },
 
-    //Fetch comments on an issue
-    fetchListCommentsOnAnIssue(username, password, comments_url) {
-      return fetch(`${comments_url}`, {
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-        },
-      })
-    },
+  //Delete label for repository
+  deleteLabel(authorization, repoOwner, repo, name) {
+    return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels/${name}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': authorization
+      },
+    });
+  },
 
-    //Fetch labels for repository
-    fetchListLabelsForRepository(username, password, repo) {
-      return fetch(`https://api.github.com/repos/${username}/${repo}/labels`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Basic ' + btoa(`${username}:${password}`)
-        },
-      });
-    },
+  updateLabel(authorization, labelUrl, newName, newColor) {
+    return fetch(labelUrl, {
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': authorization
+      },
+      body: JSON.stringify({name: newName, color: newColor})
+    })
+    .then(res => console.log(res.status))
+    .catch(err => console.log(err));
+  },
 
-    fetchPostIssue() {
-      var newIssue = {title: "Found a bug", body: "Nam nam nam"};
-      return fetch(`https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          "Content-Type": 'application/json',
-          "Authorization": "Basic " + btoa("user:password"),
-        },
-        body: JSON.stringify(newIssue)
+  //Fetch labels for repository
+  fetchListLabelsForRepository(authorization, repoOwner, repo) {
+    return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': authorization,
+      },
+    })
+    .then(res => {
+      if(res.status !== 200) {
+        throw Error('Bad validation');
+      }
+      return res.json();
+    });
+  },
 
-      }).then(res => console.log(res.json()));
-    }
+  fetchPostIssue() {
+    var newIssue = {title: "Found a bug", body: "Nam nam nam"};
+    return fetch(`https://api.github.com/repos/Corvuscoraxpy/My-blog/issues`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        "Content-Type": 'application/json',
+        "Authorization": "Basic " + btoa("user:password"),
+      },
+      body: JSON.stringify(newIssue)
+
+    }).then(res => console.log(res.json()));
+  }
 }
 
 module.exports = api;

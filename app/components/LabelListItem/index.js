@@ -9,13 +9,6 @@ import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-function getContrastYIQ(hexcolor){
-	let r = parseInt(hexcolor.substr(0,2),16);
-	let g = parseInt(hexcolor.substr(2,2),16);
-	let b = parseInt(hexcolor.substr(4,2),16);
-	let yiq = ((r*299)+(g*587)+(b*114))/1000;
-	return (yiq >= 128) ? 'black' : 'white';
-}
 
 export default class LabelListItem extends Component {
 
@@ -26,21 +19,9 @@ export default class LabelListItem extends Component {
     }
   }
 
-  handleTouchEdit = () => {
-    this.setState({
-      showEditForm: true,
-    });
-  }
-
-  onCancleEdit = () => {
-    this.setState({
-      showEditForm: false,
-    });
-  }
-
   render() {
     const styles = {
-      chip: {
+      paper: {
         fontSize: '16px',
         fontWeight: 'bold',
         lineHeight: 2,
@@ -57,11 +38,13 @@ export default class LabelListItem extends Component {
       <li
         key={index}
         style={{listStyle: 'none', marginBottom: '20px'}}>
+
         {this.state.showEditForm === false ?
+
           <Row style={{padding: 0, margin: 0}}>
             <Col sm={6}>
               <Paper
-                style={styles.chip}
+                style={styles.paper}
                 backgroundColor={`#${label.color}`}>
                 {label.name}
               </Paper>
@@ -73,13 +56,44 @@ export default class LabelListItem extends Component {
               />
               <FlatButton
                 icon={<ActionDelete />}
+                onTouchTap={this.handleTouchDelete}
               />
             </Col>
           </Row>
-          : <EditLabelForm name={label.name} color={label.color} onCancleEdit={this.onCancleEdit} /> }
+
+          : <EditLabelForm
+              label={label}
+              updateLabel={this.props.updateLabel}
+              onCancleEdit={this.onCancleEdit}
+            />
+          }
       </li>
     );
   }
+
+	handleTouchEdit = () => {
+    this.setState({
+      showEditForm: true,
+    });
+  }
+
+  onCancleEdit = () => {
+    this.setState({
+      showEditForm: false,
+    });
+  }
+
+  handleTouchDelete = () => {
+    this.props.deleteLabel(this.props.label.name);
+  }
+}
+
+const getContrastYIQ = (hexcolor) => {
+	let r = parseInt(hexcolor.substr(0,2),16);
+	let g = parseInt(hexcolor.substr(2,2),16);
+	let b = parseInt(hexcolor.substr(4,2),16);
+	let yiq = ((r*299)+(g*587)+(b*114))/1000;
+	return (yiq >= 128) ? 'black' : 'white';
 }
 
 LabelListItem.propTypes = {
