@@ -1,3 +1,5 @@
+import { SIGN_IN, SIGN_OUT } from './actions';
+
 const initialState = {
     username: '',
     authorization: '',
@@ -7,9 +9,9 @@ const initialState = {
 
 const authorizationReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SIGN_IN':
+        case SIGN_IN:
             return Object.assign({}, state, action);
-        case 'SIGN_OUT':
+        case SIGN_OUT:
             return Object.assign({}, state, action);
 
         default:

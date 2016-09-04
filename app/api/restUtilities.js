@@ -11,7 +11,7 @@ const api = {
     })
     .then(res => {
       if(res.status !== 200) {
-        throw Error("Bad validation");
+        throw Error('Incorrect username or password');
       }
       return res.json();
     });

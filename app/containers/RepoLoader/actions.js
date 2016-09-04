@@ -1,15 +1,31 @@
+let api = require("../../api/restUtilities.js");
 
-export const loadRepoListAction = (repoList) => ({
-  type: 'LOAD_REPO_LIST',
-  repoList,
+export const LOAD_REPOSITORY_LIST = 'LOAD_REPOSITORY_LIST';
+export const SELECT_REPOSITORY = 'SELECT_REPOSITORY';
+export const CHANGE_REPOSITORY_OWNER = 'CHANGE_REPOSITORY_OWNER';
+
+export const loadRepositoryListAction = (repositoryList) => ({
+    type: 'LOAD_REPOSITORY_LIST',
+    repositoryList,
 });
 
-export const selectRepoAction = (selectedRepo) => ({
-  type: 'SELECT_REPO',
-  selectedRepo
+export const selectRepositoryAction = (selectedRepository) => ({
+    type: 'SELECT_REPOSITORY',
+    selectedRepository
 });
 
-export const selectRepoOwnerAction = (repoOwner) => ({
-  type: 'SELECT_REPO_OWNER',
-  repoOwner
+export const changeRepositoryOwnerAction = (repositoryOwner) => ({
+    type: 'CHANGE_REPOSITORY_OWNER',
+    repositoryOwner
 });
+
+export const fetchListUserRepositoriesAction = (repositoryOwner) => {
+    return (dispatch, getState) => {
+        const authorization = getState().get('authorization').authorization;
+        return api.fetchListUserRepositories(repositoryOwner, authorization)
+            .then( result => {
+                dispatch(loadRepositoryListAction(result));
+            })
+            .catch(err => console.log(err));
+    }
+}

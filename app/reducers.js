@@ -8,7 +8,7 @@ import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import authorizationReducer from 'containers/AuthorizationBar/reducer';
-import repoLoaderReducer from 'containers/RepoLoader/reducer';
+import repositoryLoaderReducer from 'containers/RepoLoader/reducer';
 import issueLoaderReducer from 'containers/IssuesListLoader/reducer';
 import issueInteractionReducer from 'containers/IssueInteraction/reducer';
 
@@ -48,7 +48,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     authorization: authorizationReducer,
-    repoLoader: repoLoaderReducer,
+    repositoryLoader: repositoryLoaderReducer,
     issueLoader: issueLoaderReducer,
     IssueInteraction: issueInteractionReducer,
     ...asyncReducers,

@@ -1,5 +1,8 @@
 const api = require("../../api/restUtilities.js");
 
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_OUT = 'SIGN_OUT';
+
 export const signInAction = (username, password, userData) => ({
     type: 'SIGN_IN',
     username,
@@ -19,9 +22,12 @@ export const signOutAction = () => ({
 export const onSignInAction = (username, password) => {
     return dispatch => {
         return api.fetchAuthorization(username, password)
-            .then( res => {
-                dispatch(signInAction(username, password, res));
+            .then( result => {
+                dispatch(signInAction(username, password, result));
             })
-            .catch(err => console.log(err));
+            .catch(err =>{
+                console.log(err);
+                throw err;
+            });
     }
 }

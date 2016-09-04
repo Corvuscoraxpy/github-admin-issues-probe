@@ -1,9 +1,9 @@
-const getRepoList = () => (state) => state.get('repoLoader').repoList;
-const getRepoOwner = () => (state) => state.get('repoLoader').repoOwner;
-const getSelectedRepo = () => (state) => state.get('repoLoader').selectedRepo;
+const getRepositoryList = () => (state) => state.get('repositoryLoader').repositoryList;
+const getRepositoryOwner = () => (state) => state.get('repositoryLoader').repositoryOwner;
+const getSelectedRepository = () => (state) => state.get('repositoryLoader').selectedRepository;
 
 export {
-  getRepoList,
-  getRepoOwner,
-  getSelectedRepo
+  getRepositoryList,
+  getRepositoryOwner,
+  getSelectedRepository
 }

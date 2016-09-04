@@ -1,20 +1,27 @@
+import {
+    LOAD_REPOSITORY_LIST,
+    SELECT_REPOSITORY,
+    CHANGE_REPOSITORY_OWNER,
+} from './actions';
+
 const initialState = {
-  repoList: [],
-  repoOwner: '',
-  selectedRepo: ''
+    repositoryList: [],
+    repositoryOwner: '',
+    selectedRepository: ''
+};
+
+const repositoryLoaderReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case LOAD_REPOSITORY_LIST:
+            return Object.assign({}, state, action);
+        case SELECT_REPOSITORY:
+            return Object.assign({}, state, action);
+        case CHANGE_REPOSITORY_OWNER:
+            return Object.assign({}, state, action);
+
+        default:
+            return state;
+    }
 }
 
-const repoLoaderReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case 'LOAD_REPO_LIST':
-      return Object.assign({}, state, action);
-    case 'SELECT_REPO':
-      return Object.assign({}, state, action);
-    case 'SELECT_REPO_OWNER':
-      return Object.assign({}, state, action);
-    default:
-      return state;
-  }
-}
-
-export default repoLoaderReducer;
+export default repositoryLoaderReducer;

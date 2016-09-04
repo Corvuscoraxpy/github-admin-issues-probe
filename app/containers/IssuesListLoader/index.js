@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getSelectedRepo, getRepoOwner } from 'containers/RepoLoader/selectors';
+import { getSelectedRepository, getRepositoryOwner } from 'containers/RepoLoader/selectors';
 import { getUserName, getAuthorization } from 'containers/AuthorizationBar/selectors';
 import { getIssueList, getLabelsList } from './selectors';
 
@@ -80,9 +80,9 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 
 const mapStateToProps = createStructuredSelector({
   username: getUserName(),
-  repoOwner: getRepoOwner(),
+  repoOwner: getRepositoryOwner(),
   authorization: getAuthorization(),
-  selectedRepo: getSelectedRepo(),
+  selectedRepo: getSelectedRepository(),
   issuesList: getIssueList(),
   labelsList: getLabelsList(),
 });

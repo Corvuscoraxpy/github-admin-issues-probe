@@ -17,6 +17,7 @@ const customContentStyle = {
 };
 
 export default class NavBar extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -29,25 +30,7 @@ export default class NavBar extends Component {
         this.setState({
             open: !nextProps.signStatus,
             errorMessage: '',
-        })
-    }
-
-    handleSignOut = () => {
-        const { onSignOut } = this.props;
-        onSignOut();
-    }
-
-    handleSignIn = () => {
-        const { onSignIn } = this.props;
-        const { errorMessage, open } = this.state;
-        const username = this.usernameField.getValue();
-        const password = this.passwordField.getValue();
-        onSignIn(username, password);
-        if (open) {
-            this.setState({
-                errorMessage: 'Incorrect username or password'
-            });
-        }
+        });
     }
 
     render() {
@@ -118,6 +101,21 @@ export default class NavBar extends Component {
                 </Dialog>
             </div>
         );
+    }
+
+    handleSignOut = () => {
+        const { onSignOut } = this.props;
+        onSignOut();
+    }
+
+    handleSignIn = () => {
+        const { onSignIn } = this.props;
+        const { errorMessage, open } = this.state;
+        const username = this.usernameField.getValue();
+        const password = this.passwordField.getValue();
+
+        onSignIn(username, password)
+            .catch (err => this.setState({errorMessage: err.message}));
     }
 }
 

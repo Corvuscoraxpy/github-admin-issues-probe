@@ -11,7 +11,8 @@ class AuthorizationBar extends Component {
 
     handleSignIn = (username, password) => {
         const { onSignInAction } = this.props;
-        onSignInAction(username, password);
+        return onSignInAction(username, password);
+
     }
 
     handleSignOut = () => {
