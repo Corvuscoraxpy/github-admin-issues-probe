@@ -9,17 +9,6 @@ import NavBar from 'components/NavBar';
 
 class AuthorizationBar extends Component {
 
-    handleSignIn = (username, password) => {
-        const { onSignInAction } = this.props;
-        return onSignInAction(username, password);
-
-    }
-
-    handleSignOut = () => {
-        const { signOutAction } = this.props;
-        signOutAction();
-    }
-
     render() {
         const { userData, signStatus } = this.props;
         return (
@@ -30,6 +19,17 @@ class AuthorizationBar extends Component {
                 onSignOut={this.handleSignOut}
             />
         );
+    }
+
+    handleSignIn = (username, password) => {
+        const { onSignInAction } = this.props;
+        return onSignInAction(username, password);
+
+    }
+
+    handleSignOut = () => {
+        const { signOutAction } = this.props;
+        signOutAction();
     }
 }
 

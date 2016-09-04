@@ -7,47 +7,55 @@ import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 
 export default class ListOfIssues extends Component {
 
-  handleTouchTap = (issue) => {
-    const { changeCurrentIssueAction } = this.props;
-    changeCurrentIssueAction(issue);
-  }
+    render() {
+        const { issuesList } = this.props;
 
-  render() {
-    const { issuesList } = this.props;
+        console.log(issuesList);
+        const issuesNode = issuesList.map((issue, index) => {
+            const iconStyle = {
+                height: 44
+            }
+            return (
+                <ListItem
+                    leftIcon={
+                        <AlertErrorOutline
+                            style={iconStyle}
+                            color={issue.state === 'open' ? 'green' : 'red'}
+                        />
+                    }
+                    primaryText={issue.title}
+                    secondaryText={
+                        <p>
+                            <span style={{color: darkBlack}}>
+                                #{issue.number}
+                            </span>
+                            opened by {issue.user.login}.
+                        </p>
+                    }
+                    secondaryTextLines={2}
+                    key={index}
+                    value={issue}
+                    onTouchTap={() => this.handleTouchTap(issue)}
+                />
+            );
+        });
 
-    console.log(issuesList);
-    const issuesNode = issuesList.map((issue, index) => {
-      const iconStyle = {
-        height: 44
-      }
-      return (
-        <ListItem
-          leftIcon={<AlertErrorOutline style={iconStyle} color={issue.state === 'open' ? 'green' : 'red'} />}
-          primaryText={issue.title}
-          secondaryText={
-            <p>
-              <span style={{color: darkBlack}}>#{issue.number} </span>
-              opened by {issue.user.login}.
-            </p>
-          }
-          secondaryTextLines={2}
-          key={index}
-          value={issue}
-          onTouchTap={() => this.handleTouchTap(issue)}
-        />
-      );
-    });
+        return (
+            <List>
+                <Subheader>Issues</Subheader>
+                {issuesNode}
+            </List>
+        );
+    }
 
-    return (
-      <List>
-        <Subheader>Issues</Subheader>
-        {issuesNode}
-      </List>
-    );
-  }
+    handleTouchTap = (issue) => {
+        const { handleChangeCurrentIssue } = this.props;
+        handleChangeCurrentIssue(issue);
+    }
+
 }
 
 ListOfIssues.propTypes = {
-  issuesList: PropTypes.array,
-  changeCurrentIssueAction: PropTypes.func,
+    issuesList: PropTypes.array,
+    handleChangeCurrentIssue: PropTypes.func,
 }

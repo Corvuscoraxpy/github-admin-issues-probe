@@ -18,7 +18,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import AuthorizationBar from 'containers/AuthorizationBar';
 
-import IssuesListLoader from 'containers/IssuesListLoader';
+import RepoDataLoader from 'containers/RepoDataLoader';
 
 import IssueInteraction from 'containers/IssueInteraction';
 
@@ -29,26 +29,29 @@ const {Grid, Row, Col} = require('react-flexbox-grid');
 
 export default class HomePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
-  render() {
-    return (
-      <Grid style={{width: '100%'}}>
-        <Row style={{margin: 0}}>
-          <Col sm={12} style={{padding: 0, height: '10vh'}}>
-            <AuthorizationBar/>
-          </Col>
-        </Row>
-        <Row style={{margin: 0}}>
-          <Col lg={4} style={{padding: 0, height: '90vh'}}>
-            <Paper style={{width: '100%', height: '90vh', overflow: 'auto'}} zDepth={1}>
-                <RepoLoader />
-              <IssuesListLoader />
-            </Paper>
-          </Col>
-          <Col lg={8} style={{height: '90vh', overflow: 'auto'}}>
-            <IssueInteraction />
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
+    render() {
+        return (
+            <Grid style={{width: '100%'}}>
+                <Row style={{margin: 0}}>
+                    <Col sm={12} style={{padding: 0, height: '10vh'}}>
+                        <AuthorizationBar/>
+                    </Col>
+                </Row>
+                <Row style={{margin: 0}}>
+                    <Col lg={4} style={{padding: 0, height: '90vh'}}>
+                        <Paper
+                            style={{width: '100%', height: '90vh', overflow: 'auto'}}
+                            zDepth={1}>
+
+                            <RepoLoader />
+                            <RepoDataLoader />
+                        </Paper>
+                    </Col>
+                    <Col lg={8} style={{height: '90vh', overflow: 'auto'}}>
+                        <IssueInteraction />
+                    </Col>
+                </Row>
+            </Grid>
+        );
+    }
 }

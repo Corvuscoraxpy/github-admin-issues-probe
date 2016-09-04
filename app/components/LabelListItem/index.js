@@ -12,80 +12,84 @@ const {Grid, Row, Col} = require('react-flexbox-grid');
 
 export default class LabelListItem extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      showEditForm: false,
+    constructor(props) {
+        super(props);
+        this.state = {
+            showEditForm: false,
+        }
     }
-  }
 
-  render() {
-    const styles = {
-      paper: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        lineHeight: 2,
-        height: '100%',
-        textAlign: 'center',
-        borderRadius: '3px',
-        backgroundColor: `#${this.props.label.color}`,
-        color: getContrastYIQ(this.props.label.color)
-      },
-    };
+    render() {
+        const styles = {
+            paper: {
+                fontSize: '16px',
+                fontWeight: 'bold',
+                lineHeight: 2,
+                height: '100%',
+                textAlign: 'center',
+                borderRadius: '3px',
+                backgroundColor: `#${this.props.label.color}`,
+                color: getContrastYIQ(this.props.label.color)
+            },
+            listItem: {
+                listStyle: 'none',
+                marginBottom: '20px'
+            }
+        };
 
-    const { label, index } = this.props;
-    return (
-      <li
-        key={index}
-        style={{listStyle: 'none', marginBottom: '20px'}}>
+        const { label, id } = this.props;
+        return (
+            <li
+                key={id}
+                style={styles.listItem}
+            >
 
-        {this.state.showEditForm === false ?
+                {this.state.showEditForm === false ?
 
-          <Row style={{padding: 0, margin: 0}}>
-            <Col sm={6}>
-              <Paper
-                style={styles.paper}
-                backgroundColor={`#${label.color}`}>
-                {label.name}
-              </Paper>
-            </Col>
-            <Col sm={6}>
-              <FlatButton
-                icon={<EditorModeEdit />}
-                onTouchTap={this.handleTouchEdit}
-              />
-              <FlatButton
-                icon={<ActionDelete />}
-                onTouchTap={this.handleTouchDelete}
-              />
-            </Col>
-          </Row>
+                    <Row style={{padding: 0, margin: 0}}>
+                        <Col sm={6}>
+                            <Paper style={styles.paper}>
+                                {label.name}
+                            </Paper>
+                        </Col>
+                        <Col sm={6}>
+                            <FlatButton
+                                icon={<EditorModeEdit />}
+                                onTouchTap={this.handleTouchEdit}
+                            />
+                            <FlatButton
+                                icon={<ActionDelete />}
+                                onTouchTap={this.handleTouchDelete}
+                            />
+                        </Col>
+                    </Row> :
 
-          : <EditLabelForm
-              label={label}
-              updateLabel={this.props.updateLabel}
-              onCancleEdit={this.onCancleEdit}
-            />
-          }
-      </li>
-    );
-  }
+                    <EditLabelForm
+                        label={label}
+                        handleUpdateLabel={this.props.handleUpdateLabel}
+                        onCancleEdit={this.onCancleEdit}
+                    />
+                }
+            </li>
+        );
+    }
 
 	handleTouchEdit = () => {
-    this.setState({
-      showEditForm: true,
-    });
-  }
+        this.setState({
+            showEditForm: true,
+        });
+    }
 
-  onCancleEdit = () => {
-    this.setState({
-      showEditForm: false,
-    });
-  }
+    onCancleEdit = () => {
+        this.setState({
+            showEditForm: false,
+        });
+    }
 
-  handleTouchDelete = () => {
-    this.props.deleteLabel(this.props.label.name);
-  }
+    handleTouchDelete = () => {
+        const { handleDeleteLabel, label } = this.props;
+        handleDeleteLabel(label.name);
+    }
 }
 
 const getContrastYIQ = (hexcolor) => {
@@ -97,7 +101,7 @@ const getContrastYIQ = (hexcolor) => {
 }
 
 LabelListItem.propTypes = {
-  label: PropTypes.object,
-  index: PropTypes.number,
-
+    label: PropTypes.object,
+    id: PropTypes.number,
+    handleDeleteLabel: PropTypes.func,
 };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getCurrentIssue } from 'containers/IssuesListLoader/selectors';
+import { getCurrentIssue } from 'containers/RepoDataLoader/selectors';
 import { getUserName, getAuthorization } from 'containers/AuthorizationBar/selectors';
 import { getListOfComments } from './selectors';
 

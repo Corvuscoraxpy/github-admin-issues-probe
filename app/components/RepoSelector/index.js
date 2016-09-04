@@ -49,18 +49,18 @@ export default class RepoSelector extends Component {
         const { repositoryOwner, value } = this.state;
         return (
             <Row style={styles.rowStyle}>
-                <Col sm={5}>
+                <Col sm={4}>
                     <TextField
                         value={repositoryOwner}
                         hintText="Repository owner"
-                        floatingLabelText="Enter repo owner"
+                        floatingLabelText="Select owner"
                         floatingLabelStyle={styles.floatingLabelStyle}
                         fullWidth={true}
                         onChange={this.handleChangeTextField}
                         onKeyDown={this.handleEnterKeyDownTxtFld}
                     />
                 </Col>
-                <Col sm={7}>
+                <Col sm={8}>
                     <SelectField
                         value={value}
                         floatingLabelText="Select the repository"

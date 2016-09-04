@@ -3,30 +3,32 @@ import LabelListItem from 'components/LabelListItem';
 
 export default class ListOfLabels extends Component {
 
+    render() {
+        const { labelsList, handleDeleteLabel, handleUpdateLabel, username } = this.props;
+        console.log(labelsList);
+        const labelsNode = labelsList.map((label, index) => {
+            return (
+                <LabelListItem
+                    username={username}
+                    label={label}
+                    key={index}
+                    id={index}
+                    handleDeleteLabel={handleDeleteLabel}
+                    handleUpdateLabel={handleUpdateLabel}
+                />
+            );
+        });
 
-  render() {
-    const { labelsList, deleteLabel, updateLabel, username } = this.props;
-    const labelsNode = labelsList.map((label, index) => {
-      return (
-        <LabelListItem
-          username={username}
-          label={label}
-          index={index}
-          deleteLabel={deleteLabel}
-          updateLabel={updateLabel}
-        />
-      );
-    });
-    return(
-      <ul style={{ padding: 0}}>
-        {labelsNode}
-      </ul>
-    );
-  }
+        return(
+            <ul style={{ padding: 0}}>
+                {labelsNode}
+            </ul>
+        );
+    }
 }
 
 ListOfLabels.propTypes = {
   labelsList: PropTypes.array,
-  deleteLabel: PropTypes.func,
-  updateLabel: PropTypes.func,
+  handleDeleteLabel: PropTypes.func,
+  handleUpdateLabel: PropTypes.func,
 };

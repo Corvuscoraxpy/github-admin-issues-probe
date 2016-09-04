@@ -6,41 +6,41 @@ import ListOfIssues from 'components/ListOfIssues';
 
 export default class IssueLabelTab extends Component {
 
-  render() {
-    const {
-      issuesList,
-      labelsList,
-      deleteLabel,
-      updateLabel,
-      username,
-      changeCurrentIssueAction
-    } = this.props;
+    render() {
+        const {
+            issuesList,
+            labelsList,
+            username,
+            handleDeleteLabel,
+            handleUpdateLabel,
+            handleChangeCurrentIssue
+        } = this.props;
+
     return (
-      <Tabs>
-        <Tab label="List Of Issues" >
-          <ListOfIssues
-            issuesList={this.props.issuesList}
-            changeCurrentIssueAction={this.props.changeCurrentIssueAction}
-          />
-        </Tab>
-        <Tab label="List of Labels">
-          <ListOfLabels
-            username={username}
-            labelsList={labelsList}
-            deleteLabel={deleteLabel}
-            updateLabel={updateLabel}
-          />
-        </Tab>
+        <Tabs>
+            <Tab label="List Of Issues" >
+                <ListOfIssues
+                    issuesList={issuesList}
+                    handleChangeCurrentIssue={handleChangeCurrentIssue}
+                />
+            </Tab>
+            <Tab label="List of Labels">
+                <ListOfLabels
+                    username={username}
+                    labelsList={labelsList}
+                    handleDeleteLabel={handleDeleteLabel}
+                    handleUpdateLabel={handleUpdateLabel}
+                />
+            </Tab>
       </Tabs>
     );
   }
 }
 
 IssueLabelTab.propTypes = {
-  repoOwner: PropTypes.string,
-  issuesList: PropTypes.array,
-  labelLis: PropTypes.array,
-  changeCurrentIssueAction: PropTypes.func,
-  deleteLabel: PropTypes.func,
-  updateLabel: PropTypes.func,
+    issuesList: PropTypes.array,
+    labelLis: PropTypes.array,
+    handleChangeCurrentIssue: PropTypes.func,
+    handleDeleteLabel: PropTypes.func,
+    handleUpdateLabel: PropTypes.func,
 }
