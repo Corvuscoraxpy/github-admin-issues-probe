@@ -23,42 +23,42 @@ export default class ListLabelsHeader extends Component {
                 color: 'white'
             }
         }
+        const { updateInProcess, handleCreateLabel } = this.props;
         return (
             <div>
-            {this.state.showEditForm === false ?
+                {this.state.showEditForm === false ?
 
-                <Row style={styles.rowStyle}>
-                    <Col sm={6}>
-                    {/* loading or ready. */}
-                        <div style={{position: 'relative'}}>
-                            <RefreshIndicator
-                                size={40}
-                                left={-20}
-                                top={0}
-                                status="loading"
-                                style={{marginLeft: '50%'}}
+                    <Row style={styles.rowStyle}>
+                        <Col sm={6}>
+                        {/* loading or ready. */}
+                            <div style={{position: 'relative'}}>
+                                <RefreshIndicator
+                                    size={40}
+                                    left={-20}
+                                    top={0}
+                                    status={updateInProcess ? "loading" : "ready"}
+                                    style={{marginLeft: '50%'}}
+                                />
+                            </div>
+                        </Col>
+                        <Col sm={6} style={{textAlign: 'center'}}>
+                            <FlatButton
+                                style={styles.flatButton}
+                                backgroundColor="#17a88c"
+                                hoverColor="#1abc9c"
+                                label="New Label"
+                                onTouchTap={this.handleTouchNewLabel}
                             />
-                        </div>
-                    </Col>
-                    <Col sm={6} style={{textAlign: 'center'}}>
-                        <FlatButton
-                            style={styles.flatButton}
-                            backgroundColor="#17a88c"
-                            hoverColor="#1abc9c"
-                            label="New Label"
-                            onTouchTap={this.handleTouchNewLabel}
-                        />
-                    </Col>
-                </Row> :
+                        </Col>
+                    </Row> :
 
-                <EditLabelForm
-                    editing={false}
-                    label={{name: '', color: ''}}
-                    handleUpdateLabel={this.props.handleUpdateLabel}
-                    handleCreateLabel={this.props.handleCreateLabel}
-                    onCancleEdit={this.onCancleEdit}
-                />
-            }
+                    <EditLabelForm
+                        editing={false}
+                        label={{name: '', color: ''}}
+                        handleCreateLabel={handleCreateLabel}
+                        onCancleEdit={this.onCancleEdit}
+                    />
+                }
             </div>
         );
     }
@@ -78,5 +78,7 @@ export default class ListLabelsHeader extends Component {
 }
 
 ListLabelsHeader.propTypes = {
+    updateInProcess: PropTypes.bool,
+    handleCreateLabel: PropTypes.func,
 
 };

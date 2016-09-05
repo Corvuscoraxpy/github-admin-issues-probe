@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 
-import { getIssueList, getLabelsList } from './selectors';
+import { getIssueList, getLabelsList, getStatusOfUpdating } from './selectors';
 import { getUserName } from 'containers/AuthorizationBar/selectors';
 import { getSelectedRepository, getRepositoryOwner } from 'containers/RepoLoader/selectors';
 
@@ -30,10 +30,11 @@ class RepoDataLoader extends Component {
 
     render() {
         const { issuesList, changeCurrentIssueAction,
-            labelsList, username } = this.props;
+            labelsList, username, updateInProcess } = this.props;
         return (
             <IssueLabelTab
                 username={username}
+                updateInProcess={updateInProcess}
                 issuesList={issuesList}
                 labelsList={labelsList}
                 handleChangeCurrentIssue={this.handleChangeCurrentIssue}
@@ -69,6 +70,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 
 const mapStateToProps = createStructuredSelector({
     username: getUserName(),
+    updateInProcess: getStatusOfUpdating(),
     repositoryOwner: getRepositoryOwner(),
     selectedRepository: getSelectedRepository(),
     issuesList: getIssueList(),

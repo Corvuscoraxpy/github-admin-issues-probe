@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
 
-import ListOfLabels from 'components/ListOfLabels';
+import LabelTap from 'components/LabelTab';
 import ListOfIssues from 'components/ListOfIssues';
 
 export default class IssueLabelTab extends Component {
@@ -11,6 +11,7 @@ export default class IssueLabelTab extends Component {
             issuesList,
             labelsList,
             username,
+            updateInProcess,
             handleDeleteLabel,
             handleUpdateLabel,
             handleCreateLabel,
@@ -26,7 +27,8 @@ export default class IssueLabelTab extends Component {
                 />
             </Tab>
             <Tab label="List of Labels">
-                <ListOfLabels
+                <LabelTap
+                    updateInProcess={updateInProcess}
                     username={username}
                     labelsList={labelsList}
                     handleDeleteLabel={handleDeleteLabel}
@@ -40,9 +42,12 @@ export default class IssueLabelTab extends Component {
 }
 
 IssueLabelTab.propTypes = {
+    username: PropTypes.string,
     issuesList: PropTypes.array,
     labelLis: PropTypes.array,
-    handleChangeCurrentIssue: PropTypes.func,
+    updateInProcess: PropTypes.bool,
     handleDeleteLabel: PropTypes.func,
     handleUpdateLabel: PropTypes.func,
+    handleCreateLabel: PropTypes.func,
+    handleChangeCurrentIssue: PropTypes.func,
 }

@@ -20,6 +20,7 @@ export default class LabelListItem extends Component {
     }
 
     render() {
+        const { label, id } = this.props;
         const styles = {
             paper: {
                 fontSize: '16px',
@@ -28,8 +29,8 @@ export default class LabelListItem extends Component {
                 height: '100%',
                 textAlign: 'center',
                 borderRadius: '3px',
-                backgroundColor: `#${this.props.label.color}`,
-                color: getContrastYIQ(this.props.label.color)
+                backgroundColor: `#${label.color}`,
+                color: getContrastYIQ(label.color)
             },
             listItem: {
                 listStyle: 'none',
@@ -37,7 +38,6 @@ export default class LabelListItem extends Component {
             }
         };
 
-        const { label, id } = this.props;
         return (
             <li
                 key={id}
@@ -105,4 +105,5 @@ LabelListItem.propTypes = {
     label: PropTypes.object,
     id: PropTypes.number,
     handleDeleteLabel: PropTypes.func,
+    handleUpdateLabel: PropTypes.func,
 };
