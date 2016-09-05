@@ -36,7 +36,7 @@ export default class RepoSelector extends Component {
                 color: 'orange',
             },
         }
-        const { repositoryList } = this.props;
+        const { repositoryList, updateInProcess } = this.props;
         const listNodes = repositoryList.map((repoObj, index) => {
             return (
                 <MenuItem
@@ -47,6 +47,7 @@ export default class RepoSelector extends Component {
             );
         });
         const { repositoryOwner, value } = this.state;
+        console.log('updt status: ', updateInProcess);
         return (
             <Row style={styles.rowStyle}>
                 <Col sm={4}>
@@ -62,6 +63,7 @@ export default class RepoSelector extends Component {
                 </Col>
                 <Col sm={8}>
                     <SelectField
+                        disabled={updateInProcess}
                         value={value}
                         floatingLabelText="Select the repository"
                         floatingLabelStyle={styles.floatingLabelStyle}

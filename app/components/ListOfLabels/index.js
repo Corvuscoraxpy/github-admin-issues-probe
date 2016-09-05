@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import LabelListItem from 'components/LabelListItem';
+import ListLabelsHeader from 'components/ListLabelsHeader';
 
 export default class ListOfLabels extends Component {
 
     render() {
-        const { labelsList, handleDeleteLabel, handleUpdateLabel, username } = this.props;
+        const {
+            labelsList,
+            handleDeleteLabel,
+            handleUpdateLabel,
+            handleCreateLabel,
+            username } = this.props;
         console.log(labelsList);
         const labelsNode = labelsList.map((label, index) => {
             return (
@@ -20,9 +26,12 @@ export default class ListOfLabels extends Component {
         });
 
         return(
-            <ul style={{ padding: 0}}>
-                {labelsNode}
-            </ul>
+            <div>
+                <ListLabelsHeader handleCreateLabel={handleCreateLabel} />
+                <ul style={{ padding: 0}}>
+                    {labelsNode}
+                </ul>
+            </div>
         );
     }
 }
@@ -31,4 +40,5 @@ ListOfLabels.propTypes = {
   labelsList: PropTypes.array,
   handleDeleteLabel: PropTypes.func,
   handleUpdateLabel: PropTypes.func,
+  handleCreateLabel: PropTypes.func,
 };

@@ -39,6 +39,7 @@ class RepoDataLoader extends Component {
                 handleChangeCurrentIssue={this.handleChangeCurrentIssue}
                 handleDeleteLabel={this.handleDeleteLabel}
                 handleUpdateLabel={this.handleUpdateLabel}
+                handleCreateLabel={this.handleCreateLabel}
             />
         );
     }
@@ -51,6 +52,11 @@ class RepoDataLoader extends Component {
     handleUpdateLabel = (labelUrl, newName, newColor) => {
         const { updateLabelAction } = this.props;
         updateLabelAction(labelUrl, newName, newColor);
+    }
+
+    handleCreateLabel = (name, color) => {
+        const { createLabelAction } = this.props;
+        createLabelAction(name, color);
     }
 
     handleChangeCurrentIssue = (currentIssue) => {

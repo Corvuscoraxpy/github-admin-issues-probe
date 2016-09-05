@@ -65,6 +65,7 @@ export default class LabelListItem extends Component {
                     </Row> :
 
                     <EditLabelForm
+                        editing={true}
                         label={label}
                         handleUpdateLabel={this.props.handleUpdateLabel}
                         onCancleEdit={this.onCancleEdit}

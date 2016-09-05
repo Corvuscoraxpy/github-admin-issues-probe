@@ -12,7 +12,7 @@ export default class IssueHeader extends Component {
         const { currentIssue } = this.props;
         const styles = {
             button: {
-                backgroundColor: currentIssue.state === 'open' ? 'green' : 'red',
+                backgroundColor: currentIssue.state === 'open' ? '#17a88c' : '#e74c3c',
                 color: 'white'
             }
         }

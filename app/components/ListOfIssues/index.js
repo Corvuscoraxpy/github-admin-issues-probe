@@ -20,7 +20,7 @@ export default class ListOfIssues extends Component {
                     leftIcon={
                         <AlertErrorOutline
                             style={iconStyle}
-                            color={issue.state === 'open' ? 'green' : 'red'}
+                            color={issue.state === 'open' ? '#17a88c' : '#e74c3c'}
                         />
                     }
                     primaryText={issue.title}

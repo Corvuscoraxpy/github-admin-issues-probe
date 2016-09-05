@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
+
 export default class EditLabelForm extends Component {
 
     constructor(props) {
@@ -13,30 +14,41 @@ export default class EditLabelForm extends Component {
             color: this.props.label.color,
             name: this.props.label.name,
             url: this.props.label.url,
+            errorText: ''
         };
     }
 
     render() {
+        const { name, color, errorText } = this.state;
         const styles = {
             underlineStyle: {
-                borderColor: `#${this.state.color}`,
+                borderColor: `#${color}`,
             },
             floatingLabelFocusStyle: {
-                color: `#${this.state.color}`,
+                color: `#${color}`,
             },
             rowStyle : {
                 padding: 0,
                 margin: 0,
             },
-        }
+            flatButtonCancel: {
+                marginTop: '2em',
+            },
+            flatButtonUpdateSave: {
+                marginTop: '2em',
+                color: 'white'
+            }
 
+        }
+        console.log(this.props.editing === true);
         return (
             <Row style={styles.rowStyle} >
                 <Col sm={3}>
                     <TextField
                         fullWidth={true}
+                        errorText={errorText}
                         hintText="Name"
-                        value={this.state.name}
+                        value={name}
                         floatingLabelText="Enter name"
                         onChange={this.handleNameChange}
                     />
@@ -45,7 +57,8 @@ export default class EditLabelForm extends Component {
                     <TextField
                         fullWidth={true}
                         hintText="Color"
-                        value={this.state.color}
+                        value={color}
+                        errorText={errorText}
                         floatingLabelText="Enter color"
                         onChange={this.handleColorChange}
                         underlineFocusStyle={styles.underlineStyle}
@@ -54,17 +67,20 @@ export default class EditLabelForm extends Component {
                 </Col>
                 <Col sm={3}>
                     <FlatButton
-                        style={{marginTop: '2em'}}
+                        style={styles.flatButtonCancel}
                         label="Cancel"
                         onTouchTap={this.handleCancleTouchTap}
                     />
                 </Col>
                 <Col sm={3}>
                     <FlatButton
-                        style={{marginTop: '2em'}}
-                        label="Save"
+                        style={styles.flatButtonUpdateSave}
+                        label={(this.props.editing === true) ? "Save" : "Create"}
                         onTouchTap={this.handleSaveTouchTap}
+                        backgroundColor="#17a88c"
+                        hoverColor="#1abc9c"
                     />
+
                 </Col>
             </Row>
         );
@@ -89,9 +105,17 @@ export default class EditLabelForm extends Component {
 
     handleSaveTouchTap = () => {
         const { url, name, color } = this.state;
-        const {onCancleEdit, handleUpdateLabel} = this.props;
-        handleUpdateLabel(url, name, color);
-        onCancleEdit();
+        const {onCancleEdit, handleUpdateLabel, handleCreateLabel, editing} = this.props;
+        const hexValidation = /^[0-9A-F]{6}$/i;
+        if (hexValidation.test(color) && name.length > 0) {
+            if (editing === true) {
+                handleUpdateLabel(url, name, color);
+            } else {
+                handleCreateLabel(name, color);
+            }
+            onCancleEdit();
+            this.setState({errorText: ''});
+        } else this.setState({errorText: 'invalid format'});
     }
 
 }

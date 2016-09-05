@@ -13,6 +13,7 @@ export default class IssueLabelTab extends Component {
             username,
             handleDeleteLabel,
             handleUpdateLabel,
+            handleCreateLabel,
             handleChangeCurrentIssue
         } = this.props;
 
@@ -30,6 +31,7 @@ export default class IssueLabelTab extends Component {
                     labelsList={labelsList}
                     handleDeleteLabel={handleDeleteLabel}
                     handleUpdateLabel={handleUpdateLabel}
+                    handleCreateLabel={handleCreateLabel}
                 />
             </Tab>
       </Tabs>
