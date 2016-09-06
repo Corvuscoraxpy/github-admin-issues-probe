@@ -31,7 +31,7 @@ export default class EditLabelForm extends Component {
                 color: `#${color}`,
             },
         }
-        
+
         return (
             <Row className={styles['rowStyle']} >
                 <Col sm={3}>
@@ -105,7 +105,9 @@ export default class EditLabelForm extends Component {
             }
             onCancleEdit();
             this.setState({errorText: ''});
-        } else this.setState({errorText: 'invalid format'});
+        } else {
+            this.setState({errorText: 'invalid format'});
+        }
     }
 
 }

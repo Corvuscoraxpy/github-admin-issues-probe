@@ -5,24 +5,18 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getCurrentIssue } from 'containers/RepoDataLoader/selectors';
-import { getUserName, getAuthorization } from 'containers/AuthorizationBar/selectors';
 import { getListOfComments } from './selectors';
 
 import Issue from 'components/Issue';
 
-let api = require("../../api/restUtilities.js");
+
 
 class IssueInteraction extends Component {
 
     componentWillReceiveProps(nextProps) {
-        const { authorization, currentIssue } = this.props;
+        const { currentIssue, fetchListCommentsOnAnIssueAction } = this.props;
         if (nextProps.currentIssue !== currentIssue) {
-            api.fetchListCommentsOnAnIssue(authorization, nextProps.currentIssue.comments_url)
-                .then(res => {
-                    const { getListCommentsOnAnIssueAction } = this.props;
-                    getListCommentsOnAnIssueAction(res);
-                })
-                .catch(error => console.log(error));
+            fetchListCommentsOnAnIssueAction(nextProps.currentIssue.comments_url);
         }
     }
 
@@ -41,13 +35,11 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 
 const mapStateToProps = createStructuredSelector({
     currentIssue: getCurrentIssue(),
-    username: getUserName(),
-    authorization: getAuthorization(),
     listOfComments: getListOfComments(),
 });
 
 IssueInteraction.defaultProps = {
-
+    listOfComments: [],
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(IssueInteraction);

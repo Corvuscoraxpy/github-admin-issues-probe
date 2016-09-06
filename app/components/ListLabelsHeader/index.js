@@ -30,7 +30,6 @@ export default class ListLabelsHeader extends Component {
 
                     <Row style={styles.rowStyle}>
                         <Col sm={6}>
-                        {/* loading or ready. */}
                             <div style={{position: 'relative'}}>
                                 <RefreshIndicator
                                     size={40}
