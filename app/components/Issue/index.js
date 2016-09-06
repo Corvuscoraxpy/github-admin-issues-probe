@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -10,7 +10,13 @@ const hljs = require('highlight.js');
 export default class Issue extends Component {
 
     render() {
-        const { currentIssue, listOfComments } = this.props;
+        const {
+            currentIssue,
+            listOfComments,
+            labelsList,
+            onRemoveOrAddLabelFromAnIssue,
+        } = this.props;
+
         const commentsNode = listOfComments.map(comment => {
             return (
                 <Card style={{marginBottom: '8px'}} key={comment.id}>
@@ -28,7 +34,11 @@ export default class Issue extends Component {
 
         return (
             <div style={{overflow: 'hidden'}}>
-                <IssueHeader currentIssue={currentIssue} />
+                <IssueHeader
+                    currentIssue={currentIssue}
+                    labelsList={labelsList}
+                    onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
+                />
                 <Card style={{marginBottom: '8px'}}>
                     <CardHeader
                         title={Object.keys(currentIssue).length !== 0 ? currentIssue.user.login : ""}
@@ -88,4 +98,11 @@ export default class Issue extends Component {
             day_diff < 7 && day_diff + " days ago" ||
             day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago";
     }
+}
+
+Issue.propTypes = {
+    labelsList: PropTypes.array,
+    currentIssue: PropTypes.object,
+    listOfComments: PropTypes.array,
+    onRemoveOrAddLabelFromAnIssue: PropTypes.func,
 }

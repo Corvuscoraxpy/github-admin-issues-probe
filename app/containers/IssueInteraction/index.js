@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getCurrentIssue } from 'containers/RepoDataLoader/selectors';
+import { getCurrentIssue, getLabelsList } from 'containers/RepoDataLoader/selectors';
 import { getListOfComments } from './selectors';
 
 import Issue from 'components/Issue';
@@ -21,13 +21,22 @@ class IssueInteraction extends Component {
     }
 
     render() {
-        const { currentIssue, listOfComments } = this.props;
+        const { currentIssue, listOfComments, labelsList } = this.props;
         return (
             <Issue
+                labelsList={labelsList}
                 currentIssue={currentIssue}
                 listOfComments={listOfComments}
+                onRemoveOrAddLabelFromAnIssue={this.onRemoveOrAddLabelFromAnIssue}
             />
         );
+    }
+
+
+    onRemoveOrAddLabelFromAnIssue = (number, name) => {
+        const { removeLabelFromAnIssueAction } = this.props;
+        // can throw err 404 => addLabelsToAnIssueAction
+        removeLabelFromAnIssueAction(number, name);
     }
 }
 
@@ -36,6 +45,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 const mapStateToProps = createStructuredSelector({
     currentIssue: getCurrentIssue(),
     listOfComments: getListOfComments(),
+    labelsList: getLabelsList(),
 });
 
 IssueInteraction.defaultProps = {

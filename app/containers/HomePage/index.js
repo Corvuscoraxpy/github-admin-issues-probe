@@ -38,7 +38,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
                     </Col>
                 </Row>
                 <Row style={{margin: 0}}>
-                    <Col lg={4} style={{padding: 0, height: '90vh'}}>
+                    <Col sm={4} style={{padding: 0, height: '90vh'}}>
                         <Paper
                             style={{width: '100%', height: '90vh', overflow: 'auto'}}
                             zDepth={1}>
@@ -47,7 +47,7 @@ export default class HomePage extends React.Component { // eslint-disable-line r
                             <RepoDataLoader />
                         </Paper>
                     </Col>
-                    <Col lg={8} style={{height: '90vh', overflow: 'auto'}}>
+                    <Col sm={8} style={{height: '90vh', overflow: 'auto'}}>
                         <IssueInteraction />
                     </Col>
                 </Row>

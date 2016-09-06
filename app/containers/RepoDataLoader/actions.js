@@ -26,6 +26,19 @@ const updatingLabelsListAction = (updateInProcess) => ({
     updateInProcess
 });
 
+export const fetchSingleIssueAction = (currentIssue) => {
+    return (dispatch, getState) => {
+        const authorization = getState().get('authorization').authorization;
+        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
+        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
+        api.fetchSingleIssue(authorization, repositoryOwner, selectedRepository, currentIssue.number)
+            .then(issue => {
+                dispatch(changeCurrentIssueAction(issue));
+            })
+            .catch(err => console.log(err));
+    }
+}
+
 export const fetchIssueForRepositoryAction = (repositoryOwner, selectedRepository) => {
     return (dispatch, getState) => {
         const authorization = getState().get('authorization').authorization;

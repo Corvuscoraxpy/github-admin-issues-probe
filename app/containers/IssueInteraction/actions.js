@@ -17,3 +17,32 @@ export const fetchListCommentsOnAnIssueAction = (comments_url) => {
             .catch(err => console.log(err));
     }
 }
+
+export const addLabelsToAnIssueAction = (number, name) => {
+    return (dispatch, getState) => {
+        const authorization = getState().get('authorization').authorization;
+        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
+        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
+        api.addLabelsToAnIssue(authorization, repositoryOwner, selectedRepository, number, name)
+            .then(result => console.log(result.status))
+            .catch(err => console.log(err));
+    }
+}
+
+export const removeLabelFromAnIssueAction = (number, name) => {
+    return (dispatch, getState) => {
+        const authorization = getState().get('authorization').authorization;
+        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
+        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
+        api.removeLabelFromAnIssue(authorization, repositoryOwner, selectedRepository, number, name)
+            .then(result => {
+                if(result.status === 404) {
+                    throw Error('Not found');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch(addLabelsToAnIssueAction(number, name));
+            });
+    }
+}

@@ -61,8 +61,8 @@ class RepoDataLoader extends Component {
     }
 
     handleChangeCurrentIssue = (currentIssue) => {
-        const { changeCurrentIssueAction } = this.props;
-        changeCurrentIssueAction(currentIssue);
+        const { fetchSingleIssueAction } = this.props;
+        fetchSingleIssueAction(currentIssue);
     }
 }
 

@@ -1,5 +1,5 @@
 const api = {
-  // Authorization
+    //  Authorization
     fetchAuthorization(username, password) {
         return fetch(`https://api.github.com/user`, {
             method: 'GET',
@@ -17,7 +17,7 @@ const api = {
         });
     },
 
-    //Fetch list user repository
+    //  Fetch list user repository
     fetchListUserRepositories(repoOwner, authorization) {
         return fetch(`https://api.github.com/users/${repoOwner}/repos`, {
             method: 'GET',
@@ -35,7 +35,7 @@ const api = {
         });
     },
 
-    //Fetch issues for a repository
+    //  Fetch issues for a repository
     fetchIssueForRepository(authorization, repoOwner, repo) {
         const url = new URL(`https://api.github.com/repos/${repoOwner}/${repo}/issues`),
         params = {state:'all', per_page: 100}
@@ -48,12 +48,30 @@ const api = {
                 'Authorization': authorization,
             },
         })
-        .then(res =>{
+        .then(res => {
             if(res.status !== 200) {
                 throw Error('Bad validation');
             }
             return res.json();
+        });
+    },
+
+    //  Get a single issue
+    fetchSingleIssue(authorization, repoOwner, repo, issueNumber) {
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/issues/${issueNumber}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': authorization,
+            },
         })
+        .then(result => {
+            if (result.status !== 200) {
+                throw Error('Error, ', result.status);
+            }
+            return result.json();
+        });
     },
 
     //Fetch comments on an issue
@@ -73,7 +91,7 @@ const api = {
         });
     },
 
-    //Delete label for repository
+    //  Delete label for repository
     deleteLabel(authorization, repoOwner, repo, name) {
         return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels/${name}`, {
             method: 'DELETE',
@@ -108,6 +126,32 @@ const api = {
             body: JSON.stringify({name, color})
         });
     },
+
+    //  Add labels to an issue
+    addLabelsToAnIssue(authorization, repoOwner, repo, number, name) {
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/issues/${number}/labels`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': authorization
+            },
+            body: JSON.stringify([name])
+        });
+    },
+
+    // Remove a label from an issue
+    removeLabelFromAnIssue(authorization, repoOwner, repo, number, name) {
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/issues/${number}/labels/${name}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': authorization
+            },
+        });
+    },
+
     //Fetch labels for repository
     fetchListLabelsForRepository(authorization, repoOwner, repo) {
         return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels`, {
@@ -125,6 +169,7 @@ const api = {
             return res.json();
         });
     },
+
 
     fetchPostIssue() {
         var newIssue = {title: "Found a bug", body: "Nam nam nam"};
