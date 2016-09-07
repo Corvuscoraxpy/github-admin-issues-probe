@@ -1,9 +1,45 @@
-import React, { Component, PropTypes } from 'react';
-import {List, ListItem} from 'material-ui/List';
+import React, {Component, PropTypes} from 'react';
+import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 
 import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
+
+let SelectableList = MakeSelectable(List);
+
+function wrapState(ComposedComponent) {
+  return class SelectableList extends Component {
+    static propTypes = {
+      children: PropTypes.node.isRequired,
+      defaultValue: PropTypes.number,
+    };
+
+    componentWillMount() {
+      this.setState({
+        selectedIndex: this.props.defaultValue,
+      });
+    }
+
+    handleRequestChange = (event, index) => {
+      this.setState({
+        selectedIndex: index,
+      });
+    };
+
+    render() {
+      return (
+        <ComposedComponent
+          value={this.state.selectedIndex}
+          onChange={this.handleRequestChange}
+        >
+          {this.props.children}
+        </ComposedComponent>
+      );
+    }
+  };
+}
+
+SelectableList = wrapState(SelectableList);
 
 export default class ListOfIssues extends Component {
 
@@ -41,10 +77,10 @@ export default class ListOfIssues extends Component {
         });
 
         return (
-            <List>
+            <SelectableList>
                 <Subheader>Issues</Subheader>
                 {issuesNode}
-            </List>
+            </SelectableList>
         );
     }
 

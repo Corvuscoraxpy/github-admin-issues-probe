@@ -21,7 +21,6 @@ export default class IssueHeader extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('Fly prop current: ', nextProps.currentIssue.labels);
         if (Object.keys(nextProps.labelsList).length >= 0 &&
             Object.keys(nextProps.currentIssue.labels).length >= 0) {
             let array = nextProps.labelsList.map((label, index) => {
