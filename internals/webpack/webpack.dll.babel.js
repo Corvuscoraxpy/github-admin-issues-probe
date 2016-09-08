@@ -28,6 +28,13 @@ module.exports = {
     path: outputPath,
     library: '[name]',
   },
+  module: {
+      loaders: [{
+          test: /.css$/,
+          loader: 'style!css?modules',
+          include: /flexboxgrid/,
+      }],
+  },
   plugins: [
     new webpack.DllPlugin({ name: '[name]', path: join(outputPath, '[name].json') }), // eslint-disable-line no-new
   ],
