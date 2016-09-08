@@ -5,9 +5,20 @@ import FlatButton from 'material-ui/FlatButton';
 import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
+const {bool, object, func} = PropTypes;
+const propTypes = {
+    editing: bool.isRequired,
+    onCancleEdit: func.isRequired,
+    label: object,
+    handleUpdateLabel: func,
+    handleCreateLabel: func,
+};
 
+const defaultProps = {
+    label: {name: '', color: ''},
+};
 
-export default class EditLabelForm extends Component {
+class EditLabelForm extends Component {
 
     constructor(props) {
         super(props);
@@ -111,15 +122,8 @@ export default class EditLabelForm extends Component {
     }
 
 }
-const {bool, object, func} = PropTypes;
-EditLabelForm.propTypes = {
-    editing: bool.isRequired,
-    onCancleEdit: func.isRequired,
-    label: object,
-    handleUpdateLabel: func,
-    handleCreateLabel: func,
-};
 
-EditLabelForm.defaultProps = {
-    label: {name: '', color: ''},
-};
+EditLabelForm.propTypes = propTypes;
+EditLabelForm.defaultProps = defaultProps;
+
+export default EditLabelForm;

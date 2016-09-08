@@ -16,7 +16,14 @@ const customContentStyle = {
     alignSelf: 'stretch'
 };
 
-export default class NavBar extends Component {
+const { bool, func } = PropTypes;
+const propTypes = {
+    signStatus: bool.isRequired,
+    onSignIn: func.isRequired,
+    onSignOut: func.isRequired,
+};
+
+class NavBar extends Component {
 
     constructor(props) {
         super(props);
@@ -119,9 +126,7 @@ export default class NavBar extends Component {
     }
 }
 
-const { bool, func } = PropTypes;
-NavBar.propTypes = {
-    signStatus: bool.isRequired,
-    onSignIn: func.isRequired,
-    onSignOut: func.isRequired,
-}
+
+NavBar.propTypes = propTypes;
+
+export default NavBar;

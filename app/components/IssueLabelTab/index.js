@@ -1,10 +1,21 @@
 import React, { Component, PropTypes } from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
-
 import LabelTap from 'components/LabelTab';
 import ListOfIssues from 'components/ListOfIssues';
 
-export default class IssueLabelTab extends Component {
+
+const {array, string, bool, func} = PropTypes;
+const propTypes = {
+    issuesList: array.isRequired,
+    labelsList: array.isRequired,
+    username: string.isRequired,
+    updateInProcess: bool.isRequired,
+    handleUpdateLabel: func.isRequired,
+    handleCreateLabel: func.isRequired,
+    handleChangeCurrentIssue: func.isRequired,
+};
+
+class IssueLabelTab extends Component {
 
     render() {
         const {
@@ -41,13 +52,6 @@ export default class IssueLabelTab extends Component {
   }
 }
 
-IssueLabelTab.propTypes = {
-    username: PropTypes.string,
-    issuesList: PropTypes.array,
-    labelLis: PropTypes.array,
-    updateInProcess: PropTypes.bool,
-    handleDeleteLabel: PropTypes.func,
-    handleUpdateLabel: PropTypes.func,
-    handleCreateLabel: PropTypes.func,
-    handleChangeCurrentIssue: PropTypes.func,
-}
+IssueLabelTab.propTypes = propTypes;
+
+export default IssueLabelTab;

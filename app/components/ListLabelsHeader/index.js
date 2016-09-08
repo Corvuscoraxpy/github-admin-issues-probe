@@ -6,7 +6,13 @@ import EditLabelForm from 'components/EditLabelForm';
 import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-export default class ListLabelsHeader extends Component {
+const { bool, func } = PropTypes;
+const propTypes = {
+    updateInProcess: bool.isRequired,
+    handleCreateLabel: func.isRequired,
+};
+
+class ListLabelsHeader extends Component {
 
     constructor(props) {
         super(props);
@@ -68,8 +74,6 @@ export default class ListLabelsHeader extends Component {
 
 }
 
-const { bool, func } = PropTypes;
-ListLabelsHeader.propTypes = {
-    updateInProcess: bool.isRequired,
-    handleCreateLabel: func.isRequired,
-};
+ListLabelsHeader.propTypes = propTypes;
+
+export default ListLabelsHeader;

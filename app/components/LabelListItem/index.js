@@ -9,8 +9,15 @@ import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
+const {object, number, func} = PropTypes;
+const propTypes = {
+    label: object.isRequired,
+    id: number.isRequired,
+    handleDeleteLabel: func.isRequired,
+    handleUpdateLabel: func.isRequired,
+};
 
-export default class LabelListItem extends Component {
+class LabelListItem extends Component {
 
     constructor(props) {
         super(props);
@@ -101,9 +108,6 @@ const getContrastYIQ = (hexcolor) => {
 	return (yiq >= 128) ? 'black' : 'white';
 }
 
-LabelListItem.propTypes = {
-    label: PropTypes.object,
-    id: PropTypes.number,
-    handleDeleteLabel: PropTypes.func,
-    handleUpdateLabel: PropTypes.func,
-};
+LabelListItem.propTypes = propTypes;
+
+export default LabelListItem;

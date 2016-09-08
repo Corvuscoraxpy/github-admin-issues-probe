@@ -6,8 +6,15 @@ import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
+const { string, array, func} = PropTypes;
+const propTypes = {
+    username: string.isRequired,
+    repositoryList: array.isRequired,
+    onChangeRepositoryOwner: func.isRequired,
+    onSelectRepository: func.isRequired,
+};
 
-export default class RepoSelector extends Component {
+class RepoSelector extends Component {
 
     constructor(props) {
         super(props);
@@ -90,10 +97,7 @@ export default class RepoSelector extends Component {
     }
 }
 
-const { string, array, func} = PropTypes;
-RepoSelector.propTypes = {
-    username: string.isRequired,
-    repositoryList: array.isRequired,
-    onChangeRepositoryOwner: func.isRequired,
-    onSelectRepository: func.isRequired,
-}
+
+RepoSelector.propTypes = propTypes;
+
+export default RepoSelector;

@@ -4,6 +4,12 @@ import Subheader from 'material-ui/Subheader';
 
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 
+const { array, func } = PropTypes;
+const propTypes = {
+    issuesList: array.isRequired,
+    handleChangeCurrentIssue: func.isRequired,
+};
+
 let SelectableList = MakeSelectable(List);
 
 function wrapState(ComposedComponent) {
@@ -40,7 +46,7 @@ function wrapState(ComposedComponent) {
 
 SelectableList = wrapState(SelectableList);
 
-export default class ListOfIssues extends Component {
+class ListOfIssues extends Component {
 
     render() {
         const { issuesList } = this.props;
@@ -90,8 +96,7 @@ export default class ListOfIssues extends Component {
 
 }
 
-const { array, func } = PropTypes;
-ListOfIssues.propTypes = {
-    issuesList: array.isRequired,
-    handleChangeCurrentIssue: func.isRequired,
-}
+
+ListOfIssues.propTypes = propTypes;
+
+export default ListOfIssues;

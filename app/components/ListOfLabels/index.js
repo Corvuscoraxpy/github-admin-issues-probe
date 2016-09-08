@@ -2,7 +2,14 @@ import React, { Component, PropTypes } from 'react';
 import LabelListItem from 'components/LabelListItem';
 import styles from './styles.css';
 
-export default class ListOfLabels extends Component {
+const { array, func} = PropTypes;
+const propTypes = {
+    labelsList: array.isRequired,
+    handleDeleteLabel: func.isRequired,
+    handleUpdateLabel: func.isRequired,
+};
+
+class ListOfLabels extends Component {
 
     render() {
         const { labelsList, handleDeleteLabel, handleUpdateLabel } = this.props;
@@ -26,9 +33,7 @@ export default class ListOfLabels extends Component {
     }
 }
 
-const { array, func} = PropTypes;
-ListOfLabels.propTypes = {
-    labelsList: array.isRequired,
-    handleDeleteLabel: func.isRequired,
-    handleUpdateLabel: func.isRequired,
-};
+
+ListOfLabels.propTypes = propTypes;
+
+export default ListOfLabels;

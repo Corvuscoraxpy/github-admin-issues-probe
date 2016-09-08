@@ -1,13 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
-
 import IssueHeader from 'components/IssueHeader';
+import styles from './styles.css';
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 
+const {array, object, func} = PropTypes;
+const propTypes = {
+    labelsList: array.isRequired,
+    listOfComments: array.isRequired,
+    currentIssue: object.isRequired,
+    onRemoveOrAddLabelFromAnIssue: func.isRequired,
+};
 
-export default class Issue extends Component {
+const defaultProps = {
+    labelsList: [],
+    listOfComments: [],
+    currentIssue: {},
+};
+
+class Issue extends Component {
 
     render() {
         const {
@@ -19,7 +32,7 @@ export default class Issue extends Component {
 
         const commentsNode = listOfComments.map(comment => {
             return (
-                <Card style={{marginBottom: '8px'}} key={comment.id}>
+                <Card className={styles['card-style']} key={comment.id}>
                     <CardHeader
                         title={comment.user.login}
                         subtitle={this.formatDate(comment.created_at)}
@@ -33,13 +46,13 @@ export default class Issue extends Component {
         });
 
         return (
-            <div style={{overflow: 'hidden'}}>
+            <div className={styles['div-wrap']}>
                 <IssueHeader
                     currentIssue={currentIssue}
                     labelsList={labelsList}
                     onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
                 />
-                <Card style={{marginBottom: '8px'}}>
+                <Card className={styles['card-style']}>
                     <CardHeader
                         title={Object.keys(currentIssue).length !== 0 ? currentIssue.user.login : ""}
                         subtitle={this.formatDate(currentIssue.created_at)}
@@ -101,9 +114,7 @@ export default class Issue extends Component {
     }
 }
 
-Issue.propTypes = {
-    labelsList: PropTypes.array,
-    currentIssue: PropTypes.object,
-    listOfComments: PropTypes.array,
-    onRemoveOrAddLabelFromAnIssue: PropTypes.func,
-}
+Issue.propTypes = propTypes;
+Issue.defaultProps = defaultProps;
+
+export default Issue;

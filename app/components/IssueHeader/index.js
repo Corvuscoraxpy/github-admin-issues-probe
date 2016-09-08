@@ -11,7 +11,19 @@ import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-export default class IssueHeader extends Component {
+const {array, object, func} = PropTypes;
+const propTypes = {
+    currentIssue: object.isRequired,
+    labelsList: array.isRequired,
+    onRemoveOrAddLabelFromAnIssue: func.isRequired,
+};
+
+const defaultProps = {
+    currentIssue: {},
+    labelsList: [],
+};
+
+class IssueHeader extends Component {
 
     constructor(props) {
         super(props);
@@ -21,11 +33,12 @@ export default class IssueHeader extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (Object.keys(nextProps.labelsList).length >= 0 &&
-            Object.keys(nextProps.currentIssue.labels).length >= 0) {
-            let array = nextProps.labelsList.map((label, index) => {
+        const { labelsList, currentIssue } = nextProps;
+        if (Object.keys(labelsList).length >= 0 &&
+            Object.keys(currentIssue.labels).length >= 0) {
+            let array = labelsList.map((label, index) => {
                 let result;
-                nextProps.currentIssue.labels.forEach(labelInIssue => {
+                currentIssue.labels.forEach(labelInIssue => {
                     if (label.name === labelInIssue.name) {
                         result = index;
                     }
@@ -45,7 +58,6 @@ export default class IssueHeader extends Component {
                 color: 'white'
             }
         }
-        console.log(currentIssue.labels);
 
         return (
             <Paper style={{marginBottom: '8px', padding: '1em'}}>
@@ -55,33 +67,37 @@ export default class IssueHeader extends Component {
                     </Col>
                     <Col sm={2}>
                         <IconMenu
+                            value={this.state.valueMultiple}
                             iconButtonElement={<IconButton><ContentFilter /></IconButton>}
                             onChange={this.handleChangeMultiple}
-                            value={this.state.valueMultiple}
                             multiple={true}
                             onItemTouchTap={this.handleOnItemTouchTap}
                             style={{marginTop: '20px'}}
                         >
                             {labelsList.map((label, index) => {
                                 return (
-                                    <MenuItem key={index} value={index} primaryText={label.name} />
+                                    <MenuItem
+                                        primaryText={label.name}
+                                        value={index}
+                                        key={index}
+                                    />
                                 );
                             })}
                         </IconMenu>
                     </Col>
                 </Row>
                 <FlatButton
-                    disabled={true}
                     label={currentIssue.state}
-                    primary={true}
-                    style={styles.button}
                     icon={<AlertErrorOutline />}
+                    style={styles.button}
+                    disabled={true}
+                    primary={true}
                 />
                 <FlatButton
-                    disabled={true}
                     label={currentIssue.comments}
-                    primary={true}
                     icon={<CommunicationComment />}
+                    disabled={true}
+                    primary={true}
                 />
             </Paper>
         );
@@ -91,7 +107,6 @@ export default class IssueHeader extends Component {
         const { onRemoveOrAddLabelFromAnIssue, currentIssue } = this.props;
         const name = child.props.primaryText;
         const number = child.key;
-        console.log(child);
         onRemoveOrAddLabelFromAnIssue(currentIssue.number, name);
     }
 
@@ -102,8 +117,7 @@ export default class IssueHeader extends Component {
     };
 }
 
-IssueHeader.propTypes = {
-    currentIssue: PropTypes.object,
-    labelsList: PropTypes.array,
-    onRemoveOrAddLabelFromAnIssue: PropTypes.func,
-};
+IssueHeader.propTypes = propTypes;
+IssueHeader.defaultProps = defaultProps;
+
+export default IssueHeader;

@@ -2,14 +2,25 @@ import React, {Component, PropTypes} from 'react';
 import ListLabelsHeader from 'components/ListLabelsHeader';
 import ListOfLabels from 'components/ListOfLabels';
 
-export default class LabelTab extends Component {
+const { string, array, bool, func } = PropTypes;
+const propTypes = {
+    username: string.isRequired,
+    labelsList: array.isRequired,
+    handleDeleteLabel: func.isRequired,
+    handleUpdateLabel: func.isRequired,
+
+    updateInProcess: bool.isRequired,
+    handleCreateLabel: func.isRequired,
+};
+
+class LabelTab extends Component {
 
     render() {
         const {
-            updateInProcess,
-            handleCreateLabel,
             username,
             labelsList,
+            updateInProcess,
+            handleCreateLabel,
             handleUpdateLabel,
             handleDeleteLabel,
         } = this.props;
@@ -31,12 +42,6 @@ export default class LabelTab extends Component {
     }
 }
 
-LabelTab.propTypes = {
-    username: PropTypes.string,
-    labelsList: PropTypes.array,
-    handleDeleteLabel: PropTypes.func,
-    handleUpdateLabel: PropTypes.func,
+LabelTab.propTypes = propTypes;
 
-    updateInProcess: PropTypes.bool,
-    handleCreateLabel: PropTypes.func,
-}
+export default LabelTab;
