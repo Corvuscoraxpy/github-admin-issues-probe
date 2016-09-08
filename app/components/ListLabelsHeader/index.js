@@ -2,6 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
+
+import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
 export default class ListLabelsHeader extends Component {
@@ -14,35 +16,26 @@ export default class ListLabelsHeader extends Component {
     }
 
     render() {
-        const styles = {
-            rowStyle: {
-                padding: 0,
-                margin: '20px 0px 20px 0px'
-            },
-            flatButton: {
-                color: 'white'
-            }
-        }
         const { updateInProcess, handleCreateLabel } = this.props;
         return (
             <div>
                 {this.state.showEditForm === false ?
 
-                    <Row style={styles.rowStyle}>
+                    <Row className={styles['rowStyle']}>
                         <Col sm={6}>
-                            <div style={{position: 'relative'}}>
+                            <div className={styles['refresh-indicator-div']}>
                                 <RefreshIndicator
+                                    status={updateInProcess ? "loading" : "ready"}
                                     size={40}
                                     left={-20}
                                     top={0}
-                                    status={updateInProcess ? "loading" : "ready"}
                                     style={{marginLeft: '50%'}}
                                 />
                             </div>
                         </Col>
-                        <Col sm={6} style={{textAlign: 'center'}}>
+                        <Col sm={6} className={styles['col-new-label']}>
                             <FlatButton
-                                style={styles.flatButton}
+                                className={styles['flat-button']}
                                 backgroundColor="#17a88c"
                                 hoverColor="#1abc9c"
                                 label="New Label"
@@ -53,7 +46,6 @@ export default class ListLabelsHeader extends Component {
 
                     <EditLabelForm
                         editing={false}
-                        label={{name: '', color: ''}}
                         handleCreateLabel={handleCreateLabel}
                         onCancleEdit={this.onCancleEdit}
                     />
@@ -76,8 +68,8 @@ export default class ListLabelsHeader extends Component {
 
 }
 
+const { bool, func } = PropTypes;
 ListLabelsHeader.propTypes = {
-    updateInProcess: PropTypes.bool,
-    handleCreateLabel: PropTypes.func,
-
+    updateInProcess: bool.isRequired,
+    handleCreateLabel: func.isRequired,
 };

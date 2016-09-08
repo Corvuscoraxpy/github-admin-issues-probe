@@ -1,0 +1,16 @@
+.rowStyle {
+    padding: 0;
+    margin: 20px 0px;
+}
+
+.flat-button {
+    color: #FFFFFF !important;
+}
+
+.refresh-indicator-div {
+    position: relative;
+}
+
+.col-new-label {
+    text-align: center;
+}

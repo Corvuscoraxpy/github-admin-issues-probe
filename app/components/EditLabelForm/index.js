@@ -36,24 +36,24 @@ export default class EditLabelForm extends Component {
             <Row className={styles['rowStyle']} >
                 <Col sm={3}>
                     <TextField
-                        fullWidth={true}
-                        errorText={errorText}
-                        hintText="Name"
                         value={name}
+                        hintText="Name"
                         floatingLabelText="Enter name"
+                        fullWidth={true}
                         onChange={this.handleNameChange}
+                        errorText={errorText}
                     />
                 </Col>
                 <Col sm={3}>
                     <TextField
+                        value={color}
+                        floatingLabelText="Enter color"
                         fullWidth={true}
                         hintText="Color"
-                        value={color}
-                        errorText={errorText}
-                        floatingLabelText="Enter color"
-                        onChange={this.handleColorChange}
                         underlineFocusStyle={styleHexColor.underlineStyle}
                         floatingLabelFocusStyle={styleHexColor.floatingLabelFocusStyle}
+                        errorText={errorText}
+                        onChange={this.handleColorChange}
                     />
                 </Col>
                 <Col sm={3}>
@@ -67,9 +67,9 @@ export default class EditLabelForm extends Component {
                     <FlatButton
                         className={styles['flatButtonUpdateSave']}
                         label={editing  ? "Save" : "Create"}
-                        onTouchTap={this.handleSaveCreateTouchTap}
                         backgroundColor="#17a88c"
                         hoverColor="#1abc9c"
+                        onTouchTap={this.handleSaveCreateTouchTap}
                     />
                 </Col>
             </Row>
@@ -111,11 +111,15 @@ export default class EditLabelForm extends Component {
     }
 
 }
-
+const {bool, object, func} = PropTypes;
 EditLabelForm.propTypes = {
-    editing: PropTypes.bool,
-    label: PropTypes.object,
-    onCancleEdit: PropTypes.func,
-    handleUpdateLabel: PropTypes.func,
-    handleCreateLabel: PropTypes.func,
+    editing: bool.isRequired,
+    onCancleEdit: func.isRequired,
+    label: object,
+    handleUpdateLabel: func,
+    handleCreateLabel: func,
+};
+
+EditLabelForm.defaultProps = {
+    label: {name: '', color: ''},
 };
