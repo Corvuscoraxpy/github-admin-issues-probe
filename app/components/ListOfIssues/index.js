@@ -1,9 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
 
-import {grey400, darkBlack, lightBlack} from 'material-ui/styles/colors';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 
 let SelectableList = MakeSelectable(List);
@@ -47,13 +45,14 @@ export default class ListOfIssues extends Component {
     render() {
         const { issuesList } = this.props;
 
-        console.log(issuesList);
         const issuesNode = issuesList.map(issue => {
             const iconStyle = {
                 height: 44
             }
             return (
                 React.Children.toArray([
+                    <hr style={{margin: 0, border: 0, borderBottom: '1px solid #ccc'}} />,
+
                     <ListItem
                         leftIcon={
                             <AlertErrorOutline
@@ -64,22 +63,18 @@ export default class ListOfIssues extends Component {
                         primaryText={issue.title}
                         secondaryText={
                             <p>
-                                <span style={{color: darkBlack}}>
-                                    #{issue.number}{" "}
-                                </span>
+                                #{issue.number}{" "}
                                 opened by {issue.user.login}.
-                        </p>
+                            </p>
                         }
                         secondaryTextLines={2}
                         key={issue.id}
                         value={issue}
                         onTouchTap={() => this.handleTouchTap(issue)}
-                    />,
-                    <Divider />
+                    />
                 ])
             );
         });
-
         return (
             <SelectableList>
                 <Subheader>Issues</Subheader>
@@ -95,7 +90,8 @@ export default class ListOfIssues extends Component {
 
 }
 
+const { array, func } = PropTypes;
 ListOfIssues.propTypes = {
-    issuesList: PropTypes.array,
-    handleChangeCurrentIssue: PropTypes.func,
+    issuesList: array.isRequired,
+    handleChangeCurrentIssue: func.isRequired,
 }

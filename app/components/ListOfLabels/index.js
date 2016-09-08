@@ -1,19 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import LabelListItem from 'components/LabelListItem';
-
+import styles from './styles.css';
 
 export default class ListOfLabels extends Component {
 
     render() {
-        const {
-            labelsList,
-            handleDeleteLabel,
-            handleUpdateLabel,
-            username } = this.props;
+        const { labelsList, handleDeleteLabel, handleUpdateLabel } = this.props;
         const labelsNode = labelsList.map((label, index) => {
             return (
                 <LabelListItem
-                    username={username}
                     label={label}
                     key={index}
                     id={index}
@@ -24,16 +19,16 @@ export default class ListOfLabels extends Component {
         });
 
         return (
-            <ul style={{ padding: 0}}>
+            <ul className={styles['label-list']}>
                 {labelsNode}
             </ul>
         );
     }
 }
 
+const { array, func} = PropTypes;
 ListOfLabels.propTypes = {
-    username: PropTypes.string,
-    labelsList: PropTypes.array,
-    handleDeleteLabel: PropTypes.func,
-    handleUpdateLabel: PropTypes.func,
+    labelsList: array.isRequired,
+    handleDeleteLabel: func.isRequired,
+    handleUpdateLabel: func.isRequired,
 };

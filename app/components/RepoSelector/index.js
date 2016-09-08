@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
@@ -27,15 +28,6 @@ export default class RepoSelector extends Component {
     }
 
     render() {
-        const styles = {
-            rowStyle : {
-                padding: 0,
-                margin: 0,
-            },
-            floatingLabelStyle: {
-                color: 'orange',
-            },
-        }
         const { repositoryList, updateInProcess } = this.props;
         const listNodes = repositoryList.map((repoObj, index) => {
             return (
@@ -47,26 +39,24 @@ export default class RepoSelector extends Component {
             );
         });
         const { repositoryOwner, value } = this.state;
-        console.log('updt status: ', updateInProcess);
         return (
-            <Row style={styles.rowStyle}>
-                <Col sm={4}>
+            <Row className={styles['rowStyle']}>
+                <Col sm={12}>
                     <TextField
                         value={repositoryOwner}
-                        hintText="Repository owner"
-                        floatingLabelText="Select owner"
-                        floatingLabelStyle={styles.floatingLabelStyle}
+                        hintText="Select repository owner"
+                        floatingLabelText="Select repository owner"
                         fullWidth={true}
                         onChange={this.handleChangeTextField}
                         onKeyDown={this.handleEnterKeyDownTxtFld}
                     />
                 </Col>
-                <Col sm={8}>
+
+                <Col sm={12}>
                     <SelectField
                         disabled={updateInProcess}
                         value={value}
                         floatingLabelText="Select the repository"
-                        floatingLabelStyle={styles.floatingLabelStyle}
                         fullWidth={true}
                         onChange={this.handleChangeSelectField}
                      >
@@ -100,9 +90,10 @@ export default class RepoSelector extends Component {
     }
 }
 
+const { string, array, func} = PropTypes;
 RepoSelector.propTypes = {
-    username: PropTypes.string.isRequired,
-    repositoryList: PropTypes.array.isRequired,
-    onChangeRepositoryOwner: PropTypes.func.isRequired,
-    onSelectRepository: PropTypes.func.isRequired,
+    username: string.isRequired,
+    repositoryList: array.isRequired,
+    onChangeRepositoryOwner: func.isRequired,
+    onSelectRepository: func.isRequired,
 }

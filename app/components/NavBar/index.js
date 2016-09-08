@@ -39,7 +39,7 @@ export default class NavBar extends Component {
                 cursor: 'pointer'
             },
             errorMessage: {
-                color: 'red'
+                color: '#e74c3c'
             },
         };
 
@@ -119,8 +119,9 @@ export default class NavBar extends Component {
     }
 }
 
+const { bool, func } = PropTypes;
 NavBar.propTypes = {
-    signStatus: PropTypes.bool.isRequired,
-    onSignIn: PropTypes.func.isRequired,
-    onSignOut: PropTypes.func.isRequired,
+    signStatus: bool.isRequired,
+    onSignIn: func.isRequired,
+    onSignOut: func.isRequired,
 }
