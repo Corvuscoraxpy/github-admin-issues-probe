@@ -2,9 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import LabelListItem from 'components/LabelListItem';
 import styles from './styles.css';
 
-const { array, func} = PropTypes;
+const { arrayOf, shape, string, func} = PropTypes;
 const propTypes = {
-    labelsList: array.isRequired,
+    labelsList: arrayOf(shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    })).isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 };

@@ -2,10 +2,13 @@ import React, {Component, PropTypes} from 'react';
 import ListLabelsHeader from 'components/ListLabelsHeader';
 import ListOfLabels from 'components/ListOfLabels';
 
-const { string, array, bool, func } = PropTypes;
+const { string, shape, arrayOf, bool, func } = PropTypes;
 const propTypes = {
     username: string.isRequired,
-    labelsList: array.isRequired,
+    labelsList: arrayOf(shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    })).isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 

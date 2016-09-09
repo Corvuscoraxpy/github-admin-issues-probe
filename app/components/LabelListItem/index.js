@@ -9,9 +9,12 @@ import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {object, number, func} = PropTypes;
+const {shape, string, number, func} = PropTypes;
 const propTypes = {
-    label: object.isRequired,
+    label: shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    }).isRequired,
     id: number.isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,

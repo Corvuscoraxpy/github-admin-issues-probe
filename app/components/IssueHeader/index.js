@@ -11,10 +11,13 @@ import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {array, object, func} = PropTypes;
+const {arrayOf, shape, object, string, func} = PropTypes;
 const propTypes = {
     currentIssue: object.isRequired,
-    labelsList: array.isRequired,
+    labelsList: arrayOf(shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    })).isRequired,
     onRemoveOrAddLabelFromAnIssue: func.isRequired,
 };
 

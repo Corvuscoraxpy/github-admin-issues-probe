@@ -4,10 +4,13 @@ import LabelTap from 'components/LabelTab';
 import ListOfIssues from 'components/ListOfIssues';
 
 
-const {array, string, bool, func} = PropTypes;
+const {arrayOf, shape, object, string, bool, func} = PropTypes;
 const propTypes = {
-    issuesList: array.isRequired,
-    labelsList: array.isRequired,
+    issuesList: arrayOf(object.isRequired).isRequired,
+    labelsList: arrayOf(shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    })).isRequired,
     username: string.isRequired,
     updateInProcess: bool.isRequired,
     handleUpdateLabel: func.isRequired,

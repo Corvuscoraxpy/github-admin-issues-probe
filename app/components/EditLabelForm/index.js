@@ -5,11 +5,14 @@ import FlatButton from 'material-ui/FlatButton';
 import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {bool, object, func} = PropTypes;
+const {bool, shape, string, func} = PropTypes;
 const propTypes = {
     editing: bool.isRequired,
     onCancleEdit: func.isRequired,
-    label: object,
+    label: shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    }).isRequired,
     handleUpdateLabel: func,
     handleCreateLabel: func,
 };

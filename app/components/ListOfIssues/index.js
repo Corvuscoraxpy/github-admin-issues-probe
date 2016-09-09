@@ -4,9 +4,9 @@ import Subheader from 'material-ui/Subheader';
 
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 
-const { array, func } = PropTypes;
+const { arrayOf, object, string, func } = PropTypes;
 const propTypes = {
-    issuesList: array.isRequired,
+    issuesList: arrayOf(object.isRequired).isRequired,
     handleChangeCurrentIssue: func.isRequired,
 };
 

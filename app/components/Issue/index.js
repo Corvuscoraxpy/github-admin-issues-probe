@@ -6,16 +6,19 @@ import styles from './styles.css';
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 
-const {array, object, func} = PropTypes;
+const {arrayOf, shape, string, object, func} = PropTypes;
 const propTypes = {
-    labelsList: array.isRequired,
-    listOfComments: array.isRequired,
+    labelsList: arrayOf(shape({
+        name: string.isRequired,
+        color: string.isRequired,
+    })).isRequired,
+    listOfComments: arrayOf(object.isRequired).isRequired,
     currentIssue: object.isRequired,
     onRemoveOrAddLabelFromAnIssue: func.isRequired,
 };
 
 const defaultProps = {
-    labelsList: [],
+    labelsList: [{name: '', color: ''}],
     listOfComments: [],
     currentIssue: {},
 };
