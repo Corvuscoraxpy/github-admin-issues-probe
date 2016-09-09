@@ -22,7 +22,6 @@ class RepoLoader extends Component {
 
     render() {
         const { repositoryList, username, updateInProcess } = this.props;
-        console.log('updt status: ', updateInProcess);
         return (
             <RepoSelector
                 username={username}

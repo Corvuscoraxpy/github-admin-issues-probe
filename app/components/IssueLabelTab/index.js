@@ -11,7 +11,7 @@ const propTypes = {
         name: string.isRequired,
         color: string.isRequired,
     })).isRequired,
-    username: string.isRequired,
+    permission: bool.isRequired,
     handleUpdateLabel: func.isRequired,
     handleCreateLabel: func.isRequired,
     handleChangeCurrentIssue: func.isRequired,
@@ -23,7 +23,7 @@ class IssueLabelTab extends Component {
         const {
             issuesList,
             labelsList,
-            username,
+            permission,
             updateInProcess,
             handleDeleteLabel,
             handleUpdateLabel,
@@ -41,7 +41,7 @@ class IssueLabelTab extends Component {
             </Tab>
             <Tab label="List of Labels">
                 <LabelTap
-                    username={username}
+                    permission={permission}
                     labelsList={labelsList}
                     handleDeleteLabel={handleDeleteLabel}
                     handleUpdateLabel={handleUpdateLabel}

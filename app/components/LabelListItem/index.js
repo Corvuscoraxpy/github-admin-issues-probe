@@ -9,13 +9,14 @@ import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {shape, string, number, func} = PropTypes;
+const {shape, string, number, bool, func} = PropTypes;
 const propTypes = {
     label: shape({
         name: string.isRequired,
         color: string.isRequired,
     }).isRequired,
     id: number.isRequired,
+    permission: bool.isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 };
@@ -30,7 +31,7 @@ class LabelListItem extends Component {
     }
 
     render() {
-        const { label, id } = this.props;
+        const { label, id, permission } = this.props;
         const styles = {
             paper: {
                 fontSize: '16px',
@@ -52,6 +53,7 @@ class LabelListItem extends Component {
             <li
                 key={id}
                 style={styles.listItem}
+
             >
 
                 {this.state.showEditForm === false ?
@@ -62,16 +64,18 @@ class LabelListItem extends Component {
                                 {label.name}
                             </Paper>
                         </Col>
-                        <Col sm={6}>
-                            <FlatButton
-                                icon={<EditorModeEdit />}
-                                onTouchTap={this.handleTouchEdit}
-                            />
-                            <FlatButton
-                                icon={<ActionDelete />}
-                                onTouchTap={this.handleTouchDelete}
-                            />
-                        </Col>
+                        {permission ?
+                            <Col sm={6}>
+                                <FlatButton
+                                    icon={<EditorModeEdit />}
+                                    onTouchTap={this.handleTouchEdit}
+                                />
+                                <FlatButton
+                                    icon={<ActionDelete />}
+                                    onTouchTap={this.handleTouchDelete}
+                                />
+                            </Col> : ""
+                        }
                     </Row> :
 
                     <EditLabelForm

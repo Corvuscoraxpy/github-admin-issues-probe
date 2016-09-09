@@ -2,12 +2,14 @@ import {
     LOAD_REPOSITORY_LIST,
     SELECT_REPOSITORY,
     CHANGE_REPOSITORY_OWNER,
+    SET_PERMISSION,
 } from './actions';
 
 const initialState = {
     repositoryList: [],
     repositoryOwner: '',
-    selectedRepository: ''
+    selectedRepository: '',
+    permission: false,
 };
 
 const repositoryLoaderReducer = (state = initialState, action) => {
@@ -17,6 +19,8 @@ const repositoryLoaderReducer = (state = initialState, action) => {
         case SELECT_REPOSITORY:
             return Object.assign({}, state, action);
         case CHANGE_REPOSITORY_OWNER:
+            return Object.assign({}, state, action);
+        case SET_PERMISSION:
             return Object.assign({}, state, action);
 
         default:

@@ -13,45 +13,59 @@ const propTypes = {
 let SelectableList = MakeSelectable(List);
 
 function wrapState(ComposedComponent) {
-  return class SelectableList extends Component {
-    static propTypes = {
-      children: PropTypes.node.isRequired,
-      defaultValue: PropTypes.number,
+    return class SelectableList extends Component {
+        static propTypes = {
+            children: PropTypes.node.isRequired,
+            defaultValue: PropTypes.number,
+        };
+
+        componentWillMount() {
+            this.setState({
+                selectedIndex: this.props.defaultValue,
+            });
+        }
+
+        componentWillReceiveProps(nextProps) {
+            this.setState({
+                selectedIndex: nextProps.defaultValue,
+            })
+        }
+
+        handleRequestChange = (event, index) => {
+            this.setState({
+                selectedIndex: index,
+            });
+        };
+
+        render() {
+            return (
+                <ComposedComponent
+                    value={this.state.selectedIndex}
+                    onChange={this.handleRequestChange}
+                >
+                    {this.props.children}
+                </ComposedComponent>
+            );
+        }
     };
-
-    componentWillMount() {
-      this.setState({
-        selectedIndex: this.props.defaultValue,
-      });
-    }
-
-    handleRequestChange = (event, index) => {
-      this.setState({
-        selectedIndex: index,
-      });
-    };
-
-    render() {
-      return (
-        <ComposedComponent
-          value={this.state.selectedIndex}
-          onChange={this.handleRequestChange}
-        >
-          {this.props.children}
-        </ComposedComponent>
-      );
-    }
-  };
 }
 
 SelectableList = wrapState(SelectableList);
 
 class ListOfIssues extends Component {
 
+    componentWillReceiveProps(nextProps) {
+        const { handleChangeCurrentIssue, issuesList } = this.props;
+        if(Object.keys(nextProps.issuesList).length > 0 &&
+            nextProps.issuesList !== issuesList) {
+            handleChangeCurrentIssue(nextProps.issuesList[0]);
+        }
+    }
+
     render() {
         const { issuesList } = this.props;
 
-        const issuesNode = issuesList.map(issue => {
+        const issuesNode = issuesList.map((issue, index) => {
             const iconStyle = {
                 height: 44
             }
@@ -75,14 +89,14 @@ class ListOfIssues extends Component {
                         }
                         secondaryTextLines={2}
                         key={issue.id}
-                        value={issue}
+                        value={index}
                         onTouchTap={() => this.handleTouchTap(issue)}
                     />
                 ])
             );
         });
         return (
-            <SelectableList>
+            <SelectableList defaultValue={0}>
                 <Subheader>Issues</Subheader>
                 {issuesNode}
             </SelectableList>

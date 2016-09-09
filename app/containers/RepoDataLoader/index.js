@@ -6,8 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 
 import { getIssueList, getLabelsList } from './selectors';
-import { getUserName } from 'containers/AuthorizationBar/selectors';
-import { getSelectedRepository, getRepositoryOwner } from 'containers/RepoLoader/selectors';
+import { getSelectedRepository, getRepositoryOwner, getPermission } from 'containers/RepoLoader/selectors';
 
 import IssueLabelTab from 'components/IssueLabelTab';
 
@@ -25,15 +24,16 @@ class RepoDataLoader extends Component {
         if (nextProps.selectedRepository !== selectedRepository) {
             fetchIssueForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
             fetchListLabelsForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
+
         }
     }
 
     render() {
         const { issuesList, changeCurrentIssueAction,
-            labelsList, username, updateInProcess } = this.props;
+            labelsList, username, updateInProcess, permission } = this.props;
         return (
             <IssueLabelTab
-                username={username}
+                permission={permission}
                 issuesList={issuesList}
                 labelsList={labelsList}
                 handleChangeCurrentIssue={this.handleChangeCurrentIssue}
@@ -68,7 +68,7 @@ class RepoDataLoader extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
-    username: getUserName(),
+    permission: getPermission(),
     repositoryOwner: getRepositoryOwner(),
     selectedRepository: getSelectedRepository(),
     issuesList: getIssueList(),

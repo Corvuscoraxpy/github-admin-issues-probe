@@ -4,7 +4,7 @@ import ListOfLabels from 'components/ListOfLabels';
 
 const { string, shape, arrayOf, bool, func } = PropTypes;
 const propTypes = {
-    username: string.isRequired,
+    permission: bool.isRequired,
     labelsList: arrayOf(shape({
         name: string.isRequired,
         color: string.isRequired,
@@ -19,7 +19,7 @@ class LabelTab extends Component {
 
     render() {
         const {
-            username,
+            permission,
             labelsList,
             updateInProcess,
             handleCreateLabel,
@@ -28,9 +28,11 @@ class LabelTab extends Component {
         } = this.props;
         return (
             <div>
-                <ListLabelsHeader handleCreateLabel={handleCreateLabel} />
+                {permission ?
+                    <ListLabelsHeader handleCreateLabel={handleCreateLabel} /> : ""
+                }
                 <ListOfLabels
-                    username={username}
+                    permission={permission}
                     labelsList={labelsList}
                     handleUpdateLabel={handleUpdateLabel}
                     handleDeleteLabel={handleDeleteLabel}
