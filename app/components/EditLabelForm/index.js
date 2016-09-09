@@ -70,14 +70,12 @@ class EditLabelForm extends Component {
                         onChange={this.handleColorChange}
                     />
                 </Col>
-                <Col sm={3}>
+                <Col sm={6}>
                     <FlatButton
                         className={styles['flatButtonCancel']}
                         label="Cancel"
                         onTouchTap={this.handleCancleTouchTap}
                     />
-                </Col>
-                <Col sm={3}>
                     <FlatButton
                         className={styles['flatButtonUpdateSave']}
                         label={editing  ? "Save" : "Create"}

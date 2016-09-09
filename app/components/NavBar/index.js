@@ -6,6 +6,8 @@ import IconButton from 'material-ui/IconButton';
 import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Avatar from 'material-ui/Avatar';
+import RefreshIndicator from 'material-ui/RefreshIndicator';
+import styles from './styles.css';
 
 
 const customContentStyle = {
@@ -18,6 +20,7 @@ const customContentStyle = {
 
 const { bool, func } = PropTypes;
 const propTypes = {
+    updateInProcess: bool.isRequired,
     signStatus: bool.isRequired,
     onSignIn: func.isRequired,
     onSignOut: func.isRequired,
@@ -58,7 +61,7 @@ class NavBar extends Component {
                 onTouchTap={this.handleSignIn}
             />,
         ];
-        const { userData } = this.props;
+        const { userData, updateInProcess } = this.props;
         return (
             <div>
                 <AppBar
@@ -80,6 +83,22 @@ class NavBar extends Component {
                         <Avatar src={userData.avatar_url}/>
                     }
                 >
+                    <div className={styles['refresh-indicator-div']}>
+                        <RefreshIndicator
+                            status={updateInProcess ? "loading" : "ready"}
+                            size={40}
+                            left={-20}
+                            top={0}
+                            zDepth={0}
+                            loadingColor={"#FFFFFF"}
+                            style={{
+                                marginLeft: '50%',
+                                marginTop: '.5em',
+                                backgroundColor: '#00bcd4',
+                                boxShadow: 'none'
+                            }}
+                        />
+                    </div>
                 </AppBar>
 
                 <Dialog

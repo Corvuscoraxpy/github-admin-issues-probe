@@ -12,7 +12,6 @@ const propTypes = {
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 
-    updateInProcess: bool.isRequired,
     handleCreateLabel: func.isRequired,
 };
 
@@ -29,10 +28,7 @@ class LabelTab extends Component {
         } = this.props;
         return (
             <div>
-                <ListLabelsHeader
-                    updateInProcess={updateInProcess}
-                    handleCreateLabel={handleCreateLabel}
-                />
+                <ListLabelsHeader handleCreateLabel={handleCreateLabel} />
                 <ListOfLabels
                     username={username}
                     labelsList={labelsList}

@@ -5,12 +5,9 @@
 
 .flat-button {
     color: #FFFFFF !important;
+    width: 100% !important;
 }
 
 .refresh-indicator-div {
     position: relative;
-}
-
-.col-new-label {
-    text-align: center;
 }

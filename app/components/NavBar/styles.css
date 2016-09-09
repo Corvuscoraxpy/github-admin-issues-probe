@@ -1,0 +1,8 @@
+.refresh-indicator-div {
+    position: relative;
+    margin: 20px;
+}
+
+.refresh-indicator {
+    box-shadow: 0 !important; 
+}

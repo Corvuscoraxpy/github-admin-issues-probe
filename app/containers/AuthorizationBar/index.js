@@ -4,17 +4,19 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getUserName, getUserData, getUserSignStatus } from './selectors';
+import { getStatusOfUpdating } from 'containers/RepoDataLoader/selectors';
 import NavBar from 'components/NavBar';
 
 
 class AuthorizationBar extends Component {
 
     render() {
-        const { userData, signStatus } = this.props;
+        const { userData, signStatus, updateInProcess } = this.props;
         return (
             <NavBar
                 userData={userData}
                 signStatus={signStatus}
+                updateInProcess={updateInProcess}
                 onSignIn={this.handleSignIn}
                 onSignOut={this.handleSignOut}
             />
@@ -39,6 +41,7 @@ const mapStateToProps = createStructuredSelector({
     username: getUserName(),
     userData: getUserData(),
     signStatus: getUserSignStatus(),
+    updateInProcess: getStatusOfUpdating(),
 });
 
 AuthorizationBar.defaultProps = {
