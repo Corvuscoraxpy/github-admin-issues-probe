@@ -19,13 +19,13 @@ But taking in account the missing of any REST/AJAX methods or utilities, it is r
 
 * Clone project into an empty folder being in that folder:
 ```
-git clone https://github.com/ipselon/sdr-bootstrap-address-book.git
+git clone https://github.com/Corvuscoraxpy/github-admin-issues-probe.git
 ```
 
-* Change to created directory after cloning (sdr-bootstrap-address-book):
+* Change to created directory after cloning (github-admin-issues-probe):
 
 ```
-cd sdr-bootstrap-address-book
+cd github-admin-issues-probe
 ```
 
 * Install deps
