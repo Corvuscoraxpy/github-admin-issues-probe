@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getCurrentIssue, getLabelsList } from 'containers/RepoDataLoader/selectors';
+import { getPermission } from 'containers/RepoLoader/selectors';
 import { getListOfComments } from './selectors';
 
 import Issue from 'components/Issue';
@@ -21,9 +22,10 @@ class IssueInteraction extends Component {
     }
 
     render() {
-        const { currentIssue, listOfComments, labelsList } = this.props;
+        const { currentIssue, listOfComments, labelsList, permission } = this.props;
         return (
             <Issue
+                permission={permission}
                 labelsList={labelsList}
                 currentIssue={currentIssue}
                 listOfComments={listOfComments}
@@ -43,6 +45,7 @@ class IssueInteraction extends Component {
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
+    permission: getPermission(),
     currentIssue: getCurrentIssue(),
     listOfComments: getListOfComments(),
     labelsList: getLabelsList(),

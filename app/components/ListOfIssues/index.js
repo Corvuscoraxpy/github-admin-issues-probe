@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
-
+import CommunicationComment from 'material-ui/svg-icons/communication/comment';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 
 const { arrayOf, object, string, func } = PropTypes;
@@ -64,7 +64,7 @@ class ListOfIssues extends Component {
 
     render() {
         const { issuesList } = this.props;
-
+        console.log(issuesList);
         const issuesNode = issuesList.map((issue, index) => {
             const iconStyle = {
                 height: 44
@@ -79,6 +79,11 @@ class ListOfIssues extends Component {
                                 style={iconStyle}
                                 color={issue.state === 'open' ? '#17a88c' : '#e74c3c'}
                             />
+                        }
+                        rightIcon={
+                            issue.comments > 0 ?
+                            <CommunicationComment color="#9E9E9E" /> :
+                            null
                         }
                         primaryText={issue.title}
                         secondaryText={

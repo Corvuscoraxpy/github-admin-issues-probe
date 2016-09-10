@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
+import ToggleCheckBox from 'material-ui/svg-icons/toggle/check-box';
+import ToggleCheckBoxOutlineBlank from 'material-ui/svg-icons/toggle/check-box-outline-blank';
+
 import CommunicationComment from 'material-ui/svg-icons/communication/comment';
 
 import IconMenu from 'material-ui/IconMenu';
@@ -11,13 +14,14 @@ import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {arrayOf, shape, object, string, func} = PropTypes;
+const {arrayOf, shape, object, bool, string, func} = PropTypes;
 const propTypes = {
     currentIssue: object.isRequired,
     labelsList: arrayOf(shape({
         name: string.isRequired,
         color: string.isRequired,
     })).isRequired,
+    permission: bool.isRequired,
     onRemoveOrAddLabelFromAnIssue: func.isRequired,
 };
 
@@ -54,7 +58,7 @@ class IssueHeader extends Component {
 
 
     render() {
-        const { currentIssue, labelsList } = this.props;
+        const { currentIssue, labelsList, permission } = this.props;
         const styles = {
             button: {
                 backgroundColor: currentIssue.state === 'open' ? '#17a88c' : '#e74c3c',
@@ -65,24 +69,34 @@ class IssueHeader extends Component {
         return (
             <Paper style={{marginBottom: '8px', padding: '1em'}}>
                 <Row>
-                    <Col sm={10}>
+                    <Col sm={11}>
                         <h2>{currentIssue.title}</h2>
                     </Col>
-                    <Col sm={2}>
+                    <Col sm={1}>
                         <IconMenu
                             value={this.state.valueMultiple}
-                            iconButtonElement={<IconButton><ContentFilter /></IconButton>}
+                            iconButtonElement={
+                                <IconButton tooltip="labels">
+                                    <ContentFilter />
+                                </IconButton>
+                            }
                             onChange={this.handleChangeMultiple}
                             multiple={true}
                             onItemTouchTap={this.handleOnItemTouchTap}
-                            style={{marginTop: '20px'}}
+                            style={{marginTop: '.45em'}}
                         >
                             {labelsList.map((label, index) => {
                                 return (
                                     <MenuItem
+                                        leftIcon={
+                                            _.includes(this.state.valueMultiple, index) ?
+                                            <ToggleCheckBox /> :
+                                            <ToggleCheckBoxOutlineBlank />
+                                        }
                                         primaryText={label.name}
                                         value={index}
                                         key={index}
+                                        disabled={!permission}
                                     />
                                 );
                             })}

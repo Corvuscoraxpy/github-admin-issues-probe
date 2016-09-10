@@ -6,13 +6,14 @@ import styles from './styles.css';
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 
-const {arrayOf, shape, string, object, func} = PropTypes;
+const {arrayOf, shape, bool, string, object, func} = PropTypes;
 const propTypes = {
     labelsList: arrayOf(shape({
         name: string.isRequired,
         color: string.isRequired,
     })).isRequired,
     listOfComments: arrayOf(object.isRequired).isRequired,
+    permission: bool.isRequired,
     currentIssue: object.isRequired,
     onRemoveOrAddLabelFromAnIssue: func.isRequired,
 };
@@ -30,6 +31,7 @@ class Issue extends Component {
             currentIssue,
             listOfComments,
             labelsList,
+            permission,
             onRemoveOrAddLabelFromAnIssue,
         } = this.props;
 
@@ -51,6 +53,7 @@ class Issue extends Component {
         return (
             <div className={styles['div-wrap']}>
                 <IssueHeader
+                    permission={permission}
                     currentIssue={currentIssue}
                     labelsList={labelsList}
                     onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
