@@ -8,11 +8,15 @@ const initialState = {
 }
 
 const authorizationReducer = (state = initialState, action) => {
+    const { username, authorization, userData, signStatus } = action;
     switch (action.type) {
         case SIGN_IN:
-            return Object.assign({}, state, action);
         case SIGN_OUT:
-            return Object.assign({}, state, action);
+            return Object.assign(
+                {},
+                state,
+                {username, authorization, userData, signStatus}
+            );
 
         default:
             return state;
