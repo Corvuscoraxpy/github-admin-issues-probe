@@ -15,6 +15,7 @@ const propTypes = {
     handleUpdateLabel: func.isRequired,
     handleCreateLabel: func.isRequired,
     handleChangeCurrentIssue: func.isRequired,
+    hadleChangeActiveTab: func.isRequired,
 };
 
 class IssueLabelTab extends Component {
@@ -28,18 +29,18 @@ class IssueLabelTab extends Component {
             handleDeleteLabel,
             handleUpdateLabel,
             handleCreateLabel,
-            handleChangeCurrentIssue
+            handleChangeCurrentIssue,
         } = this.props;
 
     return (
-        <Tabs>
-            <Tab label="List Of Issues" >
+        <Tabs onChange={this.handleChange}>
+            <Tab label="List Of Issues" value="List Of Issues" >
                 <ListOfIssues
                     issuesList={issuesList}
                     handleChangeCurrentIssue={handleChangeCurrentIssue}
                 />
             </Tab>
-            <Tab label="List of Labels">
+            <Tab label="List of Labels" value="List of Labels">
                 <LabelTap
                     permission={permission}
                     labelsList={labelsList}
@@ -50,6 +51,10 @@ class IssueLabelTab extends Component {
             </Tab>
       </Tabs>
     );
+  }
+  handleChange = (value) => {
+        const { hadleChangeActiveTab } = this.props;
+        hadleChangeActiveTab(value);
   }
 }
 

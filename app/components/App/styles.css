@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+}
+
+.grid {
+    width: 100% !important;
+}
+
+.row {
+    margin: 0 !important;
+}
+
+.col-auth {
+    padding: 0 !important;
+    height: 10vh !important;
+}
+
+.col-repo {
+    padding: 0 !important;
+    height: 90vh !important;
+}
+
+.col-paper {
+    width: 100% !important;
+    height: 90vh !important;
+    overflow: auto !important;
+}
+
+.col-issue {
+    height: 90vh !important;
+    overflow: auto !important;
+}

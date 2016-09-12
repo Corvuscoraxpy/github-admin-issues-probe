@@ -15,13 +15,17 @@ const initialState = {
 const repositoryLoaderReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOAD_REPOSITORY_LIST:
-            return Object.assign({}, state, action);
+            const { repositoryList } = action;
+            return Object.assign({}, state, { repositoryList });
         case SELECT_REPOSITORY:
-            return Object.assign({}, state, action);
+            const { selectedRepository } = action;
+            return Object.assign({}, state, { selectedRepository });
         case CHANGE_REPOSITORY_OWNER:
-            return Object.assign({}, state, action);
+            const { repositoryOwner } = action;
+            return Object.assign({}, state, { repositoryOwner });
         case SET_PERMISSION:
-            return Object.assign({}, state, action);
+            const { permission } = action;
+            return Object.assign({}, state, { permission });
 
         default:
             return state;

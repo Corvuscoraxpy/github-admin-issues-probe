@@ -29,7 +29,7 @@ class RepoDataLoader extends Component {
     }
 
     render() {
-        const { issuesList, changeCurrentIssueAction,
+        const { issuesList, changeCurrentIssueAction,selectedRepository,
             labelsList, username, updateInProcess, permission } = this.props;
         return (
             <IssueLabelTab
@@ -40,6 +40,7 @@ class RepoDataLoader extends Component {
                 handleDeleteLabel={this.handleDeleteLabel}
                 handleUpdateLabel={this.handleUpdateLabel}
                 handleCreateLabel={this.handleCreateLabel}
+                hadleChangeActiveTab={this.hadleChangeActiveTab}
             />
         );
     }
@@ -62,6 +63,11 @@ class RepoDataLoader extends Component {
     handleChangeCurrentIssue = (currentIssue) => {
         const { fetchSingleIssueAction } = this.props;
         fetchSingleIssueAction(currentIssue);
+    }
+
+    hadleChangeActiveTab = (activeTab) => {
+        const { changeActiveTabAction } = this.props;
+        changeActiveTabAction(activeTab);
     }
 }
 

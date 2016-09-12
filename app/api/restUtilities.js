@@ -1,3 +1,4 @@
+
 const api = {
     //  Authorization
     fetchAuthorization(username, password) {
@@ -38,21 +39,27 @@ const api = {
     //  Fetch issues for a repository
     fetchIssueForRepository(authorization, repoOwner, repo) {
         const url = new URL(`https://api.github.com/repos/${repoOwner}/${repo}/issues`),
-        params = {state:'all', per_page: 100}
-        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-        return fetch(url,{
+        params = {state:'all', per_page: 50, page: 1};
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+        return fetch(url, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': authorization,
             },
-        })
-        .then(res => {
-            if(res.status !== 200) {
-                throw Error('Bad validation');
-            }
-            return res.json();
+        });
+    },
+
+    // Fetch issues by pagination links
+    fetchIssuesPerPage(authorization, paginationUrl) {
+        return fetch(paginationUrl, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': authorization,
+            },
         });
     },
 

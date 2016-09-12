@@ -25,12 +25,6 @@ function wrapState(ComposedComponent) {
             });
         }
 
-        componentWillReceiveProps(nextProps) {
-            this.setState({
-                selectedIndex: nextProps.defaultValue,
-            })
-        }
-
         handleRequestChange = (event, index) => {
             this.setState({
                 selectedIndex: index,
@@ -56,15 +50,20 @@ class ListOfIssues extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { handleChangeCurrentIssue, issuesList } = this.props;
-        if(Object.keys(nextProps.issuesList).length > 0 &&
+
+        if (nextProps.issuesList && nextProps.issuesList.length > 0 &&
             nextProps.issuesList !== issuesList) {
-            handleChangeCurrentIssue(nextProps.issuesList[0]);
+                if ((issuesList && issuesList.length > 0 &&
+                    issuesList[0].repository_url !== nextProps.issuesList[0].repository_url) ||
+                    issuesList.length === 0) {
+
+                        handleChangeCurrentIssue(nextProps.issuesList[0]);
+                    }
         }
     }
 
     render() {
         const { issuesList } = this.props;
-        console.log(issuesList);
         const issuesNode = issuesList.map((issue, index) => {
             const iconStyle = {
                 height: 44
