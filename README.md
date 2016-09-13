@@ -1,5 +1,4 @@
 # github-admin-issues-probe
-![Screenshot](https://pp.vk.me/c630926/v630926054/51327/5Qks9BG1KAc.jpg "Optional Title")
 ***For learning purposes only***
 
 This repo is a seed project for creating a simple issues administration app for a specified GH repository.

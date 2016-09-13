@@ -1,7 +1,26 @@
-.card-style {
-    margin-bottom: 8px;
+.card {
+    box-shadow: none !important;
+}
+.card-text {
+    padding-top: 0 !important;
 }
 
 .div-wrap {
     overflow: hidden;
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+* {
+
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.span-card-text {
+    font-size: 16px;
+
 }

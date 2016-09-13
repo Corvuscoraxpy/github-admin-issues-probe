@@ -37,14 +37,17 @@ class Issue extends Component {
 
         const commentsNode = listOfComments.map(comment => {
             return (
-                <Card className={styles['card-style']} key={comment.id}>
+                <Card className={styles['card']} key={comment.id}>
                     <CardHeader
                         title={comment.user.login}
                         subtitle={this.formatDate(comment.created_at)}
                         avatar={comment.user.avatar_url}
                     />
-                    <CardText>
-                        <span dangerouslySetInnerHTML={this.rawMarkup(comment.body)}/>
+                    <CardText className={styles['card-text']}>
+                        <span
+                            className={styles['span-card-text']}
+                            dangerouslySetInnerHTML={this.rawMarkup(comment.body)}
+                        />
                     </CardText>
                 </Card>
             );
@@ -52,23 +55,29 @@ class Issue extends Component {
 
         return (
             <div className={styles['div-wrap']}>
-                <IssueHeader
-                    permission={permission}
-                    currentIssue={currentIssue}
-                    labelsList={labelsList}
-                    onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
-                />
-                <Card className={styles['card-style']}>
-                    <CardHeader
-                        title={Object.keys(currentIssue).length !== 0 ? currentIssue.user.login : ""}
-                        subtitle={this.formatDate(currentIssue.created_at)}
-                        avatar={Object.keys(currentIssue).length !== 0 ? currentIssue.user.avatar_url : "" }
+                {Object.keys(currentIssue).length !== 0 &&
+                    <IssueHeader
+                        permission={permission}
+                        currentIssue={currentIssue}
+                        labelsList={labelsList}
+                        onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
                     />
-                    <CardText>
-                        <span dangerouslySetInnerHTML={this.rawMarkup(currentIssue.body)}/>
-                    </CardText>
-                </Card>
-                {commentsNode}
+                }
+                {Object.keys(currentIssue).length !== 0 &&
+                    <Card className={styles['card']}>
+                        <CardHeader
+                            title={currentIssue.user.login}
+                            subtitle={this.formatDate(currentIssue.created_at)}
+                            avatar={currentIssue.user.avatar_url}
+                        />
+                        <CardText className={styles['card-text']}>
+                            <span
+                                className={styles['span-card-text']} dangerouslySetInnerHTML={this.rawMarkup(currentIssue.body)}
+                            />
+                        </CardText>
+                    </Card>
+                }
+                    {commentsNode}
             </div>
         );
     }

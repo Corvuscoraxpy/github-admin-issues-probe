@@ -67,10 +67,10 @@ class IssueHeader extends Component {
         }
 
         return (
-            <Paper style={{marginBottom: '8px', padding: '1em'}}>
+            <div style={{padding: '0px 16px 16px 16px'}}>
                 <Row>
                     <Col sm={11}>
-                        <h2>{currentIssue.title}</h2>
+                        <h2>{currentIssue.title.toUpperCase()}</h2>
                     </Col>
                     <Col sm={1}>
                         <IconMenu
@@ -83,7 +83,7 @@ class IssueHeader extends Component {
                             onChange={this.handleChangeMultiple}
                             multiple={true}
                             onItemTouchTap={this.handleOnItemTouchTap}
-                            style={{marginTop: '.45em'}}
+                            style={{marginTop: '.77em'}}
                         >
                             {labelsList.map((label, index) => {
                                 return (
@@ -116,7 +116,8 @@ class IssueHeader extends Component {
                     disabled={true}
                     primary={true}
                 />
-            </Paper>
+            </div>
+
         );
     }
 

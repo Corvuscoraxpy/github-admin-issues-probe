@@ -72,7 +72,6 @@ class NavBar extends Component {
                                 userData.login : "Issues Probe Application"}
                         </span>
                     }
-                    zDepth={2}
                     iconElementRight={
                         <FlatButton
                             label="Sign out"
