@@ -26,6 +26,14 @@ function wrapState(ComposedComponent) {
             });
         }
 
+        componentWillReceiveProps(nextProps) {
+            const { defaultValue, handleRepositoryChanged } = this.props;
+            if(nextProps.repositoryChanged === true) {
+                this.setState({selectedIndex: this.props.defaultValue});
+                handleRepositoryChanged();
+            }
+        }
+
         handleRequestChange = (event, index) => {
             this.setState({
                 selectedIndex: index,
@@ -49,6 +57,13 @@ SelectableList = wrapState(SelectableList);
 
 class ListOfIssues extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            repositoryChanged: false,
+        }
+    };
+
     componentWillReceiveProps(nextProps) {
         const { handleChangeCurrentIssue, issuesList } = this.props;
 
@@ -59,6 +74,7 @@ class ListOfIssues extends Component {
                     issuesList.length === 0) {
 
                         handleChangeCurrentIssue(nextProps.issuesList[0]);
+                        this.setState({repositoryChanged: true});
                     }
         }
     }
@@ -119,7 +135,11 @@ class ListOfIssues extends Component {
         });
         const notification = <span style={{color: '#17a88c', paddingLeft: '16px'}}>Please, select repository with issues!</span>;
         return (
-            <SelectableList defaultValue={0}>
+            <SelectableList
+                defaultValue={0}
+                repositoryChanged={this.state.repositoryChanged}
+                handleRepositoryChanged={this.handleRepositoryChanged}
+            >
                 <Subheader>{issuesNode.length > 0 ? "Issues" : notification}</Subheader>
                 {issuesNode}
             </SelectableList>
@@ -129,6 +149,10 @@ class ListOfIssues extends Component {
     handleTouchTap = (issue) => {
         const { handleChangeCurrentIssue } = this.props;
         handleChangeCurrentIssue(issue);
+    }
+
+    handleRepositoryChanged = () => {
+        this.setState({repositoryChanged: false});
     }
 
 }
