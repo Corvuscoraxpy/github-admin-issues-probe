@@ -29,7 +29,6 @@ class RepoLabels extends Component {
 
     render() {
         const { labelsList, permission, selectedRepository } = this.props;
-        console.log(labelsList);
         return (
             <LabelTab
                 permission={permission}

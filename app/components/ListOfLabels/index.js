@@ -17,7 +17,6 @@ class ListOfLabels extends Component {
 
     render() {
         const { labelsList, handleDeleteLabel, handleUpdateLabel, permission } = this.props;
-        console.log(labelsList);
         const labelsNode = labelsList.map((label, index) => {
             return (
                 <LabelListItem

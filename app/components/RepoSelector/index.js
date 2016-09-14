@@ -38,7 +38,6 @@ class RepoSelector extends Component {
     render() {
         const { repositoryList, updateInProcess, repositoryOwnerData } = this.props;
         const listNodes = repositoryList.map((repoObj, index) => {
-            console.log(repoObj.name, " ", repoObj);
             return (
                 <MenuItem
                     primaryText={repoObj.name}
@@ -53,7 +52,6 @@ class RepoSelector extends Component {
             );
         });
         const { repositoryOwner, value } = this.state;
-        console.log(repositoryOwnerData);
         return (
                 <Row className={styles['rowStyle']}>
                     <Col sm={2}>
@@ -68,6 +66,8 @@ class RepoSelector extends Component {
                             value={repositoryOwner}
                             hintText="Select repository owner"
                             floatingLabelText="Select repository owner"
+                            floatingLabelStyle={{color: '#607D8B'}}
+                            underlineStyle={{borderColor: '#607D8B'}}
                             fullWidth={true}
                             onChange={this.handleChangeTextField}
                             onKeyDown={this.handleEnterKeyDownTxtFld}
@@ -79,6 +79,9 @@ class RepoSelector extends Component {
                             disabled={updateInProcess}
                             value={value}
                             floatingLabelText="Select the repository"
+                            floatingLabelStyle={{color: '#607D8B'}}
+                            underlineStyle={{borderColor: '#607D8B'}}
+
                             fullWidth={true}
                             onChange={this.handleChangeSelectField}
                          >

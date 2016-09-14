@@ -3,6 +3,7 @@ import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import IssueHeader from 'components/IssueHeader';
 import styles from './styles.css';
+import { formatDate } from '../../api/format.js';
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 
@@ -40,7 +41,7 @@ class Issue extends Component {
                 <Card className={styles['card']} key={comment.id}>
                     <CardHeader
                         title={comment.user.login}
-                        subtitle={this.formatDate(comment.created_at)}
+                        subtitle={formatDate(comment.created_at)}
                         avatar={comment.user.avatar_url}
                     />
                     <CardText className={styles['card-text']}>
@@ -67,7 +68,7 @@ class Issue extends Component {
                     <Card className={styles['card']}>
                         <CardHeader
                             title={currentIssue.user.login}
-                            subtitle={this.formatDate(currentIssue.created_at)}
+                            subtitle={formatDate(currentIssue.created_at)}
                             avatar={currentIssue.user.avatar_url}
                         />
                         <CardText className={styles['card-text']}>
@@ -106,26 +107,6 @@ class Issue extends Component {
             let rawMarkup = md.render(body.toString());
             return { __html: rawMarkup};
         } else return;
-    }
-
-    formatDate = (time) => {
-        const date = new Date(time),
-        diff = (((new Date()).getTime() - date.getTime()) / 1000),
-        day_diff = Math.floor(diff / 86400);
-
-        if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 365 )
-            return;
-
-        return day_diff == 0 && (
-            diff < 60 && "just now" ||
-            diff < 120 && "1 minute ago" ||
-			diff < 3600 && Math.floor( diff / 60 ) + " minutes ago" ||
-			diff < 7200 && "1 hour ago" ||
-			diff < 86400 && Math.floor( diff / 3600 ) + " hours ago") ||
-            day_diff == 1 && "Yesterday" ||
-            day_diff < 7 && day_diff + " days ago" ||
-            day_diff < 31 && Math.ceil( day_diff / 7 ) + " weeks ago" ||
-            day_diff < 365 && Math.ceil( day_diff / 31) + " months ago";
     }
 }
 

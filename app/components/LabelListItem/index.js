@@ -5,6 +5,7 @@ import EditorModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
+import { getContrastYIQ } from '../../api/format.js';
 
 import EditLabelForm from 'components/EditLabelForm';
 const {Grid, Row, Col} = require('react-flexbox-grid');
@@ -167,14 +168,6 @@ const DeleteForm = ({label, handleDeleteLabel, onCancleRemove, onRemoved}) => {
         </Row>
 
     );
-}
-
-const getContrastYIQ = (hexcolor) => {
-	let r = parseInt(hexcolor.substr(0,2),16);
-	let g = parseInt(hexcolor.substr(2,2),16);
-	let b = parseInt(hexcolor.substr(4,2),16);
-	let yiq = ((r*299)+(g*587)+(b*114))/1000;
-	return (yiq >= 128) ? 'black' : 'white';
 }
 
 LabelListItem.propTypes = propTypes;

@@ -28,7 +28,10 @@ class LabelTab extends Component {
             handleDeleteLabel,
         } = this.props;
         return (
-            <div>
+            <div style={{textAlign: 'center', marginTop: 20}}>
+                {selectedRepository ?
+                    <span style={{color: '#607D8B'}}>Repository Labels</span>
+                : null}
                 {permission && selectedRepository ?
                     <ListLabelsHeader handleCreateLabel={handleCreateLabel} /> : ""
                 }

@@ -3,6 +3,7 @@ import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationComment from 'material-ui/svg-icons/communication/comment';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
+import { getContrastYIQ } from '../../api/format.js';
 
 const { arrayOf, object, string, func } = PropTypes;
 const propTypes = {
@@ -68,7 +69,7 @@ class ListOfIssues extends Component {
             const iconStyle = {
                 height: 44
             }
-            const labelNode = issue.labels.map(label => {
+            const labelNode = issue.labels.map((label, index) => {
                 const spanStyle = {
                     color: getContrastYIQ(label.color),
                     backgroundColor: `#${label.color}`,
@@ -81,7 +82,7 @@ class ListOfIssues extends Component {
 
                 }
                 return (
-                    <span style={spanStyle}>
+                    <span style={spanStyle} key={index}>
                         {label.name}
                     </span>
                 )
@@ -130,14 +131,6 @@ class ListOfIssues extends Component {
         handleChangeCurrentIssue(issue);
     }
 
-}
-
-const getContrastYIQ = (hexcolor) => {
-	let r = parseInt(hexcolor.substr(0,2),16);
-	let g = parseInt(hexcolor.substr(2,2),16);
-	let b = parseInt(hexcolor.substr(4,2),16);
-	let yiq = ((r*299)+(g*587)+(b*114))/1000;
-	return (yiq >= 128) ? 'black' : 'white';
 }
 
 ListOfIssues.propTypes = propTypes;

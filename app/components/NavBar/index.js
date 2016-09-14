@@ -35,7 +35,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
             open: !this.props.signStatus,
-            errorMessage: 'For unlimited queries',
+            errorMessage: 'for unlimited queries',
             openDrawer: false,
         };
     }
@@ -53,7 +53,7 @@ class NavBar extends Component {
                 cursor: 'pointer'
             },
             errorMessage: {
-                color: this.state.errorMessage === 'For unlimited queries' ? '#17a88c' : '#e74c3c',
+                color: this.state.errorMessage === 'for unlimited queries' ? '#607D8B' : '#e74c3c',
             },
         };
 
@@ -116,12 +116,16 @@ class NavBar extends Component {
                     <TextField
                         hintText="username"
                         floatingLabelText="Enter your username"
+                        floatingLabelStyle={{color: '#607D8B'}}
+                        underlineStyle={{borderColor: '#607D8B'}}
                         ref={me => this.usernameField = me}
                     />
                     <br/>
                     <TextField
                         hintText="Password"
                         floatingLabelText="Enter your password"
+                        floatingLabelStyle={{color: '#607D8B'}}
+                        underlineStyle={{borderColor: '#607D8B'}}
                         type="password"
                         ref={me => this.passwordField = me}
                     />
