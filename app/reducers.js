@@ -11,6 +11,7 @@ import authorizationReducer from 'containers/AuthorizationBar/reducer';
 import repositoryLoaderReducer from 'containers/RepoLoader/reducer';
 import repoDataLoaderReducer from 'containers/RepoDataLoader/reducer';
 import issueInteractionReducer from 'containers/IssueInteraction/reducer';
+import repoLabelsReducer from 'containers/RepoLabels/reducer';
 
 /*
  * routeReducer
@@ -50,7 +51,8 @@ export default function createReducer(asyncReducers) {
     authorization: authorizationReducer,
     repositoryLoader: repositoryLoaderReducer,
     repoDataLoader: repoDataLoaderReducer,
-    IssueInteraction: issueInteractionReducer,
+    IssueInteraction: issueInteractionReducer, //change it! 
+    repoLabels: repoLabelsReducer,
     ...asyncReducers,
   });
 }

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getUserName, getUserData, getUserSignStatus } from './selectors';
-import { getStatusOfUpdating } from 'containers/RepoDataLoader/selectors';
+import { getStatusOfUpdating } from 'containers/RepoLabels/selectors';
 import NavBar from 'components/NavBar';
 
 

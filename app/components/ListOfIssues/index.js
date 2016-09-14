@@ -68,40 +68,58 @@ class ListOfIssues extends Component {
             const iconStyle = {
                 height: 44
             }
-            return (
-                React.Children.toArray([
-                    <hr style={{margin: 0, border: 0, borderBottom: '1px solid #ccc'}} />,
+            const labelNode = issue.labels.map(label => {
+                const spanStyle = {
+                    color: getContrastYIQ(label.color),
+                    backgroundColor: `#${label.color}`,
+                    padding: '3px 4px',
+                    display: 'inline-block',
+                    marginRight: 4,
+                    fontSize: '12px',
+                    borderRadius: '2px',
+                    lineHeight: 1,
 
-                    <ListItem
-                        leftIcon={
-                            <AlertErrorOutline
-                                style={iconStyle}
-                                color={issue.state === 'open' ? '#17a88c' : '#e74c3c'}
-                            />
+                }
+                return (
+                    <span style={spanStyle}>
+                        {label.name}
+                    </span>
+                )
+            });
+            return (
+                <ListItem
+                    style={{lineHeight: 1.6, wordWrap: 'break-word'}}
+                    leftIcon={
+                        <AlertErrorOutline
+                            style={iconStyle}
+                            color={issue.state === 'open' ? '#17a88c' : '#e74c3c'}
+                        />
+                    }
+                    rightIcon={
+                        issue.comments > 0 ?
+                            <CommunicationComment color="#9E9E9E" /> : null
                         }
-                        rightIcon={
-                            issue.comments > 0 ?
-                            <CommunicationComment color="#9E9E9E" /> :
-                            null
-                        }
-                        primaryText={issue.title}
+                        primaryText={
+                            <span>
+                                {issue.title} {labelNode}
+                            </span>}
                         secondaryText={
                             <p>
                                 #{issue.number}{" "}
                                 opened by {issue.user.login}.
                             </p>
                         }
-                        secondaryTextLines={2}
+                        secondaryTextLines={1}
                         key={issue.id}
                         value={index}
                         onTouchTap={() => this.handleTouchTap(issue)}
                     />
-                ])
             );
         });
+        const notification = <span style={{color: '#17a88c', paddingLeft: '16px'}}>Please, select repository with issues!</span>;
         return (
             <SelectableList defaultValue={0}>
-                <Subheader>Issues</Subheader>
+                <Subheader>{issuesNode.length > 0 ? "Issues" : notification}</Subheader>
                 {issuesNode}
             </SelectableList>
         );
@@ -114,6 +132,13 @@ class ListOfIssues extends Component {
 
 }
 
+const getContrastYIQ = (hexcolor) => {
+	let r = parseInt(hexcolor.substr(0,2),16);
+	let g = parseInt(hexcolor.substr(2,2),16);
+	let b = parseInt(hexcolor.substr(4,2),16);
+	let yiq = ((r*299)+(g*587)+(b*114))/1000;
+	return (yiq >= 128) ? 'black' : 'white';
+}
 
 ListOfIssues.propTypes = propTypes;
 

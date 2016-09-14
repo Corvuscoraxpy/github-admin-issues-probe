@@ -7,6 +7,9 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Avatar from 'material-ui/Avatar';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import RepoLabels from 'containers/RepoLabels';
+import RepoLoader from 'containers/RepoLoader';
+import Drawer from 'material-ui/Drawer';
 import styles from './styles.css';
 
 
@@ -32,14 +35,15 @@ class NavBar extends Component {
         super(props);
         this.state = {
             open: !this.props.signStatus,
-            errorMessage: '',
+            errorMessage: 'For unlimited queries',
+            openDrawer: false,
         };
     }
 
     componentWillReceiveProps(nextProps) {
         this.setState({
             open: !nextProps.signStatus,
-            errorMessage: '',
+            errorMessage: 'For unlimited queries',
         });
     }
 
@@ -49,7 +53,7 @@ class NavBar extends Component {
                 cursor: 'pointer'
             },
             errorMessage: {
-                color: '#e74c3c'
+                color: this.state.errorMessage === 'For unlimited queries' ? '#17a88c' : '#e74c3c',
             },
         };
 
@@ -78,9 +82,7 @@ class NavBar extends Component {
                             onClick={this.handleSignOut}
                         />
                     }
-                    iconElementLeft={
-                        <Avatar src={userData.avatar_url}/>
-                    }
+                    onLeftIconButtonTouchTap={this.handleToggle}
                 >
                     <div className={styles['refresh-indicator-div']}>
                         <RefreshIndicator
@@ -108,9 +110,9 @@ class NavBar extends Component {
                     contentStyle={customContentStyle}
                     onRequestClose={this.handleClose}
                 >
-                    <h4 style={styles.errorMessage}>
+                    <span style={styles.errorMessage}>
                         {this.state.errorMessage}
-                    </h4>
+                    </span>
                     <TextField
                         hintText="username"
                         floatingLabelText="Enter your username"
@@ -124,9 +126,21 @@ class NavBar extends Component {
                         ref={me => this.passwordField = me}
                     />
                 </Dialog>
+
+                <Drawer
+                    docked={false}
+                    width={444}
+                    open={this.state.openDrawer}
+                    onRequestChange={(open) => this.setState({openDrawer: false})}
+                >
+                    <RepoLoader />
+                    <RepoLabels />
+                </Drawer>
             </div>
         );
     }
+
+    handleToggle = () => this.setState({openDrawer: !this.state.openDrawer});
 
     handleSignOut = () => {
         const { onSignOut } = this.props;

@@ -110,12 +110,14 @@ class IssueHeader extends Component {
                     disabled={true}
                     primary={true}
                 />
-                <FlatButton
-                    label={currentIssue.comments}
-                    icon={<CommunicationComment />}
-                    disabled={true}
-                    primary={true}
-                />
+                {currentIssue.comments > 0 &&
+                    <FlatButton
+                        label={currentIssue.comments}
+                        icon={<CommunicationComment />}
+                        disabled={true}
+                        primary={true}
+                    />
+                }
             </div>
 
         );

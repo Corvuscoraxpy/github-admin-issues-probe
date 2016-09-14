@@ -8,10 +8,9 @@ import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {object, shape, string, oneOf, func} = PropTypes;
+const {object, func} = PropTypes;
 const propTypes = {
     pagination: object,
-    activeTab: oneOf(['List Of Issues', 'List of Labels']).isRequired,
     onFetchIssuePerPage: func.isRequired,
 };
 
@@ -32,7 +31,6 @@ class App extends Component {
                             className={styles['col-paper']}
                             zDepth={1}>
 
-                            <RepoLoader />
                             <RepoDataLoader />
                         </Paper>
                     </Col>
@@ -46,14 +44,13 @@ class App extends Component {
 
     handleScroll = (e) => {
         const { onFetchIssuePerPage, pagination, activeTab } = this.props;
-        if (activeTab === 'List Of Issues') {
-            //  if scroll to bottom
-            if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
-                if (pagination && pagination.next && pagination.next.url) {
+        //  if scroll to bottom
+        if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+            if (pagination && pagination.next && pagination.next.url) {
                     onFetchIssuePerPage(pagination.next.url);
-                }
             }
         }
+
     }
 }
 

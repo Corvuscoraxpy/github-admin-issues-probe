@@ -5,10 +5,10 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 
-import { getIssueList, getLabelsList } from './selectors';
-import { getSelectedRepository, getRepositoryOwner, getPermission } from 'containers/RepoLoader/selectors';
+import { getIssueList } from './selectors';
+import { getSelectedRepository, getRepositoryOwner} from 'containers/RepoLoader/selectors';
 
-import IssueLabelTab from 'components/IssueLabelTab';
+import ListOfIssues from 'components/ListOfIssues';
 
 
 class RepoDataLoader extends Component {
@@ -18,67 +18,35 @@ class RepoDataLoader extends Component {
             repositoryOwner,
             selectedRepository,
             fetchIssueForRepositoryAction,
-            fetchListLabelsForRepositoryAction,
         } = this.props;
 
         if (nextProps.selectedRepository !== selectedRepository) {
             fetchIssueForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
-            fetchListLabelsForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
-
         }
     }
 
     render() {
-        const { issuesList, changeCurrentIssueAction,selectedRepository,
-            labelsList, username, updateInProcess, permission } = this.props;
+        const { issuesList } = this.props;
         return (
-            <IssueLabelTab
-                permission={permission}
+            <ListOfIssues
                 issuesList={issuesList}
-                labelsList={labelsList}
                 handleChangeCurrentIssue={this.handleChangeCurrentIssue}
-                handleDeleteLabel={this.handleDeleteLabel}
-                handleUpdateLabel={this.handleUpdateLabel}
-                handleCreateLabel={this.handleCreateLabel}
-                hadleChangeActiveTab={this.hadleChangeActiveTab}
             />
         );
-    }
-
-    handleDeleteLabel = (labelName) => {
-        const { deleteLablelAction } = this.props;
-        deleteLablelAction(labelName);
-    }
-
-    handleUpdateLabel = (labelUrl, newName, newColor) => {
-        const { updateLabelAction } = this.props;
-        updateLabelAction(labelUrl, newName, newColor);
-    }
-
-    handleCreateLabel = (name, color) => {
-        const { createLabelAction } = this.props;
-        createLabelAction(name, color);
     }
 
     handleChangeCurrentIssue = (currentIssue) => {
         const { fetchSingleIssueAction } = this.props;
         fetchSingleIssueAction(currentIssue);
     }
-
-    hadleChangeActiveTab = (activeTab) => {
-        const { changeActiveTabAction } = this.props;
-        changeActiveTabAction(activeTab);
-    }
 }
 
 const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch);
 
 const mapStateToProps = createStructuredSelector({
-    permission: getPermission(),
+    issuesList: getIssueList(),
     repositoryOwner: getRepositoryOwner(),
     selectedRepository: getSelectedRepository(),
-    issuesList: getIssueList(),
-    labelsList: getLabelsList(),
 });
 
 RepoDataLoader.defaultProps = {

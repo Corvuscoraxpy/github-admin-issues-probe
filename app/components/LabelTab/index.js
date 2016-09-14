@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ListLabelsHeader from 'components/ListLabelsHeader';
 import ListOfLabels from 'components/ListOfLabels';
+const {Grid, Row, Col} = require('react-flexbox-grid');
 
 const { string, shape, arrayOf, bool, func } = PropTypes;
 const propTypes = {
@@ -21,14 +22,14 @@ class LabelTab extends Component {
         const {
             permission,
             labelsList,
-            updateInProcess,
+            selectedRepository,
             handleCreateLabel,
             handleUpdateLabel,
             handleDeleteLabel,
         } = this.props;
         return (
             <div>
-                {permission ?
+                {permission && selectedRepository ?
                     <ListLabelsHeader handleCreateLabel={handleCreateLabel} /> : ""
                 }
                 <ListOfLabels

@@ -18,6 +18,23 @@ const api = {
         });
     },
 
+    fetchSingleUser(username, authorization) {
+        return fetch(`https://api.github.com/users/${username}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": 'application/json',
+                "Authorization": authorization,
+            },
+        })
+        .then(res => {
+            if(res.status !== 200) {
+                throw Error('User does not exist');
+            }
+            return res.json();
+        })
+    },
+
     //  Fetch list user repository
     fetchListUserRepositories(repoOwner, authorization) {
         return fetch(`https://api.github.com/users/${repoOwner}/repos`, {
@@ -28,7 +45,7 @@ const api = {
                 "Authorization": authorization,
             },
         })
-        .then(res =>{
+        .then(res => {
             if(res.status !== 200) {
                 throw Error('Bad validation');
             }

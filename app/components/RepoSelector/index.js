@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import Avatar from 'material-ui/Avatar';
 import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
@@ -35,42 +36,56 @@ class RepoSelector extends Component {
     }
 
     render() {
-        const { repositoryList, updateInProcess } = this.props;
+        const { repositoryList, updateInProcess, repositoryOwnerData } = this.props;
         const listNodes = repositoryList.map((repoObj, index) => {
+            console.log(repoObj.name, " ", repoObj);
             return (
                 <MenuItem
                     primaryText={repoObj.name}
                     value={repoObj.name}
                     key={index}
+                    secondaryText = {
+                        <span style={{color: repoObj.open_issues > 0 ? '#17a88c' : '#9E9E9E'}}>
+                            {repoObj.open_issues}
+                        </span>
+                    }
                 />
             );
         });
         const { repositoryOwner, value } = this.state;
+        console.log(repositoryOwnerData);
         return (
-            <Row className={styles['rowStyle']}>
-                <Col sm={12}>
-                    <TextField
-                        value={repositoryOwner}
-                        hintText="Select repository owner"
-                        floatingLabelText="Select repository owner"
-                        fullWidth={true}
-                        onChange={this.handleChangeTextField}
-                        onKeyDown={this.handleEnterKeyDownTxtFld}
-                    />
-                </Col>
+                <Row className={styles['rowStyle']}>
+                    <Col sm={2}>
+                        {repositoryOwnerData &&
+                            <Avatar
+                                style={{marginTop: '1.4rem', marginLeft: '.5rem'}}
+                                src={repositoryOwnerData.avatar_url} />
+                        }
+                    </Col>
+                    <Col sm={10} style={{padding: 0}}>
+                        <TextField
+                            value={repositoryOwner}
+                            hintText="Select repository owner"
+                            floatingLabelText="Select repository owner"
+                            fullWidth={true}
+                            onChange={this.handleChangeTextField}
+                            onKeyDown={this.handleEnterKeyDownTxtFld}
+                        />
+                    </Col>
 
-                <Col sm={12}>
-                    <SelectField
-                        disabled={updateInProcess}
-                        value={value}
-                        floatingLabelText="Select the repository"
-                        fullWidth={true}
-                        onChange={this.handleChangeSelectField}
-                     >
-                        {listNodes}
-                    </SelectField>
-                </Col>
-            </Row>
+                    <Col sm={10} smOffset={2} style={{padding: 0}}>
+                        <SelectField
+                            disabled={updateInProcess}
+                            value={value}
+                            floatingLabelText="Select the repository"
+                            fullWidth={true}
+                            onChange={this.handleChangeSelectField}
+                         >
+                            {listNodes}
+                        </SelectField>
+                    </Col>
+                </Row>
         );
     }
 

@@ -6,8 +6,9 @@ import EditLabelForm from 'components/EditLabelForm';
 import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const { func } = PropTypes;
+const { bool, func } = PropTypes;
 const propTypes = {
+    updateInProcess: bool.isRequired, 
     handleCreateLabel: func.isRequired,
 };
 
@@ -27,7 +28,7 @@ class ListLabelsHeader extends Component {
                 {this.state.showEditForm === false ?
 
                     <Row className={styles['rowStyle']}>
-                        <Col sm={6}>
+                        <Col sm={6} >
                             <FlatButton
                                 className={styles['flat-button']}
                                 backgroundColor="#17a88c"

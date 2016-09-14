@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getRepositoryList, getSelectedRepository, getRepositoryOwner } from './selectors';
-import { getStatusOfUpdating } from 'containers/RepoDataLoader/selectors';
+import { getRepositoryList, getSelectedRepository, getRepositoryOwner, getRepositoryOwnerData } from './selectors';
+import { getStatusOfUpdating } from 'containers/RepoLabels/selectors';
 import { getUserName } from 'containers/AuthorizationBar/selectors';
 import RepoSelector from 'components/RepoSelector';
 
@@ -21,11 +21,12 @@ class RepoLoader extends Component {
     }
 
     render() {
-        const { repositoryList, username, updateInProcess } = this.props;
+        const { repositoryList, username, updateInProcess, repositoryOwnerData } = this.props;
         return (
             <RepoSelector
                 username={username}
                 updateInProcess={updateInProcess}
+                repositoryOwnerData={repositoryOwnerData}
                 repositoryList={repositoryList}
                 onSelectRepository={this.handleSelectRepository}
                 onChangeRepositoryOwner={this.handleChangeRepositoryOwner}
@@ -39,8 +40,8 @@ class RepoLoader extends Component {
     }
 
     handleChangeRepositoryOwner = (repositoryOwner) => {
-        const { changeRepositoryOwnerAction } = this.props;
-        changeRepositoryOwnerAction(repositoryOwner);
+        const { fetchRepositoryOwnerAction } = this.props;
+        fetchRepositoryOwnerAction(repositoryOwner);
     }
 }
 
@@ -50,8 +51,9 @@ const mapStateToProps = createStructuredSelector({
   username: getUserName(),
   updateInProcess: getStatusOfUpdating(),
   repositoryOwner: getRepositoryOwner(),
+  repositoryOwnerData: getRepositoryOwnerData(),
   repositoryList: getRepositoryList(),
-  selectedRepository:getSelectedRepository(),
+  selectedRepository: getSelectedRepository(),
 });
 
 RepoLoader.defaultProps = {
