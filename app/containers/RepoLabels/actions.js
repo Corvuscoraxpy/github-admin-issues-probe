@@ -1,3 +1,4 @@
+import { fetchIssueForRepositoryAction } from 'containers/RepoDataLoader/actions';
 const api = require("../../api/restUtilities.js");
 
 export const LOAD_LABELS_FOR_REPO = 'LOAD_LABELS_FOR_REPO';
@@ -25,6 +26,7 @@ export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepo
                 if(!_.isEqual(previousLabelsList, result)) {
                     dispatch(updatingLabelsListAction(false));
                     dispatch(loadLabelsForRepoAction(result));
+                    dispatch(fetchIssueForRepositoryAction(repositoryOwner, selectedRepository));
                 } else {
                     setTimeout(() => {
                         dispatch(updatingLabelsListAction(true));
