@@ -65,7 +65,8 @@ class NavBar extends Component {
                 onTouchTap={this.handleSignIn}
             />,
         ];
-        const { userData, updateInProcess } = this.props;
+        const { userData, updateInProcess, issuesUpdatingList } = this.props;
+        console.log('updating list: ', issuesUpdatingList);
         return (
             <div>
                 <AppBar
@@ -86,7 +87,7 @@ class NavBar extends Component {
                 >
                     <div className={styles['refresh-indicator-div']}>
                         <RefreshIndicator
-                            status={updateInProcess ? "loading" : "ready"}
+                            status={updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0) ? "loading" : "ready"}
                             size={40}
                             left={-20}
                             top={0}

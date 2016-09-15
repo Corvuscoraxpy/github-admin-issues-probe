@@ -81,7 +81,7 @@ export const removeLabelFromAnIssueAction = (number, name) => {
         api.removeLabelFromAnIssue(authorization, repositoryOwner, selectedRepository, number, name)
             .then(result => {
                 if(result.status === 404) {
-                    throw Error('Not found');
+                    throw Error('Not found, let add it');
                 } else if (result.status == 200) {
                     if(issuesUpdatingList.indexOf(number) === -1) {
                         dispatch(addToIssuesUpdatingListAction(number));
@@ -90,7 +90,7 @@ export const removeLabelFromAnIssueAction = (number, name) => {
                 }
             })
             .catch(err => {
-                console.log(err);
+                //console.log(err);
                 dispatch(addLabelsToAnIssueAction(number, name));
             });
     }

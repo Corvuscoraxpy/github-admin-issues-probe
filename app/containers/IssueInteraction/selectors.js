@@ -3,4 +3,5 @@ const getIssuesUpdatingList = () => (state) => state.get('issueInteraction').iss
 
 export {
     getListOfComments,
+    getIssuesUpdatingList,
 }

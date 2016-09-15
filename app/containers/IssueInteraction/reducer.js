@@ -17,8 +17,14 @@ const issueInteractionReducer = (state = initialState, action) => {
         case ADD_TO_ISSUES_UPDATING_LIST:
             return Object.assign({}, state, {issuesUpdatingList: [...state.issuesUpdatingList, number]});
         case REMOVE_FROM_ISSUES_UPDATING_LIST:
-            state.issuesUpdatingList.splice(index, 1);
-            return Object.assign({}, state, {issuesUpdatingList: state.issuesUpdatingList});
+            return Object.assign(
+                {},
+                state,
+                {issuesUpdatingList: [
+                    ...state.issuesUpdatingList.slice(0, index),
+                    ...state.issuesUpdatingList.slice(index + 1)
+                ]}
+            );
 
         default:
             return state;

@@ -5,17 +5,19 @@ import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getUserName, getUserData, getUserSignStatus } from './selectors';
 import { getStatusOfUpdating } from 'containers/RepoLabels/selectors';
+import { getIssuesUpdatingList } from 'containers/IssueInteraction/selectors';
 import NavBar from 'components/NavBar';
 
 
 class AuthorizationBar extends Component {
 
     render() {
-        const { userData, signStatus, updateInProcess } = this.props;
+        const { userData, signStatus, updateInProcess, issuesUpdatingList } = this.props;
         return (
             <NavBar
                 userData={userData}
                 signStatus={signStatus}
+                issuesUpdatingList={issuesUpdatingList}
                 updateInProcess={updateInProcess}
                 onSignIn={this.handleSignIn}
                 onSignOut={this.handleSignOut}
@@ -42,6 +44,7 @@ const mapStateToProps = createStructuredSelector({
     userData: getUserData(),
     signStatus: getUserSignStatus(),
     updateInProcess: getStatusOfUpdating(),
+    issuesUpdatingList: getIssuesUpdatingList(),
 });
 
 AuthorizationBar.defaultProps = {
