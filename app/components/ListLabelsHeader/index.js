@@ -8,7 +8,6 @@ const {Grid, Row, Col} = require('react-flexbox-grid');
 
 const { bool, func } = PropTypes;
 const propTypes = {
-    updateInProcess: bool.isRequired, 
     handleCreateLabel: func.isRequired,
 };
 
@@ -22,7 +21,7 @@ class ListLabelsHeader extends Component {
     }
 
     render() {
-        const { updateInProcess, handleCreateLabel } = this.props;
+        const { handleCreateLabel } = this.props;
         return (
             <div>
                 {this.state.showEditForm === false ?

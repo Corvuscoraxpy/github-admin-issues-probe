@@ -3,6 +3,7 @@ import {
     CHANGE_CURRENT_ISSUE,
     SET_PAGINATION,
     APPEND_PAGE_TO_ISSUES,
+    UPDATE_CURRENT_ISSUE_IN_LIST,
 } from './actions';
 
 const initialState = {
@@ -30,6 +31,16 @@ const repoDataLoaderReducer = (state = initialState, action) => {
                 {},
                 {...state},
                 {issuesList: [...state.issuesList, ...pageList]}
+            );
+        case UPDATE_CURRENT_ISSUE_IN_LIST:
+            return Object.assign(
+                {},
+                {...state},
+                {issuesList: [
+                    ...state.issuesList.slice(0, state.issuesList.length -currentIssue.number),
+                    currentIssue,
+                    ...state.issuesList.slice(state.issuesList.length -currentIssue.number + 1, state.issuesList.length)
+                ]}
             );
 
     default:

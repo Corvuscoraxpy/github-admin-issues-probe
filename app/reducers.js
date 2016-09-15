@@ -51,7 +51,7 @@ export default function createReducer(asyncReducers) {
     authorization: authorizationReducer,
     repositoryLoader: repositoryLoaderReducer,
     repoDataLoader: repoDataLoaderReducer,
-    IssueInteraction: issueInteractionReducer, //change it! 
+    issueInteraction: issueInteractionReducer,
     repoLabels: repoLabelsReducer,
     ...asyncReducers,
   });

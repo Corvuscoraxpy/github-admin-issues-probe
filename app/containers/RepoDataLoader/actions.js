@@ -5,10 +5,16 @@ export const LOAD_ISSUES_FOR_REPO = 'LOAD_ISSUES_FOR_REPO';
 export const CHANGE_CURRENT_ISSUE = 'CHANGE_CURRENT_ISSUE';
 export const SET_PAGINATION = 'SET_PAGINATION';
 export const APPEND_PAGE_TO_ISSUES = 'APPEND_PAGE_TO_ISSUES';
+export const UPDATE_CURRENT_ISSUE_IN_LIST = 'UPDATE_CURRENT_ISSUE_IN_LIST';
 
 const loadIssuesForRepoAction = (issuesList) => ({
   type: 'LOAD_ISSUES_FOR_REPO',
   issuesList
+});
+
+export const updateCurrentIssueinListAction = (currentIssue) => ({
+    type: 'UPDATE_CURRENT_ISSUE_IN_LIST',
+    currentIssue
 });
 
 export const appendPageToIssuesList = ( pageList ) => ({
@@ -25,6 +31,7 @@ export const changeCurrentIssueAction = (currentIssue) => ({
   type: 'CHANGE_CURRENT_ISSUE',
   currentIssue
 });
+
 
 export const fetchSingleIssueAction = (currentIssue) => {
     return (dispatch, getState) => {

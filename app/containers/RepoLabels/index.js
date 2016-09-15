@@ -22,7 +22,6 @@ class RepoLabels extends Component {
         } = this.props;
 
         if (nextProps.selectedRepository !== selectedRepository) {
-            console.log('FETCH list labels');
             fetchListLabelsForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
         }
     }

@@ -53,7 +53,6 @@ class Issue extends Component {
                 </Card>
             );
         });
-
         return (
             <div className={styles['div-wrap']}>
                 {Object.keys(currentIssue).length !== 0 &&

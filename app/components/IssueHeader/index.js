@@ -4,13 +4,15 @@ import FlatButton from 'material-ui/FlatButton';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 import ToggleCheckBox from 'material-ui/svg-icons/toggle/check-box';
 import ToggleCheckBoxOutlineBlank from 'material-ui/svg-icons/toggle/check-box-outline-blank';
-
 import CommunicationComment from 'material-ui/svg-icons/communication/comment';
-
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ContentFilter from 'material-ui/svg-icons/content/filter-list';
+import ImageLens from 'material-ui/svg-icons/image/lens';
+
+import { getContrastYIQ } from '../../api/format.js';
+
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
@@ -80,6 +82,7 @@ class IssueHeader extends Component {
                                     <ContentFilter />
                                 </IconButton>
                             }
+                            touchTapCloseDelay={0}
                             onChange={this.handleChangeMultiple}
                             multiple={true}
                             onItemTouchTap={this.handleOnItemTouchTap}
@@ -92,6 +95,9 @@ class IssueHeader extends Component {
                                             _.includes(this.state.valueMultiple, index) ?
                                             <ToggleCheckBox /> :
                                             <ToggleCheckBoxOutlineBlank />
+                                        }
+                                        rightIcon={
+                                            <ImageLens color={`#${label.color}`} />
                                         }
                                         primaryText={label.name}
                                         value={index}

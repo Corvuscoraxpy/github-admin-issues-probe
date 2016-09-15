@@ -18,7 +18,7 @@ const updatingLabelsListAction = (updateInProcess) => ({
 export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepository) => {
     return (dispatch, getState) => {
         const authorization = getState().get('authorization').authorization;
-        const previousLabelsList = getState().get('repoDataLoader').labelsList;
+        const previousLabelsList = getState().get('repoLabels').labelsList;
         return api.fetchListLabelsForRepository(authorization, repositoryOwner, selectedRepository)
             .then(result => {
                 //  if delete or update listItem fetch data until update
@@ -27,7 +27,6 @@ export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepo
                     dispatch(loadLabelsForRepoAction(result));
                 } else {
                     setTimeout(() => {
-                        console.log("i start");
                         dispatch(updatingLabelsListAction(true));
                         dispatch(fetchListLabelsForRepositoryAction(repositoryOwner, selectedRepository));
                     }, 1000);
@@ -42,7 +41,7 @@ export const deleteLablelAction = (labelName) => {
         const authorization = getState().get('authorization').authorization;
         const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
         const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoDataLoader').updateInProcess;
+        const updateInProcess = getState().get('repoLabels').updateInProcess;
         return api.deleteLabel(authorization, repositoryOwner, selectedRepository, labelName)
             .then(result => {
                 //  Status: 204 No Content
@@ -62,7 +61,7 @@ export const updateLabelAction = (labelUrl, newName, newColor) => {
         const authorization = getState().get('authorization').authorization;
         const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
         const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoDataLoader').updateInProcess;
+        const updateInProcess = getState().get('repoLabels').updateInProcess;
         return api.updateLabel(authorization, labelUrl, newName, newColor)
             .then(result => {
                 //  Status: 200 OK
@@ -83,7 +82,7 @@ export const createLabelAction = (name, color) => {
         const authorization = getState().get('authorization').authorization;
         const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
         const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoDataLoader').updateInProcess;
+        const updateInProcess = getState().get('repoLabels').updateInProcess;
         return api.createLabel(authorization, repositoryOwner, selectedRepository, name, color)
             .then(result => {
                 //  Status: 201 Created
