@@ -113,8 +113,9 @@ class ListOfIssues extends Component {
                         />
                     }
                     rightIcon={
-                        issue.comments > 0 ?
-                            <CommunicationComment color="#9E9E9E" /> : null
+                        issue.comments > 0
+                            ?   <CommunicationComment color="#9E9E9E" />
+                            :   null
                         }
                         primaryText={
                             <span>

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
 import ToggleCheckBox from 'material-ui/svg-icons/toggle/check-box';
@@ -10,9 +9,9 @@ import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
 import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 import ImageLens from 'material-ui/svg-icons/image/lens';
+import styles from './styles.css';
 
 import { getContrastYIQ } from '../../api/format.js';
-
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
@@ -61,21 +60,22 @@ class IssueHeader extends Component {
 
     render() {
         const { currentIssue, labelsList, permission } = this.props;
-        const styles = {
-            button: {
+        const style = {
+            stateButton: {
                 backgroundColor: currentIssue.state === 'open' ? '#17a88c' : '#e74c3c',
                 color: 'white'
             }
         }
 
         return (
-            <div style={{padding: '0px 16px 16px 16px'}}>
+            <div className={styles['div-wrap']}>
                 <Row>
                     <Col sm={11}>
                         <h2>{currentIssue.title.toUpperCase()}</h2>
                     </Col>
                     <Col sm={1}>
                         <IconMenu
+                            className={styles['icon-menu']}
                             value={this.state.valueMultiple}
                             iconButtonElement={
                                 <IconButton tooltip="labels">
@@ -86,15 +86,14 @@ class IssueHeader extends Component {
                             onChange={this.handleChangeMultiple}
                             multiple={true}
                             onItemTouchTap={this.handleOnItemTouchTap}
-                            style={{marginTop: '.77em'}}
                         >
                             {labelsList.map((label, index) => {
                                 return (
                                     <MenuItem
                                         leftIcon={
-                                            _.includes(this.state.valueMultiple, index) ?
-                                            <ToggleCheckBox /> :
-                                            <ToggleCheckBoxOutlineBlank />
+                                            _.includes(this.state.valueMultiple, index)
+                                                ?   <ToggleCheckBox />
+                                                :   <ToggleCheckBoxOutlineBlank />
                                         }
                                         rightIcon={
                                             <ImageLens color={`#${label.color}`} />
@@ -112,7 +111,7 @@ class IssueHeader extends Component {
                 <FlatButton
                     label={currentIssue.state}
                     icon={<AlertErrorOutline />}
-                    style={styles.button}
+                    style={style.stateButton}
                     disabled={true}
                     primary={true}
                 />
@@ -132,7 +131,6 @@ class IssueHeader extends Component {
     handleOnItemTouchTap = (e, child) => {
         const { onRemoveOrAddLabelFromAnIssue, currentIssue } = this.props;
         const name = child.props.primaryText;
-        const number = child.key;
         onRemoveOrAddLabelFromAnIssue(currentIssue.number, name);
     }
 

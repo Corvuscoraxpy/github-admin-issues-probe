@@ -7,9 +7,9 @@ import FlatButton from 'material-ui/FlatButton';
 import Dialog from 'material-ui/Dialog';
 import Avatar from 'material-ui/Avatar';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
+import Drawer from 'material-ui/Drawer';
 import RepoLabels from 'containers/RepoLabels';
 import RepoLoader from 'containers/RepoLoader';
-import Drawer from 'material-ui/Drawer';
 import styles from './styles.css';
 
 
@@ -21,8 +21,10 @@ const customContentStyle = {
     alignSelf: 'stretch'
 };
 
-const { bool, func } = PropTypes;
+const { bool, func, object, arrayOf, number } = PropTypes;
 const propTypes = {
+    userData: object.isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
     updateInProcess: bool.isRequired,
     signStatus: bool.isRequired,
     onSignIn: func.isRequired,
@@ -49,11 +51,10 @@ class NavBar extends Component {
 
     render() {
         const styles = {
-            title: {
-                cursor: 'pointer'
-            },
             errorMessage: {
-                color: this.state.errorMessage === 'for unlimited queries' ? '#607D8B' : '#e74c3c',
+                color: this.state.errorMessage === 'for unlimited queries'
+                    ?   '#607D8B'
+                    :   '#e74c3c',
             },
         };
 
@@ -66,15 +67,16 @@ class NavBar extends Component {
             />,
         ];
         const { userData, updateInProcess, issuesUpdatingList } = this.props;
-        console.log('updating list: ', issuesUpdatingList);
         return (
             <div>
                 <AppBar
                     showMenuIconButton={true}
                     title={
-                        <span style={styles.title}>
-                            {(Object.keys(userData).length !== 0) ?
-                                userData.login : "Issues Probe Application"}
+                        <span>
+                            {(Object.keys(userData).length !== 0)
+                                ?   userData.login
+                                :   "Issues Probe Application"
+                            }
                         </span>
                     }
                     iconElementRight={
@@ -87,7 +89,11 @@ class NavBar extends Component {
                 >
                     <div className={styles['refresh-indicator-div']}>
                         <RefreshIndicator
-                            status={updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0) ? "loading" : "ready"}
+                            status={
+                                updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
+                                    ?   "loading"
+                                    :   "ready"
+                            }
                             size={40}
                             left={-20}
                             top={0}

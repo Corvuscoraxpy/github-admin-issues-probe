@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import styles from './styles.css';
 const {Grid, Row, Col} = require('react-flexbox-grid');
@@ -47,7 +46,7 @@ class EditLabelForm extends Component {
         }
 
         return (
-            <Row className={styles['rowStyle']} >
+            <Row className={styles['row-style']} >
                 <Col sm={3}>
                     <TextField
                         value={name}

@@ -7,10 +7,12 @@ import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const { string, arrayOf, object, func} = PropTypes;
+const { string, arrayOf, object, func, bool} = PropTypes;
 const propTypes = {
     username: string.isRequired,
+    updateInProcess: bool.isRequired,
     repositoryList: arrayOf(object.isRequired).isRequired,
+    repositoryOwnerData: object.isRequired,
     onChangeRepositoryOwner: func.isRequired,
     onSelectRepository: func.isRequired,
 };

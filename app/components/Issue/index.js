@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import IssueHeader from 'components/IssueHeader';
 import styles from './styles.css';
 import { formatDate } from '../../api/format.js';

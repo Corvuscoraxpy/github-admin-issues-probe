@@ -43,7 +43,7 @@ class App extends Component {
     }
 
     handleScroll = (e) => {
-        const { onFetchIssuePerPage, pagination, activeTab } = this.props;
+        const { onFetchIssuePerPage, pagination } = this.props;
         //  if scroll to bottom
         if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
             if (pagination && pagination.next && pagination.next.url) {

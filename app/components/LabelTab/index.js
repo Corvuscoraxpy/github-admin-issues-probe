@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import ListLabelsHeader from 'components/ListLabelsHeader';
 import ListOfLabels from 'components/ListOfLabels';
+import styles from './styles.css';
+
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
 const { string, shape, arrayOf, bool, func } = PropTypes;
@@ -28,12 +30,14 @@ class LabelTab extends Component {
             handleDeleteLabel,
         } = this.props;
         return (
-            <div style={{textAlign: 'center', marginTop: 20}}>
-                {selectedRepository ?
-                    <span style={{color: '#607D8B'}}>Repository Labels</span>
-                : null}
-                {permission && selectedRepository ?
-                    <ListLabelsHeader handleCreateLabel={handleCreateLabel} /> : ""
+            <div className={styles['div-wrap']}>
+                {selectedRepository
+                    ?   <span className={styles['span-header']}>Repository Labels</span>
+                    :   null
+                }
+                {permission && selectedRepository
+                    ?   <ListLabelsHeader handleCreateLabel={handleCreateLabel} />
+                    :   ""
                 }
                 <ListOfLabels
                     permission={permission}
