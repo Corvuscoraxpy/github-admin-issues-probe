@@ -1,4 +1,4 @@
-import { setPaginationAction, appendPageToIssuesList } from 'containers/RepoDataLoader/actions';
+import { setPaginationAction, appendPageToIssuesList } from 'containers/RepoIssues/actions';
 
 const api = require("../../api/restUtilities.js");
 const parse = require('parse-link-header');

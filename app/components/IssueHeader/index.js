@@ -98,6 +98,7 @@ class IssueHeader extends Component {
                                         rightIcon={
                                             <ImageLens color={`#${label.color}`} />
                                         }
+                                        innerDivStyle={{paddingRight: 44}}
                                         primaryText={label.name}
                                         value={index}
                                         key={index}

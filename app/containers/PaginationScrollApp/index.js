@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
-import { getPagination, getActiveTab } from 'containers/RepoDataLoader/selectors';
+import { getPagination, getActiveTab } from 'containers/RepoIssues/selectors';
 import App from 'components/App';
 
 

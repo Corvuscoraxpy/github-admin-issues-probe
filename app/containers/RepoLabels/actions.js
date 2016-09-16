@@ -1,9 +1,18 @@
-import { fetchIssueForRepositoryAction } from 'containers/RepoDataLoader/actions';
+import { fetchIssueForRepositoryAction } from 'containers/RepoIssues/actions';
 const api = require("../../api/restUtilities.js");
 
 export const LOAD_LABELS_FOR_REPO = 'LOAD_LABELS_FOR_REPO';
 export const UPDATING_LABELS_LIST = 'UPDATING_LABELS_LIST';
 
+const getStateData = (getState) => {
+    return [
+        getState().get('authorization').authorization,
+        getState().get('repositoryLoader').repositoryOwner,
+        getState().get('repositoryLoader').selectedRepository,
+        getState().get('repoLabels').updateInProcess,
+        getState().get('repoLabels').labelsList,
+    ];
+}
 
 const loadLabelsForRepoAction = (labelsList) => ({
   type: 'LOAD_LABELS_FOR_REPO',
@@ -18,8 +27,7 @@ const updatingLabelsListAction = (updateInProcess) => ({
 
 export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepository) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const previousLabelsList = getState().get('repoLabels').labelsList;
+        const [authorization, , , , previousLabelsList] = getStateData(getState);
         return api.fetchListLabelsForRepository(authorization, repositoryOwner, selectedRepository)
             .then(result => {
                 //  if delete or update listItem fetch data until update
@@ -40,10 +48,7 @@ export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepo
 
 export const deleteLablelAction = (labelName) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
-        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoLabels').updateInProcess;
+        const [authorization, repositoryOwner, selectedRepository, updateInProcess] = getStateData(getState);
         return api.deleteLabel(authorization, repositoryOwner, selectedRepository, labelName)
             .then(result => {
                 //  Status: 204 No Content
@@ -60,10 +65,7 @@ export const deleteLablelAction = (labelName) => {
 
 export const updateLabelAction = (labelUrl, newName, newColor) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
-        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoLabels').updateInProcess;
+        const [authorization, repositoryOwner, selectedRepository, updateInProcess] = getStateData(getState);
         return api.updateLabel(authorization, labelUrl, newName, newColor)
             .then(result => {
                 //  Status: 200 OK
@@ -81,10 +83,7 @@ export const updateLabelAction = (labelUrl, newName, newColor) => {
 
 export const createLabelAction = (name, color) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
-        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
-        const updateInProcess = getState().get('repoLabels').updateInProcess;
+        const [authorization, repositoryOwner, selectedRepository, updateInProcess] = getStateData(getState);
         return api.createLabel(authorization, repositoryOwner, selectedRepository, name, color)
             .then(result => {
                 //  Status: 201 Created

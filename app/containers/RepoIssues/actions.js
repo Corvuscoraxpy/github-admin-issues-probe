@@ -7,6 +7,14 @@ export const SET_PAGINATION = 'SET_PAGINATION';
 export const APPEND_PAGE_TO_ISSUES = 'APPEND_PAGE_TO_ISSUES';
 export const UPDATE_CURRENT_ISSUE_IN_LIST = 'UPDATE_CURRENT_ISSUE_IN_LIST';
 
+const getStateData = (getState) => {
+    return [
+        getState().get('authorization').authorization,
+        getState().get('repositoryLoader').repositoryOwner,
+        getState().get('repositoryLoader').selectedRepository,
+    ];
+}
+
 const loadIssuesForRepoAction = (issuesList) => ({
   type: 'LOAD_ISSUES_FOR_REPO',
   issuesList
@@ -35,9 +43,7 @@ export const changeCurrentIssueAction = (currentIssue) => ({
 
 export const fetchSingleIssueAction = (currentIssue) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const repositoryOwner = getState().get('repositoryLoader').repositoryOwner;
-        const selectedRepository = getState().get('repositoryLoader').selectedRepository;
+        const [authorization, repositoryOwner, selectedRepository] = getStateData(getState);
         api.fetchSingleIssue(authorization, repositoryOwner, selectedRepository, currentIssue.number)
             .then(issue => {
                 dispatch(changeCurrentIssueAction(issue));
@@ -48,7 +54,7 @@ export const fetchSingleIssueAction = (currentIssue) => {
 
 export const fetchIssueForRepositoryAction = (repositoryOwner, selectedRepository) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
+        const [authorization] = getStateData(getState);
         return api.fetchIssueForRepository(authorization, repositoryOwner, selectedRepository)
             .then(response => {
                 if(response.status !== 200) {

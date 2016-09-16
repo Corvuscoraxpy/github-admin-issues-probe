@@ -12,7 +12,7 @@ const initialState = {
   pagination: {},
 };
 
-const repoDataLoaderReducer = (state = initialState, action) => {
+const repoIssuesReducer = (state = initialState, action) => {
     const {
         issuesList,
         currentIssue,
@@ -37,9 +37,9 @@ const repoDataLoaderReducer = (state = initialState, action) => {
                 {},
                 {...state},
                 {issuesList: [
-                    ...state.issuesList.slice(0, state.issuesList.length -currentIssue.number),
+                    ...state.issuesList.slice(0, state.issuesList.length - currentIssue.number),
                     currentIssue,
-                    ...state.issuesList.slice(state.issuesList.length -currentIssue.number + 1, state.issuesList.length)
+                    ...state.issuesList.slice(state.issuesList.length - currentIssue.number + 1, state.issuesList.length)
                 ]}
             );
 
@@ -48,4 +48,4 @@ const repoDataLoaderReducer = (state = initialState, action) => {
     }
 }
 
-export default repoDataLoaderReducer;
+export default repoIssuesReducer;

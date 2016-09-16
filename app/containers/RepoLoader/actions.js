@@ -6,6 +6,13 @@ export const CHANGE_REPOSITORY_OWNER = 'CHANGE_REPOSITORY_OWNER';
 export const SET_PERMISSION = 'SET_PERMISSION';
 export const LOAD_REPOSITORY_OWNER_DATA = 'LOAD_REPOSITORY_OWNER_DATA';
 
+const getStateData = (getState) => {
+    return [
+        getState().get('authorization').authorization,
+        getState().get('authorization').username,
+    ];
+}
+
 export const loadRepositoryListAction = (repositoryList) => ({
     type: 'LOAD_REPOSITORY_LIST',
     repositoryList,
@@ -33,8 +40,7 @@ const setPermissionAction = (username, repositoryOwner) => ({
 
 export const fetchListUserRepositoriesAction = (repositoryOwner) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        const username = getState().get('authorization').username;
+        const [authorization, username] = getStateData(getState);
         return api.fetchListUserRepositories(repositoryOwner, authorization)
             .then(result => {
                 dispatch(loadRepositoryListAction(result));
@@ -46,13 +52,12 @@ export const fetchListUserRepositoriesAction = (repositoryOwner) => {
 
 export const fetchRepositoryOwnerAction = (repositoryOwner) => {
     return (dispatch, getState) => {
-        const authorization = getState().get('authorization').authorization;
-        console.log(repositoryOwner);
+        const [authorization] = getStateData(getState);
         return api.fetchSingleUser(repositoryOwner, authorization)
             .then(result => {
                 dispatch(changeRepositoryOwnerAction(repositoryOwner));
                 dispatch(loadRepositoryOwnerDataAction(result));
             })
-            .catch(err => console.log('errrr:', err));
+            .catch(err => console.log(err));
     }
 }

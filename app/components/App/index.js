@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Paper from 'material-ui/Paper';
 import AuthorizationBar from 'containers/AuthorizationBar';
-import RepoDataLoader from 'containers/RepoDataLoader';
+import RepoIssues from 'containers/RepoIssues';
 import IssueInteraction from 'containers/IssueInteraction';
 import RepoLoader from 'containers/RepoLoader';
 import styles from './styles.css';
@@ -31,7 +31,7 @@ class App extends Component {
                             className={styles['col-paper']}
                             zDepth={1}>
 
-                            <RepoDataLoader />
+                            <RepoIssues />
                         </Paper>
                     </Col>
                     <Col sm={8} className={styles['col-issue']}>

@@ -11,7 +11,7 @@ import { getSelectedRepository, getRepositoryOwner} from 'containers/RepoLoader/
 import ListOfIssues from 'components/ListOfIssues';
 
 
-class RepoDataLoader extends Component {
+class RepoIssues extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {
@@ -49,9 +49,9 @@ const mapStateToProps = createStructuredSelector({
     selectedRepository: getSelectedRepository(),
 });
 
-RepoDataLoader.defaultProps = {
+RepoIssues.defaultProps = {
     issuesList: [],
     labelsList: [],
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RepoDataLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(RepoIssues);
