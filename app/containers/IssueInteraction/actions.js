@@ -1,4 +1,4 @@
-import { updateCurrentIssueinListAction } from 'containers/RepoIssues/actions';
+import { updateCurrentIssueinListAction, changeCurrentIssueAction } from 'containers/RepoIssues/actions';
 let api = require("../../api/restUtilities.js");
 
 export const GET_LIST_COMMENTS_ON_AN_ISSUE = 'GET_LIST_COMMENTS_ON_AN_ISSUE';
@@ -12,6 +12,7 @@ const getStateData = (getState) => {
         getState().get('repositoryLoader').selectedRepository,
         getState().get('issueInteraction').issuesUpdatingList,
         getState().get('repoIssues').issuesList,
+        getState().get('repoIssues').currentIssue,
     ];
 }
 
@@ -20,14 +21,15 @@ const getListCommentsOnAnIssueAction = (listOfComments) => ({
     listOfComments
 });
 
-const addToIssuesUpdatingListAction = (number) => ({
-    type: 'ADD_TO_ISSUES_UPDATING_LIST',
-    number
-});
 
 const removeFromIssuesUpdatingListAction = (index) => ({
     type: 'REMOVE_FROM_ISSUES_UPDATING_LIST',
     index
+});
+
+export const addToIssuesUpdatingListAction = (number) => ({
+    type: 'ADD_TO_ISSUES_UPDATING_LIST',
+    number
 });
 
 export const fetchListCommentsOnAnIssueAction = (comments_url) => {
@@ -41,18 +43,10 @@ export const fetchListCommentsOnAnIssueAction = (comments_url) => {
     }
 }
 
-export const addLabelsToAnIssueAction = (number, name) => {
+export const addLabelsToAnIssueAction = (number, labelsToAdd) => {
     return (dispatch, getState) => {
         const [authorization, repositoryOwner, selectedRepository, issuesUpdatingList] = getStateData(getState);
-        api.addLabelsToAnIssue(authorization, repositoryOwner, selectedRepository, number, name)
-            .then(result => {
-                if (result.status === 200) {
-                    if(issuesUpdatingList.indexOf(number) === -1) {
-                        dispatch(addToIssuesUpdatingListAction(number));
-                        dispatch(fetchSingleIssueForUpdateAction(number));
-                    }
-                }
-            })
+        api.addLabelsToAnIssue(authorization, repositoryOwner, selectedRepository, number, labelsToAdd)
             .catch(err => console.log(err));
     }
 }
@@ -64,17 +58,21 @@ export const fetchSingleIssueForUpdateAction = (number) => {
             repositoryOwner,
             selectedRepository,
             issuesUpdatingList,
-            issuesList
+            issuesList,
+            currentIssue,
         ] = getStateData(getState);
         api.fetchSingleIssue(authorization, repositoryOwner, selectedRepository, number)
             .then(issue => {
-                if(!_.isEqual(issuesList[issuesList.length - number].labels, issue.labels)) {
+                if(!_.isEqual(issuesList[issuesList.length - number].labels.sort(), issue.labels.sort())) {
                     dispatch(removeFromIssuesUpdatingListAction(issuesUpdatingList.indexOf(number)));
                     dispatch(updateCurrentIssueinListAction(issue));
+                    if (currentIssue.number === issue.number) {
+                        dispatch(changeCurrentIssueAction(issue));
+                    }
                 } else {
                     setTimeout(() => {
                         dispatch(fetchSingleIssueForUpdateAction(number));
-                    }, 1000);
+                    }, 2000);
                 }
             })
             .catch(err => console.log(err));
@@ -85,19 +83,8 @@ export const removeLabelFromAnIssueAction = (number, name) => {
     return (dispatch, getState) => {
         const [authorization, repositoryOwner, selectedRepository, issuesUpdatingList] = getStateData(getState);
         api.removeLabelFromAnIssue(authorization, repositoryOwner, selectedRepository, number, name)
-            .then(result => {
-                if(result.status === 404) {
-                    throw Error('Not found, let add it');
-                } else if (result.status == 200) {
-                    if(issuesUpdatingList.indexOf(number) === -1) {
-                        dispatch(addToIssuesUpdatingListAction(number));
-                        dispatch(fetchSingleIssueForUpdateAction(number));
-                    }
-                }
-            })
             .catch(err => {
-                //console.log(err);
-                dispatch(addLabelsToAnIssueAction(number, name));
+                console.log(err);
             });
     }
 }

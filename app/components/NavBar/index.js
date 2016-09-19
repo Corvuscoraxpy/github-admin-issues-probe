@@ -10,6 +10,7 @@ import RefreshIndicator from 'material-ui/RefreshIndicator';
 import Drawer from 'material-ui/Drawer';
 import RepoLabels from 'containers/RepoLabels';
 import RepoLoader from 'containers/RepoLoader';
+import { colorLuminance } from '../../api/format.js';
 import styles from './styles.css';
 
 
@@ -37,7 +38,7 @@ class NavBar extends Component {
         super(props);
         this.state = {
             open: !this.props.signStatus,
-            errorMessage: 'for unlimited queries',
+            errorMessage: 'For unlimited queries',
             openDrawer: false,
         };
     }
@@ -50,17 +51,22 @@ class NavBar extends Component {
     }
 
     render() {
-        const styles = {
+        const errorStyle = {
             errorMessage: {
-                color: this.state.errorMessage === 'for unlimited queries'
-                    ?   '#607D8B'
-                    :   '#e74c3c',
+                color: this.state.errorMessage === 'For unlimited queries'
+                    ? '#c0c0c0'
+                    : '#e74c3c',
+                marginTop: '50px',
             },
         };
 
         const actions = [
             <FlatButton
                 label="Sign in"
+                hoverColor={colorLuminance('#173e43', 0.2)}
+                style={{color: '#FFF'}}
+                rippleColor={'#fae596'}
+                backgroundColor={'#173e43'}
                 primary={true}
                 keyboardFocused={true}
                 onTouchTap={this.handleSignIn}
@@ -70,6 +76,7 @@ class NavBar extends Component {
         return (
             <div>
                 <AppBar
+                    style={{backgroundColor: '#173e43'}}
                     showMenuIconButton={true}
                     title={
                         <span>
@@ -82,57 +89,63 @@ class NavBar extends Component {
                     iconElementRight={
                         <FlatButton
                             label="Sign out"
+                            hoverColor={colorLuminance('#173e43', 0.2)}
+                            style={{color: '#FFF'}}
+                            rippleColor={'#fae596'}
+                            backgroundColor={'#173e43'}
                             onClick={this.handleSignOut}
                         />
                     }
                     onLeftIconButtonTouchTap={this.handleToggle}
                 >
-                    <div className={styles['refresh-indicator-div']}>
-                        <RefreshIndicator
-                            status={
-                                updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
-                                    ?   "loading"
-                                    :   "ready"
-                            }
-                            size={40}
-                            left={-20}
-                            top={0}
-                            zDepth={0}
-                            loadingColor={"#FFFFFF"}
-                            style={{
-                                marginLeft: '50%',
-                                marginTop: '.5em',
-                                backgroundColor: '#00bcd4',
-                                boxShadow: 'none'
-                            }}
-                        />
-                    </div>
+                    <RefreshIndicator
+                        status={
+                            updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
+                                ?   "loading"
+                                :   "ready"
+                        }
+                        size={40}
+                        left={-20}
+                        top={0}
+                        zDepth={0}
+                        loadingColor={"#FFFFFF"}
+                        style={{
+                            marginLeft: '50%',
+                            marginTop: '.5em',
+                            backgroundColor: '#173e43',
+                            boxShadow: 'none'
+                        }}
+                    />
                 </AppBar>
 
                 <Dialog
                     title="Sign in to GitHub"
+                    titleStyle={{backgroundColor: '#173e43', color: '#FFF' }}
                     actions={actions}
                     modal={true}
                     open={this.state.open}
                     contentStyle={customContentStyle}
                     onRequestClose={this.handleClose}
                 >
-                    <span style={styles.errorMessage}>
+                    <br/>
+                    <span style={errorStyle.errorMessage}>
                         {this.state.errorMessage}
                     </span>
                     <TextField
                         hintText="username"
                         floatingLabelText="Enter your username"
-                        floatingLabelStyle={{color: '#607D8B'}}
-                        underlineStyle={{borderColor: '#607D8B'}}
+                        floatingLabelStyle={{color: '#3fb0ac'}}
+                        underlineStyle={{borderColor: '#173e43'}}
+                        underlineFocusStyle={{borderColor: '#173e43' }}
                         ref={me => this.usernameField = me}
                     />
                     <br/>
                     <TextField
                         hintText="Password"
                         floatingLabelText="Enter your password"
-                        floatingLabelStyle={{color: '#607D8B'}}
-                        underlineStyle={{borderColor: '#607D8B'}}
+                        floatingLabelStyle={{color: '#3fb0ac'}}
+                        underlineStyle={{borderColor: '#173e43'}}
+                        underlineFocusStyle={{borderColor: '#173e43' }}
                         type="password"
                         ref={me => this.passwordField = me}
                     />

@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/FlatButton';
 import EditLabelForm from 'components/EditLabelForm';
 import styles from './styles.css';
 
+import { colorLuminance } from '../../api/format.js';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
 const { func } = PropTypes;
@@ -29,8 +30,9 @@ class ListLabelsHeader extends Component {
                                 <FlatButton
                                     className={styles['flat-button']}
                                     label="New Label"
-                                    backgroundColor="#17a88c"
-                                    hoverColor="#1abc9c"
+                                    hoverColor={colorLuminance('#173e43', 0.2)}
+                                    rippleColor={'#fae596'}
+                                    backgroundColor={'#173e43'}
                                     onTouchTap={this.handleTouchNewLabel}
                                 />
                             </Col>

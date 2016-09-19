@@ -7,7 +7,7 @@ import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const { string, arrayOf, object, func, bool} = PropTypes;
+const { string, arrayOf, number, object, func, bool} = PropTypes;
 const propTypes = {
     username: string.isRequired,
     updateInProcess: bool.isRequired,
@@ -15,6 +15,7 @@ const propTypes = {
     repositoryOwnerData: object.isRequired,
     onChangeRepositoryOwner: func.isRequired,
     onSelectRepository: func.isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
 };
 
 class RepoSelector extends Component {
@@ -38,7 +39,7 @@ class RepoSelector extends Component {
     }
 
     render() {
-        const { repositoryList, updateInProcess, repositoryOwnerData } = this.props;
+        const { repositoryList, updateInProcess, repositoryOwnerData, issuesUpdatingList } = this.props;
         const listNodes = repositoryList.map((repoObj, index) => {
             return (
                 <MenuItem
@@ -46,7 +47,7 @@ class RepoSelector extends Component {
                     value={repoObj.name}
                     key={index}
                     secondaryText = {
-                        <span style={{color: repoObj.open_issues > 0 ? '#17a88c' : '#9E9E9E'}}>
+                        <span style={{color: repoObj.open_issues > 0 ? '#17a88c' : '#c0c0c0'}}>
                             {repoObj.open_issues}
                         </span>
                     }
@@ -65,11 +66,13 @@ class RepoSelector extends Component {
                     </Col>
                     <Col sm={10} style={{padding: 0}}>
                         <TextField
+                            disabled={updateInProcess || issuesUpdatingList.length > 0}
                             value={repositoryOwner}
                             hintText="Select repository owner"
                             floatingLabelText="Select repository owner"
-                            floatingLabelStyle={{color: '#607D8B'}}
-                            underlineStyle={{borderColor: '#607D8B'}}
+                            floatingLabelStyle={{color: '#3fb0ac'}}
+                            underlineStyle={{borderColor: '#173e43'}}
+                            underlineFocusStyle={{borderColor: '#3fb0ac' }}
                             fullWidth={true}
                             onChange={this.handleChangeTextField}
                             onKeyDown={this.handleEnterKeyDownTxtFld}
@@ -78,11 +81,11 @@ class RepoSelector extends Component {
 
                     <Col sm={10} smOffset={2} style={{padding: 0}}>
                         <SelectField
-                            disabled={updateInProcess}
+                            disabled={updateInProcess || issuesUpdatingList.length > 0}
                             value={value}
                             floatingLabelText="Select the repository"
-                            floatingLabelStyle={{color: '#607D8B'}}
-                            underlineStyle={{borderColor: '#607D8B'}}
+                            floatingLabelStyle={{color: '#3fb0ac'}}
+                            underlineStyle={{borderColor: '#173e43'}}
 
                             fullWidth={true}
                             onChange={this.handleChangeSelectField}

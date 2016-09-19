@@ -139,6 +139,7 @@ const api = {
         });
     },
 
+
     createLabel(authorization, repoOwner, repo, name, color) {
         return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels`, {
             method: 'POST',
@@ -152,7 +153,7 @@ const api = {
     },
 
     //  Add labels to an issue
-    addLabelsToAnIssue(authorization, repoOwner, repo, number, name) {
+    addLabelsToAnIssue(authorization, repoOwner, repo, number, labelsToAdd) {
         return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/issues/${number}/labels`, {
             method: 'POST',
             headers: {
@@ -160,7 +161,7 @@ const api = {
                 'Content-Type': 'application/json',
                 'Authorization': authorization
             },
-            body: JSON.stringify([name])
+            body: JSON.stringify(labelsToAdd)
         });
     },
 

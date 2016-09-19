@@ -5,9 +5,9 @@ import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 import * as actions from './actions';
 import { getCurrentIssue } from 'containers/RepoIssues/selectors';
-import { getLabelsList } from 'containers/RepoLabels/selectors';
+import { getLabelsList, getStatusOfUpdating } from 'containers/RepoLabels/selectors';
 import { getPermission } from 'containers/RepoLoader/selectors';
-import { getListOfComments } from './selectors';
+import { getListOfComments, getIssuesUpdatingList } from './selectors';
 
 import Issue from 'components/Issue';
 
@@ -23,23 +23,44 @@ class IssueInteraction extends Component {
     }
 
     render() {
-        const { currentIssue, listOfComments, labelsList, permission } = this.props;
+        const {
+            currentIssue,
+            listOfComments,
+            labelsList,
+            permission,
+            issuesUpdatingList,
+            updateInProcess
+        } = this.props;
         return (
             <Issue
                 permission={permission}
                 labelsList={labelsList}
                 currentIssue={currentIssue}
+                updateInProcess={updateInProcess}
                 listOfComments={listOfComments}
-                onRemoveOrAddLabelFromAnIssue={this.onRemoveOrAddLabelFromAnIssue}
+                issuesUpdatingList={issuesUpdatingList}
+                addLabelsToAnIssue={this.addLabelsToAnIssue}
+                removeLabelFromAnIssue={this.removeLabelFromAnIssue}
+                fetchSingleIssueForUpdate={this.fetchSingleIssueForUpdate}
             />
         );
     }
 
 
-    onRemoveOrAddLabelFromAnIssue = (number, name) => {
+    addLabelsToAnIssue = (number, labelsToAdd) => {
+        const { addLabelsToAnIssueAction } = this.props;
+        addLabelsToAnIssueAction(number, labelsToAdd);
+    }
+
+    removeLabelFromAnIssue = (number, name) => {
         const { removeLabelFromAnIssueAction } = this.props;
-        // can throw err 404 => addLabelsToAnIssueAction
         removeLabelFromAnIssueAction(number, name);
+    }
+
+    fetchSingleIssueForUpdate = (number) => {
+        const { fetchSingleIssueForUpdateAction, addToIssuesUpdatingListAction } = this.props;
+        addToIssuesUpdatingListAction(number);
+        fetchSingleIssueForUpdateAction(number);
     }
 }
 
@@ -50,6 +71,8 @@ const mapStateToProps = createStructuredSelector({
     currentIssue: getCurrentIssue(),
     listOfComments: getListOfComments(),
     labelsList: getLabelsList(),
+    updateInProcess: getStatusOfUpdating(),
+    issuesUpdatingList: getIssuesUpdatingList(),
 });
 
 IssueInteraction.defaultProps = {

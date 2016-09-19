@@ -9,7 +9,7 @@ import styles from './styles.css';
 import { getContrastYIQ } from '../../api/format.js';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {shape, string, number, bool, func} = PropTypes;
+const {shape, string, arrayOf, number, bool, func} = PropTypes;
 const propTypes = {
     label: shape({
         name: string.isRequired,
@@ -17,6 +17,7 @@ const propTypes = {
     }).isRequired,
     id: number.isRequired,
     permission: bool.isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 };
@@ -29,16 +30,20 @@ class LabelListItem extends Component {
             showEditForm: false,
             removeRequest: false,
             removed: false,
+            edited: false,
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({removed: false});
+        this.setState({
+            removed: false,
+            edited: false,
+        });
     }
 
     render() {
-        const { label, id, permission, handleDeleteLabel } = this.props;
-        const { removeRequest, showEditForm, removed } = this.state;
+        const { label, id, permission, handleDeleteLabel, issuesUpdatingList } = this.props;
+        const { removeRequest, showEditForm, removed, edited } = this.state;
         const style = {
             paper: {
                 fontSize: '16px',
@@ -68,10 +73,10 @@ class LabelListItem extends Component {
                                     <Col sm={6}>
                                         <Paper style={style.paper}>
                                             {label.name}
-                                    </Paper>
-                                </Col>
+                                        </Paper>
+                                    </Col>
 
-                                {permission && !removed
+                                {permission && !removed && !edited && issuesUpdatingList.length === 0
                                     ?   <Col sm={6}>
                                             <FlatButton
                                                 icon={<EditorModeEdit color="#E0E0E0" />}
@@ -84,12 +89,15 @@ class LabelListItem extends Component {
                                                 hoverColor="#F5F5F5"
                                             />
                                         </Col>
-                                    : ""
+                                    :   !permission
+                                            ? <Col sm={6}><span className={styles['span-info']}>No permission...</span></Col>
+                                            : <Col sm={6}><span className={styles['span-info']}>Wait for update...</span></Col>
                                 }
                                 </Row>
 
                             :   <EditLabelForm
                                     editing={true}
+                                    onEdited={this.onEdited}
                                     label={label}
                                     handleUpdateLabel={this.props.handleUpdateLabel}
                                     onCancleEdit={this.onCancleEdit}
@@ -117,6 +125,10 @@ class LabelListItem extends Component {
 
     onRemoved = () => {
         this.setState({removed: true});
+    }
+
+    onEdited = () => {
+        this.setState({edited: true});
     }
 }
 

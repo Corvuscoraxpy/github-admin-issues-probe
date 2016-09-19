@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import styles from './styles.css';
+
+import { colorLuminance } from '../../api/format.js';
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
 const {bool, shape, string, func} = PropTypes;
@@ -14,6 +16,7 @@ const propTypes = {
     }).isRequired,
     handleUpdateLabel: func,
     handleCreateLabel: func,
+    onEdited: func,
 };
 
 const defaultProps = {
@@ -46,12 +49,15 @@ class EditLabelForm extends Component {
         }
 
         return (
-            <Row className={styles['row-style']} >
+            <Row className={styles['row-style']} style={{margin: 0}}>
                 <Col sm={3}>
                     <TextField
                         value={name}
                         hintText="Name"
                         floatingLabelText="Enter name"
+                        floatingLabelStyle={{color: '#3fb0ac'}}
+                        underlineStyle={{borderColor: '#173e43'}}
+                        underlineFocusStyle={{borderColor: '#3fb0ac' }}
                         fullWidth={true}
                         onChange={this.handleNameChange}
                         errorText={errorText}
@@ -78,8 +84,9 @@ class EditLabelForm extends Component {
                     <FlatButton
                         className={styles['flatButtonUpdateSave']}
                         label={editing  ? "Save" : "Create"}
-                        backgroundColor="#17a88c"
-                        hoverColor="#1abc9c"
+                        hoverColor={colorLuminance('#173e43', 0.2)}
+                        rippleColor={'#fae596'}
+                        backgroundColor={'#173e43'}
                         onTouchTap={this.handleSaveCreateTouchTap}
                     />
                 </Col>
@@ -106,11 +113,12 @@ class EditLabelForm extends Component {
 
     handleSaveCreateTouchTap = () => {
         const { url, name, color } = this.state;
-        const {onCancleEdit, handleUpdateLabel, handleCreateLabel, editing} = this.props;
+        const {onCancleEdit, handleUpdateLabel, handleCreateLabel, editing, onEdited} = this.props;
         const hexValidation = /^[0-9A-F]{6}$/i;
         if (hexValidation.test(color) && name.length > 0) {
             if (editing === true) {
                 handleUpdateLabel(url, name, color);
+                onEdited();
             } else {
                 handleCreateLabel(name, color);
             }

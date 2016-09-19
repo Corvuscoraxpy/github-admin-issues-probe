@@ -1,8 +1,12 @@
 .refresh-indicator-div {
-    position: relative;
-    margin: 20px;
+    position: relative !important;
+    margin: 20px !important;
 }
 
 .refresh-indicator {
-    box-shadow: 0 !important; 
+    box-shadow: 0 !important;
+}
+
+.icon-menu {
+    color: #3fb0ac !important;
 }

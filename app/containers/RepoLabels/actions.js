@@ -1,4 +1,4 @@
-import { fetchIssueForRepositoryAction } from 'containers/RepoIssues/actions';
+import { fetchIssueForRepositoryAction, fetchSingleIssueAction } from 'containers/RepoIssues/actions';
 const api = require("../../api/restUtilities.js");
 
 export const LOAD_LABELS_FOR_REPO = 'LOAD_LABELS_FOR_REPO';
@@ -11,6 +11,7 @@ const getStateData = (getState) => {
         getState().get('repositoryLoader').selectedRepository,
         getState().get('repoLabels').updateInProcess,
         getState().get('repoLabels').labelsList,
+        getState().get('repoIssues').currentIssue
     ];
 }
 
@@ -27,7 +28,7 @@ const updatingLabelsListAction = (updateInProcess) => ({
 
 export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepository) => {
     return (dispatch, getState) => {
-        const [authorization, , , , previousLabelsList] = getStateData(getState);
+        const [authorization, , , , previousLabelsList, currentIssue] = getStateData(getState);
         return api.fetchListLabelsForRepository(authorization, repositoryOwner, selectedRepository)
             .then(result => {
                 //  if delete or update listItem fetch data until update
@@ -35,6 +36,9 @@ export const fetchListLabelsForRepositoryAction = (repositoryOwner, selectedRepo
                     dispatch(updatingLabelsListAction(false));
                     dispatch(loadLabelsForRepoAction(result));
                     dispatch(fetchIssueForRepositoryAction(repositoryOwner, selectedRepository));
+                    if (Object.keys(currentIssue).length > 0) {
+                        dispatch(fetchSingleIssueAction(currentIssue));
+                    }
                 } else {
                     setTimeout(() => {
                         dispatch(updatingLabelsListAction(true));

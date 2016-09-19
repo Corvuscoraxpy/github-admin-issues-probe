@@ -6,7 +6,7 @@ import { createStructuredSelector } from 'reselect';
 
 import * as actions from './actions';
 import { getLabelsList } from './selectors';
-
+import { getIssuesUpdatingList } from 'containers/IssueInteraction/selectors';
 import { getSelectedRepository, getRepositoryOwner, getPermission } from 'containers/RepoLoader/selectors';
 
 import LabelTab from 'components/LabelTab';
@@ -27,11 +27,12 @@ class RepoLabels extends Component {
     }
 
     render() {
-        const { labelsList, permission, selectedRepository } = this.props;
+        const { labelsList, permission, selectedRepository, issuesUpdatingList } = this.props;
         return (
             <LabelTab
                 permission={permission}
                 labelsList={labelsList}
+                issuesUpdatingList={issuesUpdatingList}
                 selectedRepository={selectedRepository}
                 handleDeleteLabel={this.handleDeleteLabel}
                 handleUpdateLabel={this.handleUpdateLabel}
@@ -61,8 +62,10 @@ const mapDispatchToProps = dispatch => bindActionCreators({...actions}, dispatch
 const mapStateToProps = createStructuredSelector({
     permission: getPermission(),
     labelsList: getLabelsList(),
+    issuesUpdatingList: getIssuesUpdatingList(),
     repositoryOwner: getRepositoryOwner(),
     selectedRepository: getSelectedRepository(),
+
 });
 
 RepoLabels.defaultProps = {

@@ -6,7 +6,7 @@ import { formatDate } from '../../api/format.js';
 const Remarkable = require('remarkable');
 const hljs = require('highlight.js');
 
-const {arrayOf, shape, bool, string, object, func} = PropTypes;
+const {arrayOf, number, shape, bool, string, object, func} = PropTypes;
 const propTypes = {
     labelsList: arrayOf(shape({
         name: string.isRequired,
@@ -14,8 +14,12 @@ const propTypes = {
     })).isRequired,
     listOfComments: arrayOf(object.isRequired).isRequired,
     permission: bool.isRequired,
+    updateInProcess: bool.isRequired,
     currentIssue: object.isRequired,
-    onRemoveOrAddLabelFromAnIssue: func.isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
+    addLabelsToAnIssue: func.isRequired,
+    removeLabelFromAnIssue: func.isRequired,
+    fetchSingleIssueForUpdate: func.isRequired,
 };
 
 const defaultProps = {
@@ -31,8 +35,12 @@ class Issue extends Component {
             currentIssue,
             listOfComments,
             labelsList,
+            updateInProcess,
             permission,
-            onRemoveOrAddLabelFromAnIssue,
+            issuesUpdatingList,
+            addLabelsToAnIssue,
+            removeLabelFromAnIssue,
+            fetchSingleIssueForUpdate,
         } = this.props;
 
         const commentsNode = listOfComments.map(comment => {
@@ -57,9 +65,13 @@ class Issue extends Component {
                 {Object.keys(currentIssue).length !== 0 &&
                     <IssueHeader
                         permission={permission}
+                        updateInProcess={updateInProcess}
                         currentIssue={currentIssue}
                         labelsList={labelsList}
-                        onRemoveOrAddLabelFromAnIssue={onRemoveOrAddLabelFromAnIssue}
+                        issuesUpdatingList={issuesUpdatingList}
+                        addLabelsToAnIssue={addLabelsToAnIssue}
+                        removeLabelFromAnIssue={removeLabelFromAnIssue}
+                        fetchSingleIssueForUpdate={fetchSingleIssueForUpdate}
                     />
                 }
                 {Object.keys(currentIssue).length !== 0 &&

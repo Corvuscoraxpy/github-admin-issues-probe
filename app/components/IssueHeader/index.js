@@ -15,7 +15,7 @@ import { getContrastYIQ } from '../../api/format.js';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const {arrayOf, shape, object, bool, string, func} = PropTypes;
+const {arrayOf, shape, object, bool, number, string, func} = PropTypes;
 const propTypes = {
     currentIssue: object.isRequired,
     labelsList: arrayOf(shape({
@@ -23,7 +23,11 @@ const propTypes = {
         color: string.isRequired,
     })).isRequired,
     permission: bool.isRequired,
-    onRemoveOrAddLabelFromAnIssue: func.isRequired,
+    updateInProcess: bool.isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
+    addLabelsToAnIssue: func.isRequired,
+    removeLabelFromAnIssue: func.isRequired,
+    fetchSingleIssueForUpdate: func.isRequired,
 };
 
 const defaultProps = {
@@ -37,6 +41,7 @@ class IssueHeader extends Component {
         super(props);
         this.state = {
             valueMultiple: [],
+            openMenu: false,
         }
     }
 
@@ -59,14 +64,19 @@ class IssueHeader extends Component {
 
 
     render() {
-        const { currentIssue, labelsList, permission } = this.props;
+        const {
+            currentIssue,
+            labelsList,
+            permission,
+            issuesUpdatingList,
+            updateInProcess
+        } = this.props;
         const style = {
             stateButton: {
-                backgroundColor: currentIssue.state === 'open' ? '#17a88c' : '#e74c3c',
+                backgroundColor: currentIssue.state === 'open' ? '#3fb0ac' : '#e74c3c',
                 color: 'white'
             }
         }
-
         return (
             <div className={styles['div-wrap']}>
                 <Row>
@@ -78,14 +88,25 @@ class IssueHeader extends Component {
                             className={styles['icon-menu']}
                             value={this.state.valueMultiple}
                             iconButtonElement={
-                                <IconButton tooltip="labels">
+                                <IconButton
+                                    disabled={
+                                        issuesUpdatingList.indexOf(currentIssue.number) !== -1 ||
+                                        !permission || updateInProcess
+                                    }
+                                    tooltip={
+                                        issuesUpdatingList.indexOf(currentIssue.number) !== -1
+                                            ?   "wait for update"
+                                            :   "labels"
+                                        }
+                                >
                                     <ContentFilter />
                                 </IconButton>
                             }
+                            open={this.state.openMenu}
                             touchTapCloseDelay={0}
                             onChange={this.handleChangeMultiple}
                             multiple={true}
-                            onItemTouchTap={this.handleOnItemTouchTap}
+                            onRequestChange={this.handleRequestChange}
                         >
                             {labelsList.map((label, index) => {
                                 return (
@@ -102,7 +123,6 @@ class IssueHeader extends Component {
                                         primaryText={label.name}
                                         value={index}
                                         key={index}
-                                        disabled={!permission}
                                     />
                                 );
                             })}
@@ -129,10 +149,49 @@ class IssueHeader extends Component {
         );
     }
 
-    handleOnItemTouchTap = (e, child) => {
-        const { onRemoveOrAddLabelFromAnIssue, currentIssue } = this.props;
-        const name = child.props.primaryText;
-        onRemoveOrAddLabelFromAnIssue(currentIssue.number, name);
+    handleRequestChange = (value) => {
+        const {
+            currentIssue,
+            labelsList,
+            addLabelsToAnIssue,
+            removeLabelFromAnIssue,
+            fetchSingleIssueForUpdate
+        } = this.props;
+        let currentLabels = [];
+        let updatedLabels = [];
+        let labelsToAdd = [];
+        let labelsToDelete = [];
+        this.setState({openMenu: value});
+        if (!value) {
+            currentIssue.labels.forEach(label  => currentLabels.push(label.name));
+            labelsList.forEach((label, index) => {
+                if(this.state.valueMultiple.indexOf(index) !== -1) {
+                    updatedLabels.push(label.name);
+                }
+            });
+            if (!_.isEqual(updatedLabels.sort(), currentLabels.sort())) {
+                updatedLabels.forEach(label => {
+                    if (currentLabels.indexOf(label) === -1) {
+                        labelsToAdd.push(label);
+                    }
+                });
+                currentLabels.forEach(label => {
+                    if (updatedLabels.indexOf(label) === -1) {
+                        labelsToDelete.push(label);
+                        removeLabelFromAnIssue(currentIssue.number, label);
+
+                    }
+                });
+                if (labelsToAdd.length > 0) {
+                    addLabelsToAnIssue(currentIssue.number, labelsToAdd);
+                }
+                fetchSingleIssueForUpdate(currentIssue.number);
+            }
+            // console.log('current: ', currentLabels);
+            // console.log('updated: ', updatedLabels);
+            // console.log('toAdd: ', labelsToAdd);
+            // console.log('toDlete: ', labelsToDelete);
+        }
     }
 
     handleChangeMultiple = (event, value) => {

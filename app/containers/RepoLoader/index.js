@@ -7,6 +7,7 @@ import * as actions from './actions';
 import { getRepositoryList, getSelectedRepository, getRepositoryOwner, getRepositoryOwnerData } from './selectors';
 import { getStatusOfUpdating } from 'containers/RepoLabels/selectors';
 import { getUserName } from 'containers/AuthorizationBar/selectors';
+import { getIssuesUpdatingList } from 'containers/IssueInteraction/selectors';
 import RepoSelector from 'components/RepoSelector';
 
 
@@ -21,13 +22,20 @@ class RepoLoader extends Component {
     }
 
     render() {
-        const { repositoryList, username, updateInProcess, repositoryOwnerData } = this.props;
+        const {
+            repositoryList,
+            username,
+            updateInProcess,
+            repositoryOwnerData,
+            issuesUpdatingList
+        } = this.props;
         return (
             <RepoSelector
                 username={username}
                 updateInProcess={updateInProcess}
                 repositoryOwnerData={repositoryOwnerData}
                 repositoryList={repositoryList}
+                issuesUpdatingList={issuesUpdatingList}
                 onSelectRepository={this.handleSelectRepository}
                 onChangeRepositoryOwner={this.handleChangeRepositoryOwner}
             />
@@ -54,6 +62,7 @@ const mapStateToProps = createStructuredSelector({
   repositoryOwnerData: getRepositoryOwnerData(),
   repositoryList: getRepositoryList(),
   selectedRepository: getSelectedRepository(),
+  issuesUpdatingList: getIssuesUpdatingList(),
 });
 
 RepoLoader.defaultProps = {

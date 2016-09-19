@@ -5,13 +5,14 @@ import styles from './styles.css';
 
 const {Grid, Row, Col} = require('react-flexbox-grid');
 
-const { string, shape, arrayOf, bool, func } = PropTypes;
+const { string, shape, number, arrayOf, bool, func } = PropTypes;
 const propTypes = {
     permission: bool.isRequired,
     labelsList: arrayOf(shape({
         name: string.isRequired,
         color: string.isRequired,
     })).isRequired,
+    issuesUpdatingList: arrayOf(number).isRequired,
     handleDeleteLabel: func.isRequired,
     handleUpdateLabel: func.isRequired,
 
@@ -25,6 +26,7 @@ class LabelTab extends Component {
             permission,
             labelsList,
             selectedRepository,
+            issuesUpdatingList,
             handleCreateLabel,
             handleUpdateLabel,
             handleDeleteLabel,
@@ -37,11 +39,12 @@ class LabelTab extends Component {
                 }
                 {permission && selectedRepository
                     ?   <ListLabelsHeader handleCreateLabel={handleCreateLabel} />
-                    :   ""
+                    :   null
                 }
                 <ListOfLabels
                     permission={permission}
                     labelsList={labelsList}
+                    issuesUpdatingList={issuesUpdatingList}
                     handleUpdateLabel={handleUpdateLabel}
                     handleDeleteLabel={handleDeleteLabel}
                 />
