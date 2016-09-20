@@ -6,8 +6,14 @@ body {
     width: 100% !important;
 }
 
-.row {
+.row-auth {
     margin: 0 !important;
+    height: 10vh !important;
+}
+
+.row-content {
+    margin: 0 !important;
+    height: 90vh !important;
 }
 
 .col-auth {

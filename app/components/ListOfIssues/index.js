@@ -3,6 +3,8 @@ import {List, ListItem, MakeSelectable} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CommunicationComment from 'material-ui/svg-icons/communication/comment';
 import AlertErrorOutline from 'material-ui/svg-icons/alert/error-outline';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 import { getContrastYIQ } from '../../api/format.js';
 
 const { arrayOf, object, string, func } = PropTypes;
@@ -11,6 +13,7 @@ const propTypes = {
     handleChangeCurrentIssue: func.isRequired,
 };
 
+const SORT_VALUES = ['all', 'open', 'closed'];
 let SelectableList = MakeSelectable(List);
 
 function wrapState(ComposedComponent) {
@@ -61,6 +64,8 @@ class ListOfIssues extends Component {
         super(props);
         this.state = {
             repositoryChanged: false,
+            pullRequest: false,
+            sortValue: 'all',
         }
     };
 
@@ -103,7 +108,7 @@ class ListOfIssues extends Component {
                     </span>
                 )
             });
-            return (
+            const issueListItem =
                 <ListItem
                     style={{lineHeight: 1.6, wordWrap: 'break-word'}}
                     leftIcon={
@@ -116,32 +121,69 @@ class ListOfIssues extends Component {
                         issue.comments > 0
                             ?   <CommunicationComment color="#9E9E9E" />
                             :   null
-                        }
-                        primaryText={
-                            <span>
-                                {issue.title} {labelNode}
-                            </span>}
-                        secondaryText={
-                            <p>
-                                #{issue.number}{" "}
-                                opened by {issue.user.login}.
-                            </p>
-                        }
-                        secondaryTextLines={1}
-                        key={issue.id}
-                        value={index}
-                        onTouchTap={() => this.handleTouchTap(issue)}
-                    />
-            );
+                    }
+                    primaryText={
+                        <span>
+                            {issue.title} {labelNode}
+                        </span>}
+                    secondaryText={
+                        <p>
+                            #{issue.number}{" "}
+                            opened by {issue.user.login}.
+                        </p>
+                    }
+                    secondaryTextLines={1}
+                    key={issue.id}
+                    value={index}
+                    onTouchTap={() => this.handleTouchTap(issue)}
+                />;
+            //console.log(!!issue.pull_request);
+            if (!!issue.pull_request === this.state.pullRequest) {
+                if (this.state.sortValue === 'all') {
+                    return issueListItem;
+                } else if (issue.state === this.state.sortValue) {
+                    return issueListItem;
+                }
+            }
         });
-        const notification = <span style={{color: '#3fb0ac', paddingLeft: '16px'}}>Please, select repository with issues!</span>;
+        const notification =
+            <span style={{color: '#3fb0ac', paddingLeft: '16px'}}>
+                Please, select repository with issues!
+            </span>;
+        const showPullRequestAnchor =
+            <a
+                style={{
+                    textDecoration: 'none',
+                    color: this.state.pullRequest ? '#3fb0ac' : '#e74c3c',
+                }}
+                href="#"
+                onClick={this.handleAcnchorClick}
+            >
+                Show pull requests
+            </a>;
         return (
             <SelectableList
                 defaultValue={0}
                 repositoryChanged={this.state.repositoryChanged}
                 handleRepositoryChanged={this.handleRepositoryChanged}
             >
-                <Subheader>{issuesNode.length > 0 ? "Issues" : notification}</Subheader>
+                <Subheader>
+                    {issuesNode.length > 0 ? showPullRequestAnchor : notification}
+                    {issuesNode.length > 0 &&
+                        <DropDownMenu
+                            style={{float: 'right'}}
+                            underlineStyle={{border: 'none'}}
+                            value={this.state.sortValue}
+                            onChange={this.handleChangeSortValue}
+                        >
+                            {SORT_VALUES.map((value, index) => {
+                                return (
+                                    <MenuItem key={index} value={value} primaryText={value} />
+                                );
+                            })}
+                        </DropDownMenu>
+                    }
+                </Subheader>
                 {issuesNode}
             </SelectableList>
         );
@@ -155,6 +197,10 @@ class ListOfIssues extends Component {
     handleRepositoryChanged = () => {
         this.setState({repositoryChanged: false});
     }
+
+    handleChangeSortValue = (event, index, value) => this.setState({sortValue: value});
+
+    handleAcnchorClick = () => this.setState({pullRequest: !this.state.pullRequest});
 
 }
 

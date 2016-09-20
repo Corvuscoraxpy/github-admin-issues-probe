@@ -20,14 +20,15 @@ class App extends Component {
     render() {
         return (
             <Grid className={styles['grid']}>
-                <Row className={styles['row']}>
+                <Row className={styles['row-auth']}>
                     <Col sm={12} className={styles['col-auth']}>
                         <AuthorizationBar/>
                     </Col>
                 </Row>
-                <Row className={styles['row']}>
-                    <Col sm={4} className={styles['col-repo']} onScroll={this.handleScroll}>
+                <Row className={styles['row-content']}>
+                    <Col sm={4} className={styles['col-repo']} >
                         <Paper
+                            onScroll={this.handleScroll}
                             className={styles['col-paper']}
                             zDepth={1}>
 
@@ -45,9 +46,9 @@ class App extends Component {
     handleScroll = (e) => {
         const { onFetchIssuePerPage, pagination } = this.props;
         //  if scroll to bottom
-        if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+        if (parseInt(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight) {
             if (pagination && pagination.next && pagination.next.url) {
-                    onFetchIssuePerPage(pagination.next.url);
+                onFetchIssuePerPage(pagination.next.url);
             }
         }
 

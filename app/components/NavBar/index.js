@@ -76,7 +76,7 @@ class NavBar extends Component {
         return (
             <div>
                 <AppBar
-                    style={{backgroundColor: '#173e43'}}
+                    style={{backgroundColor: '#173e43', height: '10vh'}}
                     showMenuIconButton={true}
                     title={
                         <span>

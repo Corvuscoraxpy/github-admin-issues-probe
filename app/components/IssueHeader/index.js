@@ -77,11 +77,33 @@ class IssueHeader extends Component {
                 color: 'white'
             }
         }
+        const labelNode = currentIssue.labels.map((label, index) => {
+            const spanStyle = {
+                color: getContrastYIQ(label.color),
+                backgroundColor: `#${label.color}`,
+                padding: '3px 4px',
+                display: 'inline-block',
+                marginRight: 8,
+                fontWeight: 'normal',
+                // fontSize: '16px',
+                borderRadius: '2px',
+                lineHeight: 1,
+
+            }
+            return (
+                <span style={spanStyle} key={index}>
+                    {label.name}
+                </span>
+            )
+        });
         return (
             <div className={styles['div-wrap']}>
                 <Row>
                     <Col sm={11}>
-                        <h2>{currentIssue.title.toUpperCase()}</h2>
+                        <h2>
+                            <span style={{marginRight: 8}}>{currentIssue.title.toUpperCase()}</span>
+                            {labelNode}
+                        </h2>
                     </Col>
                     <Col sm={1}>
                         <IconMenu
@@ -129,21 +151,29 @@ class IssueHeader extends Component {
                         </IconMenu>
                     </Col>
                 </Row>
-                <FlatButton
-                    label={currentIssue.state}
-                    icon={<AlertErrorOutline />}
-                    style={style.stateButton}
-                    disabled={true}
-                    primary={true}
-                />
-                {currentIssue.comments > 0 &&
-                    <FlatButton
-                        label={currentIssue.comments}
-                        icon={<CommunicationComment />}
-                        disabled={true}
-                        primary={true}
-                    />
-                }
+                <Row>
+                    <Col sm={4}>
+                        <FlatButton
+                            label={currentIssue.state}
+                            icon={<AlertErrorOutline />}
+                            style={style.stateButton}
+                            disabled={true}
+                            primary={true}
+                        />
+                        {currentIssue.comments > 0 &&
+                            <FlatButton
+                                label={currentIssue.comments}
+                                icon={<CommunicationComment />}
+                                disabled={true}
+                                primary={true}
+                            />
+                        }
+
+                    </Col>
+                    <Col sm={8} style={{ alignItems: 'center'}}>
+
+                    </Col>
+                </Row>
             </div>
 
         );
