@@ -36,8 +36,8 @@ class RepoIssues extends Component {
     }
 
     handleChangeCurrentIssue = (currentIssue) => {
-        const { fetchSingleIssueAction } = this.props;
-        fetchSingleIssueAction(currentIssue);
+        const { changeCurrentIssueAction } = this.props;
+        changeCurrentIssueAction(currentIssue);
     }
 }
 

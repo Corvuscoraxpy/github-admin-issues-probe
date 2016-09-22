@@ -6,12 +6,10 @@ export const CHANGE_REPOSITORY_OWNER = 'CHANGE_REPOSITORY_OWNER';
 export const SET_PERMISSION = 'SET_PERMISSION';
 export const LOAD_REPOSITORY_OWNER_DATA = 'LOAD_REPOSITORY_OWNER_DATA';
 
-const getStateData = (getState) => {
-    return [
-        getState().get('authorization').authorization,
-        getState().get('authorization').username,
-    ];
-}
+const getStateData = (getState) => ({
+    authorization: getState().get('authorization').authorization,
+    username: getState().get('authorization').username,
+});
 
 export const loadRepositoryListAction = (repositoryList) => ({
     type: 'LOAD_REPOSITORY_LIST',
@@ -40,8 +38,8 @@ const setPermissionAction = (username, repositoryOwner) => ({
 
 export const fetchListUserRepositoriesAction = (repositoryOwner) => {
     return (dispatch, getState) => {
-        const [authorization, username] = getStateData(getState);
-        return api.fetchListUserRepositories(repositoryOwner, authorization)
+        const { authorization, username } = getStateData(getState);
+        api.fetchListUserRepositories(repositoryOwner, authorization)
             .then(result => {
                 dispatch(loadRepositoryListAction(result));
                 dispatch(setPermissionAction(repositoryOwner, username));
@@ -52,8 +50,8 @@ export const fetchListUserRepositoriesAction = (repositoryOwner) => {
 
 export const fetchRepositoryOwnerAction = (repositoryOwner) => {
     return (dispatch, getState) => {
-        const [authorization] = getStateData(getState);
-        return api.fetchSingleUser(repositoryOwner, authorization)
+        const { authorization } = getStateData(getState);
+        api.fetchSingleUser(repositoryOwner, authorization)
             .then(result => {
                 dispatch(changeRepositoryOwnerAction(repositoryOwner));
                 dispatch(loadRepositoryOwnerDataAction(result));

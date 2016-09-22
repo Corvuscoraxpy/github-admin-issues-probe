@@ -22,7 +22,7 @@ export const signOutAction = () => ({
 export const onSignInAction = (username, password) => {
     return dispatch => {
         return api.fetchAuthorization(username, password)
-            .then( result => {
+            .then(result => {
                 dispatch(signInAction(username, password, result));
             })
             .catch(err =>{

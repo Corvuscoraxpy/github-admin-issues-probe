@@ -77,8 +77,9 @@ class ListOfIssues extends Component {
                 if ((issuesList && issuesList.length > 0 &&
                     issuesList[0].repository_url !== nextProps.issuesList[0].repository_url) ||
                     issuesList.length === 0) {
-
+                        console.log(nextProps.issuesList)
                         handleChangeCurrentIssue(nextProps.issuesList[0]);
+                        console.log(nextProps.issuesList[0]);
                         this.setState({repositoryChanged: true});
                     }
         }
@@ -108,7 +109,7 @@ class ListOfIssues extends Component {
                     </span>
                 )
             });
-            const issueListItem =
+            const issueListItem = (
                 <ListItem
                     style={{lineHeight: 1.6, wordWrap: 'break-word'}}
                     leftIcon={
@@ -136,7 +137,8 @@ class ListOfIssues extends Component {
                     key={issue.id}
                     value={index}
                     onTouchTap={() => this.handleTouchTap(issue)}
-                />;
+                />
+            );
             //console.log(!!issue.pull_request);
             if (!!issue.pull_request === this.state.pullRequest) {
                 if (this.state.sortValue === 'all') {
@@ -146,11 +148,12 @@ class ListOfIssues extends Component {
                 }
             }
         });
-        const notification =
+        const notification = (
             <span style={{color: '#3fb0ac', paddingLeft: '16px'}}>
                 Please, select repository with issues!
-            </span>;
-        const showPullRequestAnchor =
+            </span>
+        );
+        const showPullRequestAnchor = (
             <a
                 style={{
                     textDecoration: 'none',
@@ -160,7 +163,8 @@ class ListOfIssues extends Component {
                 onClick={this.handleAcnchorClick}
             >
                 Show pull requests
-            </a>;
+            </a>
+        );
         return (
             <SelectableList
                 defaultValue={0}
@@ -190,6 +194,7 @@ class ListOfIssues extends Component {
     }
 
     handleTouchTap = (issue) => {
+        console.log(issue);
         const { handleChangeCurrentIssue } = this.props;
         handleChangeCurrentIssue(issue);
     }

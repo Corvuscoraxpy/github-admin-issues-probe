@@ -71,6 +71,7 @@ class IssueHeader extends Component {
             issuesUpdatingList,
             updateInProcess
         } = this.props;
+        
         const style = {
             stateButton: {
                 backgroundColor: currentIssue.state === 'open' ? '#3fb0ac' : '#e74c3c',

@@ -7,13 +7,10 @@ export const SET_PAGINATION = 'SET_PAGINATION';
 export const APPEND_PAGE_TO_ISSUES = 'APPEND_PAGE_TO_ISSUES';
 export const UPDATE_CURRENT_ISSUE_IN_LIST = 'UPDATE_CURRENT_ISSUE_IN_LIST';
 
-const getStateData = (getState) => {
-    return [
-        getState().get('authorization').authorization,
-        getState().get('repositoryLoader').repositoryOwner,
-        getState().get('repositoryLoader').selectedRepository,
-    ];
-}
+const getStateData = (getState) => ({
+    authorization: getState().get('authorization').authorization,
+    currentIssue: getState().get('repoIssues').currentIssue,
+});
 
 const loadIssuesForRepoAction = (issuesList) => ({
   type: 'LOAD_ISSUES_FOR_REPO',
@@ -40,22 +37,10 @@ export const changeCurrentIssueAction = (currentIssue) => ({
   currentIssue
 });
 
-
-export const fetchSingleIssueAction = (currentIssue) => {
+export const fetchIssueForRepositoryAction = (repositoryOwner, selectedRepository, updateCurrentIssue = false) => {
     return (dispatch, getState) => {
-        const [authorization, repositoryOwner, selectedRepository] = getStateData(getState);
-        api.fetchSingleIssue(authorization, repositoryOwner, selectedRepository, currentIssue.number)
-            .then(issue => {
-                dispatch(changeCurrentIssueAction(issue));
-            })
-            .catch(err => console.log(err));
-    }
-}
-
-export const fetchIssueForRepositoryAction = (repositoryOwner, selectedRepository) => {
-    return (dispatch, getState) => {
-        const [authorization] = getStateData(getState);
-        return api.fetchIssueForRepository(authorization, repositoryOwner, selectedRepository)
+        const { authorization, currentIssue } = getStateData(getState);
+        api.fetchIssueForRepository(authorization, repositoryOwner, selectedRepository)
             .then(response => {
                 if(response.status !== 200) {
                     throw Error('Bad validation');
@@ -67,6 +52,13 @@ export const fetchIssueForRepositoryAction = (repositoryOwner, selectedRepositor
             })
             .then(result => {
                 dispatch(loadIssuesForRepoAction(result));
+                if (updateCurrentIssue) {
+                    result.forEach(issue => {
+                        if (issue.number === currentIssue.number) {
+                            dispatch(changeCurrentIssueAction(issue));
+                        }
+                    });
+                }
             })
             .catch(err => console.log(err));
     }
