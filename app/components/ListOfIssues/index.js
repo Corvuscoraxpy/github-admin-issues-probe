@@ -77,9 +77,7 @@ class ListOfIssues extends Component {
                 if ((issuesList && issuesList.length > 0 &&
                     issuesList[0].repository_url !== nextProps.issuesList[0].repository_url) ||
                     issuesList.length === 0) {
-                        console.log(nextProps.issuesList)
                         handleChangeCurrentIssue(nextProps.issuesList[0]);
-                        console.log(nextProps.issuesList[0]);
                         this.setState({repositoryChanged: true});
                     }
         }
@@ -194,7 +192,6 @@ class ListOfIssues extends Component {
     }
 
     handleTouchTap = (issue) => {
-        console.log(issue);
         const { handleChangeCurrentIssue } = this.props;
         handleChangeCurrentIssue(issue);
     }

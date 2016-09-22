@@ -12,7 +12,7 @@ const getStateData = (getState) => ({
     labelsList: getState().get('repoLabels').labelsList,
 });
 
-const loadLabelsForRepoAction = (labelsList) => ({
+export const loadLabelsForRepoAction = (labelsList) => ({
   type: 'LOAD_LABELS_FOR_REPO',
   labelsList
 });

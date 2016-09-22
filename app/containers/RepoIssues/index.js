@@ -20,7 +20,7 @@ class RepoIssues extends Component {
             fetchIssueForRepositoryAction,
         } = this.props;
 
-        if (nextProps.selectedRepository !== selectedRepository) {
+        if (nextProps.selectedRepository !== selectedRepository && !!nextProps.selectedRepository) {
             fetchIssueForRepositoryAction(repositoryOwner, nextProps.selectedRepository);
         }
     }

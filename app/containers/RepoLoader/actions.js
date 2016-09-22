@@ -1,3 +1,4 @@
+import { loadLabelsForRepoAction } from 'containers/RepoLabels/actions';
 let api = require("../../api/restUtilities.js");
 
 export const LOAD_REPOSITORY_LIST = 'LOAD_REPOSITORY_LIST';
@@ -55,6 +56,10 @@ export const fetchRepositoryOwnerAction = (repositoryOwner) => {
             .then(result => {
                 dispatch(changeRepositoryOwnerAction(repositoryOwner));
                 dispatch(loadRepositoryOwnerDataAction(result));
+                // clear repository labels when owner changed
+                dispatch(loadLabelsForRepoAction([]));
+                // clear selected repository
+                dispatch(selectRepositoryAction(''));
             })
             .catch(err => console.log(err));
     }
