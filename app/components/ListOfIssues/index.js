@@ -89,10 +89,10 @@ class ListOfIssues extends Component {
             const iconStyle = {
                 height: 44
             }
-            const labelNode = issue.labels.map((label, index) => {
+            const labelNode = issue.labels.map(({name, color}, index) => {
                 const spanStyle = {
-                    color: getContrastYIQ(label.color),
-                    backgroundColor: `#${label.color}`,
+                    color: getContrastYIQ(color),
+                    backgroundColor: `#${color}`,
                     padding: '3px 4px',
                     display: 'inline-block',
                     marginRight: 4,
@@ -103,7 +103,7 @@ class ListOfIssues extends Component {
                 }
                 return (
                     <span style={spanStyle} key={index}>
-                        {label.name}
+                        {name}
                     </span>
                 )
             });

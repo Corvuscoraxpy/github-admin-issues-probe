@@ -11,6 +11,7 @@ import Drawer from 'material-ui/Drawer';
 import RepoLabels from 'containers/RepoLabels';
 import RepoLoader from 'containers/RepoLoader';
 import { colorLuminance } from '../../api/format.js';
+import githubImage from 'assets/images/github.png';
 import styles from './styles.css';
 
 
@@ -76,7 +77,7 @@ class NavBar extends Component {
         return (
             <div>
                 <AppBar
-                    style={{backgroundColor: '#173e43', height: '10vh'}}
+                    style={{backgroundColor: '#173e43'}}
                     showMenuIconButton={true}
                     title={
                         <span>
@@ -98,24 +99,31 @@ class NavBar extends Component {
                     }
                     onLeftIconButtonTouchTap={this.handleToggle}
                 >
-                    <RefreshIndicator
-                        status={
-                            updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
-                                ?   "loading"
-                                :   "ready"
-                        }
-                        size={40}
-                        left={-20}
-                        top={0}
-                        zDepth={0}
-                        loadingColor={"#FFFFFF"}
-                        style={{
-                            marginLeft: '50%',
-                            marginTop: '.5em',
-                            backgroundColor: '#173e43',
-                            boxShadow: 'none'
-                        }}
-                    />
+                    <a href="https://github.com/proficiat/github-admin-issues-probe" target="_blank">
+                        <RefreshIndicator
+                            status={
+                                updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
+                                    ?   "loading"
+                                    :   "ready"
+                            }
+                            size={40}
+                            left={-20}
+                            top={0}
+                            zDepth={0}
+                            loadingColor={"#FFFFFF"}
+                            style={{
+                                marginLeft: '50%',
+                                marginTop: '.8em',
+                                backgroundColor: '#173e43',
+                                background:
+                                    updateInProcess || (issuesUpdatingList && issuesUpdatingList.length > 0)
+                                    ?   'none'
+                                    :   `url(${githubImage}) center/20px 20px no-repeat`
+                                ,
+                                boxShadow: 'none'
+                            }}
+                        />
+                    </a>
                 </AppBar>
 
                 <Dialog

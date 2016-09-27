@@ -90,8 +90,16 @@ class LabelListItem extends Component {
                                             />
                                         </Col>
                                     :   !permission
-                                            ? <Col sm={6}><span className={styles['span-info']}>No permission...</span></Col>
-                                            : <Col sm={6}><span className={styles['span-info']}>Wait for update...</span></Col>
+                                            ?   <Col sm={6}>
+                                                    <span className={styles['span-info']}>
+                                                        No permission...
+                                                    </span>
+                                                </Col>
+                                            :   <Col sm={6}>
+                                                    <span className={styles['span-info']}>
+                                                        Wait for update...
+                                                    </span>
+                                                </Col>
                                 }
                                 </Row>
 

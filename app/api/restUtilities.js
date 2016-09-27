@@ -115,6 +115,18 @@ const api = {
         });
     },
 
+    createComment(authorization, repoOwner, repo, issueNumber, comment) {
+        return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/issues/${issueNumber}/comments`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': authorization
+            },
+            body: JSON.stringify({body: comment}),
+        });
+    },
+
     //  Delete label for repository
     deleteLabel(authorization, repoOwner, repo, name) {
         return fetch(`https://api.github.com/repos/${repoOwner}/${repo}/labels/${name}`, {

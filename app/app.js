@@ -25,6 +25,7 @@ import configureStore from './store';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { colorLuminance } from './api/format.js';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
@@ -57,12 +58,19 @@ const rootRoute = {
   childRoutes: createRoutes(store),
 };
 
+const muiTheme = getMuiTheme({
+  toggle: {
+    thumbOnColor: '#173e43',
+    trackOnColor: colorLuminance('#173e43', 0.5)
+  }
+});
+
 
 const render = (translatedMessages) => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={translatedMessages}>
-        <MuiThemeProvider>
+        <MuiThemeProvider muiTheme={muiTheme}>
           <Router
             history={history}
             routes={rootRoute}

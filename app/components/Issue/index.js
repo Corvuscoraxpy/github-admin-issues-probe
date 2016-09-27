@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
+import Avatar from 'material-ui/Avatar';
 import IssueHeader from 'components/IssueHeader';
+import IssueCommentForm from 'components/IssueCommentForm';
 import styles from './styles.css';
-import { formatDate } from '../../api/format.js';
-const Remarkable = require('remarkable');
-const hljs = require('highlight.js');
+import { formatDate, rawMarkup } from '../../api/format.js';
 
 const {arrayOf, number, shape, bool, string, object, func} = PropTypes;
 const propTypes = {
@@ -12,11 +12,13 @@ const propTypes = {
         name: string.isRequired,
         color: string.isRequired,
     })).isRequired,
+    userData: object.isRequired,
     listOfComments: arrayOf(object.isRequired).isRequired,
     permission: bool.isRequired,
     updateInProcess: bool.isRequired,
     currentIssue: object.isRequired,
     issuesUpdatingList: arrayOf(number).isRequired,
+    createCommentToIssue: func.isRequired,
     addLabelsToAnIssue: func.isRequired,
     removeLabelFromAnIssue: func.isRequired,
     fetchSingleIssueForUpdate: func.isRequired,
@@ -37,10 +39,12 @@ class Issue extends Component {
             labelsList,
             updateInProcess,
             permission,
+            userData,
             issuesUpdatingList,
             addLabelsToAnIssue,
             removeLabelFromAnIssue,
             fetchSingleIssueForUpdate,
+            createCommentToIssue,
         } = this.props;
 
         const commentsNode = listOfComments.map(comment => {
@@ -49,12 +53,16 @@ class Issue extends Component {
                     <CardHeader
                         title={comment.user.login}
                         subtitle={formatDate(comment.created_at)}
-                        avatar={comment.user.avatar_url}
+                        avatar={
+                            <a href={comment.user.html_url} target="_blank">
+                                <Avatar src={comment.user.avatar_url} />
+                            </a>
+                        }
                     />
                     <CardText className={styles['card-text']}>
                         <span
                             className={styles['span-card-text']}
-                            dangerouslySetInnerHTML={this.rawMarkup(comment.body)}
+                            dangerouslySetInnerHTML={rawMarkup(comment.body)}
                         />
                     </CardText>
                 </Card>
@@ -79,45 +87,30 @@ class Issue extends Component {
                         <CardHeader
                             title={currentIssue.user.login}
                             subtitle={formatDate(currentIssue.created_at)}
-                            avatar={currentIssue.user.avatar_url}
+                            avatar={
+                                <a href={currentIssue.user.html_url} target="_blank">
+                                    <Avatar src={currentIssue.user.avatar_url} />
+                                </a>
+                            }
                         />
                         <CardText className={styles['card-text']}>
                             <span
-                                className={styles['span-card-text']} dangerouslySetInnerHTML={this.rawMarkup(currentIssue.body)}
+                                className={styles['span-card-text']} dangerouslySetInnerHTML={rawMarkup(currentIssue.body)}
                             />
                         </CardText>
                     </Card>
                 }
                     {commentsNode}
+                    {Object.keys(currentIssue).length !== 0 &&
+                        <IssueCommentForm
+                            userData={userData}
+                            createCommentToIssue={createCommentToIssue}
+                        />
+                    }
             </div>
         );
     }
 
-    rawMarkup = (body) => {
-        let md = new Remarkable('full', {
-            langPrefix: '',
-            html: true,
-            breaks: true,
-            highlight: function (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                    try {
-                        return hljs.highlight(lang, str).value;
-                    } catch (err) {}
-                }
-
-                try {
-                    return hljs.highlightAuto(str).value;
-                } catch (err) {}
-
-                return ''; // use external default escaping
-            }
-        });
-
-        if (body) {
-            let rawMarkup = md.render(body.toString());
-            return { __html: rawMarkup};
-        } else return;
-    }
 }
 
 Issue.propTypes = propTypes;

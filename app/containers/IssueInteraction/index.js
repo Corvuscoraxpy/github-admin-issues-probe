@@ -7,6 +7,7 @@ import * as actions from './actions';
 import { getCurrentIssue } from 'containers/RepoIssues/selectors';
 import { getLabelsList, getStatusOfUpdating } from 'containers/RepoLabels/selectors';
 import { getPermission } from 'containers/RepoLoader/selectors';
+import { getUserData } from 'containers/AuthorizationBar/selectors';
 import { getListOfComments, getIssuesUpdatingList } from './selectors';
 
 import Issue from 'components/Issue';
@@ -28,6 +29,7 @@ class IssueInteraction extends Component {
             listOfComments,
             labelsList,
             permission,
+            userData,
             issuesUpdatingList,
             updateInProcess
         } = this.props;
@@ -35,6 +37,7 @@ class IssueInteraction extends Component {
             <Issue
                 permission={permission}
                 labelsList={labelsList}
+                userData={userData}
                 currentIssue={currentIssue}
                 updateInProcess={updateInProcess}
                 listOfComments={listOfComments}
@@ -42,6 +45,7 @@ class IssueInteraction extends Component {
                 addLabelsToAnIssue={this.addLabelsToAnIssue}
                 removeLabelFromAnIssue={this.removeLabelFromAnIssue}
                 fetchSingleIssueForUpdate={this.fetchSingleIssueForUpdate}
+                createCommentToIssue={this.createCommentToIssue}
             />
         );
     }
@@ -55,6 +59,11 @@ class IssueInteraction extends Component {
     removeLabelFromAnIssue = (number, name) => {
         const { removeLabelFromAnIssueAction } = this.props;
         removeLabelFromAnIssueAction(number, name);
+    }
+
+    createCommentToIssue = (comment) => {
+        const { createCommentAction } = this.props;
+        createCommentAction(comment);
     }
 
     fetchSingleIssueForUpdate = (number) => {
@@ -71,6 +80,7 @@ const mapStateToProps = createStructuredSelector({
     currentIssue: getCurrentIssue(),
     listOfComments: getListOfComments(),
     labelsList: getLabelsList(),
+    userData: getUserData(),
     updateInProcess: getStatusOfUpdating(),
     issuesUpdatingList: getIssuesUpdatingList(),
 });

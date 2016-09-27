@@ -1,3 +1,7 @@
+const Remarkable = require('remarkable');
+const hljs = require('highlight.js');
+
+
 export const getContrastYIQ = (hexcolor) => {
 	let r = parseInt(hexcolor.substr(0,2),16);
 	let g = parseInt(hexcolor.substr(2,2),16);
@@ -44,4 +48,30 @@ export const colorLuminance = (hex, lum) => {
 	}
 
 	return rgb;
+}
+
+export const rawMarkup = (body) => {
+	let md = new Remarkable('full', {
+		langPrefix: '',
+		html: true,
+		breaks: true,
+		highlight: function (str, lang) {
+			if (lang && hljs.getLanguage(lang)) {
+				try {
+					return hljs.highlight(lang, str).value;
+				} catch (err) {}
+			}
+
+			try {
+				return hljs.highlightAuto(str).value;
+			} catch (err) {}
+
+			return ''; // use external default escaping
+		}
+	});
+
+	if (body) {
+		let rawMarkup = md.render(body.toString());
+		return { __html: rawMarkup};
+	} else return;
 }

@@ -71,29 +71,27 @@ class IssueHeader extends Component {
             issuesUpdatingList,
             updateInProcess
         } = this.props;
-        
+
         const style = {
             stateButton: {
                 backgroundColor: currentIssue.state === 'open' ? '#3fb0ac' : '#e74c3c',
                 color: 'white'
             }
         }
-        const labelNode = currentIssue.labels.map((label, index) => {
+        const labelNode = currentIssue.labels.map(({name, color}, index) => {
             const spanStyle = {
-                color: getContrastYIQ(label.color),
-                backgroundColor: `#${label.color}`,
+                color: getContrastYIQ(color),
+                backgroundColor: `#${color}`,
                 padding: '3px 4px',
                 display: 'inline-block',
                 marginRight: 8,
                 fontWeight: 'normal',
-                // fontSize: '16px',
                 borderRadius: '2px',
                 lineHeight: 1,
-
             }
             return (
                 <span style={spanStyle} key={index}>
-                    {label.name}
+                    {name}
                 </span>
             )
         });
@@ -122,7 +120,7 @@ class IssueHeader extends Component {
                                             :   "labels"
                                         }
                                 >
-                                    <ContentFilter />
+                                    <ContentFilter hoverColor="#3fb0ac" />
                                 </IconButton>
                             }
                             open={this.state.openMenu}
@@ -131,7 +129,7 @@ class IssueHeader extends Component {
                             multiple={true}
                             onRequestChange={this.handleRequestChange}
                         >
-                            {labelsList.map((label, index) => {
+                            {labelsList.map(({name, color}, index) => {
                                 return (
                                     <MenuItem
                                         leftIcon={
@@ -140,10 +138,10 @@ class IssueHeader extends Component {
                                                 :   <ToggleCheckBoxOutlineBlank />
                                         }
                                         rightIcon={
-                                            <ImageLens color={`#${label.color}`} />
+                                            <ImageLens color={`#${color}`} />
                                         }
                                         innerDivStyle={{paddingRight: 44}}
-                                        primaryText={label.name}
+                                        primaryText={name}
                                         value={index}
                                         key={index}
                                     />
@@ -194,10 +192,10 @@ class IssueHeader extends Component {
         let labelsToDelete = [];
         this.setState({openMenu: value});
         if (!value) {
-            currentIssue.labels.forEach(label  => currentLabels.push(label.name));
-            labelsList.forEach((label, index) => {
+            currentIssue.labels.forEach(({name})  => currentLabels.push(name));
+            labelsList.forEach(({name}, index) => {
                 if(this.state.valueMultiple.indexOf(index) !== -1) {
-                    updatedLabels.push(label.name);
+                    updatedLabels.push(name);
                 }
             });
             if (!_.isEqual(updatedLabels.sort(), currentLabels.sort())) {

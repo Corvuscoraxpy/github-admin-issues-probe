@@ -13,6 +13,8 @@ const getStateData = (getState) => ({
     issuesList: getState().get('repoIssues').issuesList,
     currentIssue: getState().get('repoIssues').currentIssue,
     labelsList: getState().get('repoLabels').labelsList,
+    selectedRepository: getState().get('repositoryLoader').selectedRepository,
+    listOfComments: getState().get('issueInteraction').listOfComments,
 });
 
 const getListCommentsOnAnIssueAction = (listOfComments) => ({
@@ -31,12 +33,44 @@ export const addToIssuesUpdatingListAction = (number) => ({
     number
 });
 
-export const fetchListCommentsOnAnIssueAction = (comments_url) => {
+export const fetchListCommentsOnAnIssueAction = (comments_url, update = false) => {
     return (dispatch, getState) => {
-        const { authorization } = getStateData(getState);
+        const { authorization, listOfComments, currentIssue, issuesUpdatingList } = getStateData(getState);
         api.fetchListCommentsOnAnIssue(authorization, comments_url)
             .then(result => {
-                dispatch(getListCommentsOnAnIssueAction(result));
+                if (update) {
+                    if(listOfComments.length < result.length) {
+                        dispatch(getListCommentsOnAnIssueAction(result));
+                        dispatch(removeFromIssuesUpdatingListAction(issuesUpdatingList.indexOf(currentIssue.number)));
+                    } else {
+                        dispatch(fetchListCommentsOnAnIssueAction(currentIssue.comments_url, true));
+                    }
+                }
+                if (!update) {
+                    dispatch(getListCommentsOnAnIssueAction(result));
+                }
+            })
+            .catch(err => console.log(err));
+    }
+}
+
+export const createCommentAction = (comment) => {
+    return (dispatch, getState) => {
+        const {
+            authorization,
+            repositoryOwner,
+            selectedRepository,
+            currentIssue
+        } = getStateData(getState);
+        api.createComment(authorization, repositoryOwner, selectedRepository, currentIssue.number, comment)
+            .then(result => {
+                console.log('responce?:', result.status);
+                // Status: Created
+                if(result.status === 201) {
+                    console.log(result.status, 'booom!');
+                    dispatch(addToIssuesUpdatingListAction(currentIssue.number));
+                    dispatch(fetchListCommentsOnAnIssueAction(currentIssue.comments_url, true));
+                }
             })
             .catch(err => console.log(err));
     }
