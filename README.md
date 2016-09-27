@@ -1,4 +1,6 @@
 # github-admin-issues-probe
+![screenshot](https://github.com/proficiat/github-admin-issues-probe/blob/master/2016-09-28.png)
+
 ***For learning purposes only***
 
 This repo is a seed project for creating a simple issues administration app for a specified GH repository.
